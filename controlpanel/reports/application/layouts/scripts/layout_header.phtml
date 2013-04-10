@@ -1,0 +1,42 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<!--<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />-->
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+
+<!-- CSS -->
+<link rel="stylesheet" type="text/css" href="<?php echo CSS_URL;?>/style.css" />
+<link rel="stylesheet" type="text/css" href="<?php echo CSS_URL;?>/jquery-ui-1.8.4.custom.css" />
+
+<!-- JS -->
+<script type="text/javascript" src="<?php echo JS_URL?>/jquery.js"></script>
+<script type="text/javascript" src="<?php echo JS_URL?>/jquery-ui-1.8.4.custom.min.js"></script>
+<script type="text/javascript" src="<?php echo JS_URL?>/jquery.blockUI.js"></script>
+<script type="text/javascript" src="<?php echo JS_URL?>/common.js"></script>
+
+<title><?php echo QUIKR_PAGE_TITLE;?></title>
+<?php
+$auth = Zend_Auth::getInstance();
+
+if($auth->hasIdentity()) {
+    $username = $auth->getIdentity()->username;
+}
+
+if (GA_ACCOUNT_STATUS == "1") { ?>
+<script type="text/javascript">
+    var GA_ACCOUNT = '<?php echo GA_ACCOUNT;?>';
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', GA_ACCOUNT]);
+  _gaq.push("_setCustomVar",1,"LoggedUser","<?php echo ucfirst(strtolower($username));?>",1);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+<?php } ?>
+
+</head>

@@ -1,0 +1,95 @@
+<?php if ($this->pageCount): ?>
+
+<div class="paginationControl">
+
+<?php echo $this->firstItemNumber; ?> - <?php echo $this->lastItemNumber; ?>
+
+of <?php echo $this->totalItemCount; ?>
+
+
+
+<!-- First page link -->
+
+<?php if (isset($this->previous)): ?>
+
+  <a href="javascript:void(0)" onclick="javascript:submitForPagination(<?php echo ($this->first * MAX_RESULTS_PER_PAGE) -(MAX_RESULTS_PER_PAGE -1);?>, 'search_form')" >
+
+    First
+
+  </a> |
+ <?php /*
+  <input type="submit" value="First" onclick="javascript:submitForPagination(<?php echo ($this->first * 100) -99;?>, 'alerts_form')" />
+*/?>
+<?php else: ?>
+
+  <span class="disabled">First</span> |
+
+<?php endif; ?>
+
+
+
+<!-- Previous page link -->
+
+<?php if (isset($this->previous)): ?>
+
+  <a href="javascript:void(0)" onclick="javascript:submitForPagination(<?php echo ($this->previous * MAX_RESULTS_PER_PAGE) -(MAX_RESULTS_PER_PAGE -1);?>, 'search_form')" >
+
+    &lt; Previous
+
+  </a> |
+  <?php /*
+  <input type="submit" value="Previous" onclick="javascript:submitForPagination(<?php echo ($this->previous * 100) -99;?>, 'alerts_form')" />
+*/?>
+<?php else: ?>
+
+  <span class="disabled">&lt; Previous</span> |
+
+<?php endif; ?>
+
+
+
+<!-- Next page link -->
+
+<?php if (isset($this->next)): ?>
+
+  <a href="javascript:void(0)" onclick="javascript:submitForPagination(<?php echo ($this->next * MAX_RESULTS_PER_PAGE) -(MAX_RESULTS_PER_PAGE -1);?>, 'search_form')" >
+
+    Next &gt;
+
+  </a> |
+  <?php /*
+  <input type="submit" value="Next" onclick="javascript:submitForPagination(<?php echo ($this->next * 100) -99;?>, 'alerts_form')" />
+*/?>
+<?php else: ?>
+
+  <span class="disabled">Next &gt;</span> |
+
+<?php endif; ?>
+
+
+
+<!-- Last page link -->
+
+<?php if (isset($this->next)): ?>
+
+  <a href="javascript:void(0)" onclick="javascript:submitForPagination(<?php echo ($this->last * MAX_RESULTS_PER_PAGE) -(MAX_RESULTS_PER_PAGE -1);?>, 'search_form')">
+
+    Last
+
+  </a>
+<?php /*
+<input type="submit" value="Last" onclick="javascript:submitForPagination(<?php echo ($this->last * 100) -99;?>, 'alerts_form')" />
+*/?>
+
+<?php else: ?>
+
+  <span class="disabled">Last</span>
+
+<?php endif; ?>
+
+
+
+</div>
+
+<?php endif; ?>
+

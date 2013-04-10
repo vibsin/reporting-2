@@ -1,0 +1,47 @@
+<?php if(APPLICATION_ENV != 'production') { ?>
+  <h1>An error occurred</h1>
+  <h2><?php echo $this->message ?></h2>
+
+  <?php
+  
+  if (isset($this->exception)) { ?>
+    <h3>Exception information:</h3>
+  <p>
+      <b>Message:</b> <?php echo $this->exception->getMessage() ?>
+  </p>
+
+  <h3>Stack trace:</h3>
+  <pre><?php echo $this->exception->getTraceAsString() ?>
+  </pre>
+
+  <h3>Request Parameters:</h3>
+  <pre><?php echo var_export($this->request->getParams(), true) ?>
+  </pre>
+ 
+ <?php }} else {?>
+
+<div class="col-main">
+    <div class="page-title">
+        <h1>Whoops, our bad...</h1>
+    </div>
+<div class="std"><dl> <dt>The page you requested was not found, and we have a fine guess why.</dt> <dd>
+
+<ul class="disc">
+<li>If you typed the URL directly, please make sure the spelling is correct.</li>
+<li>If you clicked on a link to get here, the link is outdated.</li>
+</ul>
+</dd> </dl>
+</div>
+
+
+    <dl> <dt>What can you do?</dt> <dd>Have no fear, help is near! There are many ways you can get back on track with Quikr Reporting App.</dd> <dd>
+<ul class="disc">
+<li><a onclick="history.go(-1);" href="#">Go back</a> to the previous page.</li>
+<li>Follow these links to get you back on track!<br>
+    <a href="<?php echo BASE_URL;?>">Home</a><br></li>
+</ul>
+</dd></dl>
+</div>
+
+<p>&nbsp;</p>
+ <?php } 

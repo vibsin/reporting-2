@@ -1,0 +1,439 @@
+<?php
+   $fhandle = Zend_Controller_Front::getInstance();
+   $postedVars = $fhandle->getRequest()->getPost();
+   if(isset($postedVars['section']) && $postedVars['section']=='user') $isPost = true;
+   else $isPost = false;
+
+?>  
+<div class="inner_wrapper">
+    <form
+        action=""
+        name="user_form"
+        id="user_form"
+        method="POST" >
+        <input type="hidden" id="section" name="section" value="user" />
+        <input type="hidden" name="start_rows" id="start_rows" value="1" />
+	 <input type="hidden" name="pagination_submit" id="pagination_submit" value="no" />
+        <input type="hidden" name="is_export_request" id="is_export_request" value="no" />
+    <!-- columns start -->
+    <div class="title">Select columns to show in report
+        <a style="text-decoration: none;" id="visibility_for_columns" name="visibility_for_columns" href="javascript:void(0)"
+           onclick="javscript:toggleVisibility('visibility_for_columns','select_cols','collapse')">-</a>
+    </div>
+    <div class="clear10"></div>
+    <div class="select_cols" id="select_cols" style="display: <?php //echo ($isPost) ? 'none' : ''; ?>">
+
+      <div class="col1">
+        <ul>
+          <li class="even">
+            <?php echo $this->columns('user_columns[]','email', (isset($postedVars['user_columns']) ? $postedVars['user_columns'] : '')) ;?> Email</li>
+          
+          <li class="odd">
+            <?php echo $this->columns('user_columns[]','fullname',(isset($postedVars['user_columns']) ? $postedVars['user_columns'] : ''));?>
+            Full Name</li>
+          <!--<li class="even">
+            <?php //echo $this->columns('user_columns[]','lastName',$postedVars['user_columns']);?>
+            Last Name</li> -->
+          <li class="odd">
+            <?php echo $this->columns('user_columns[]','mobile',(isset($postedVars['user_columns']) ? $postedVars['user_columns'] : ''));?>
+            Mobile</li>
+        </ul>
+      </div>
+
+        
+      <div class="col2">
+        <ul>
+          <li class="even">
+            <?php echo $this->columns('user_columns[]','city_name',(isset($postedVars['user_columns']) ? $postedVars['user_columns'] : ''));?>
+            City</li>
+          <li class="odd">
+           <?php echo $this->columns('user_columns[]','is_registered',(isset($postedVars['user_columns']) ? $postedVars['user_columns'] : ''));?>
+            Registered</li>
+          <li class="even">
+            <?php echo $this->columns('user_columns[]','registration_date',(isset($postedVars['user_columns']) ? $postedVars['user_columns'] : ''));?>
+            Registration Date</li>
+        </ul>
+      </div>
+
+        
+      <div class="col3">
+        <ul>
+          <li class="even">
+            <?php echo $this->columns('user_columns[]','last_login_date',(isset($postedVars['user_columns']) ? $postedVars['user_columns'] : ''));?>
+            Last Login Date</li>
+          <li class="odd">
+            <?php echo $this->columns('user_columns[]','no_of_ads',(isset($postedVars['user_columns']) ? $postedVars['user_columns'] : ''));?>
+            No. of Ads posted</li>
+          <li class="even">
+            <?php echo $this->columns('user_columns[]','no_of_reply',(isset($postedVars['user_columns']) ? $postedVars['user_columns'] : ''));?>
+            No. of Replies</li>
+        </ul>
+      </div>
+
+        
+      <div class="col4">
+        <ul>
+          <li class="even">
+            <?php echo $this->columns('user_columns[]','no_of_alerts',(isset($postedVars['user_columns']) ? $postedVars['user_columns'] : ''));?>
+            No. of Alerts</li>
+         <!-- <li class="odd">
+            <?php echo $this->columns('user_columns[]','date_range',(isset($postedVars['user_columns']) ? $postedVars['user_columns'] : ''));?>
+            Date Range</li>-->
+          <li class="even">
+            <?php echo $this->columns('user_columns[]','is_bulk_allowed',(isset($postedVars['user_columns']) ? $postedVars['user_columns'] : ''));?>
+            Permission for bulk upload</li>
+          
+          <!-- only javascript -->
+          <li class="odd">
+            <input type="button" value="Select All" id="check_uncheck" class="chk_box"  onclick="javascript:checkUncheckAllColumns(this.value)" />
+            </li>
+        </ul>
+      </div>
+
+
+        
+    </div>
+    <div class="clear10"></div>
+    <div class="clear10"></div>
+
+<!-- columns end -->
+
+<!-- filter start -->
+    <div class="title">Select Filters <a style="text-decoration: none;" id="visibility_for_filters" name="visibility_for_filters" href="javascript:void(0)"
+           onclick="javscript:toggleVisibility('visibility_for_filters','select_filters','collapse')">-</a></div>
+    <div class="clear10"></div>
+    <div class="select_filters" id="select_filters" style="display: <?php //echo ($isPost) ? 'none' : ''; ?>">
+      <div class="col1">
+        <ul>
+            
+          <li class="even">
+            <label>Email</label>
+            <div class="field">
+              <?php echo $this->equalsContainsExcludes('user_filter_email_select_ece',
+                      isset($postedVars['user_filter_email_select_ece']) ? $postedVars['user_filter_email_select_ece'] : '') ; ?>
+                <?php echo $this->textBox('user_filter_email_text',
+                      isset($postedVars['user_filter_email_text']) ? $postedVars['user_filter_email_text'] : '') ; ?>
+            </div>
+          </li>
+
+          <div class="clear"></div>
+          <li class="odd">
+            <label>First Name</label>
+            <div class="field">
+                <?php echo $this->presentNotpresentradio('user_filter_firstname',
+                        (isset($postedVars['user_filter_firstname']) ? $postedVars['user_filter_firstname'] : null));?>
+            </div>
+          </li>
+          <div class="clear"></div>
+         <!-- <li class="even">
+            <label>Last Name</label>
+            <div class="field">
+                <?php //echo $this->presentNotpresentradio('user_filter_lastname',
+                        //array($postedVars['user_filter_lastname']));?>
+            </div>
+          </li> -->
+          <div class="clear"></div>
+          <li class="even">
+            <label>Mobile</label>
+            <div class="field"> 
+                <?php echo $this->presentNotpresentradio('user_filter_mobile',
+                      (isset($postedVars['user_filter_mobile']) ? $postedVars['user_filter_mobile'] : ''));?>
+            </div>
+          </li>
+          <div class="clear"></div>
+          <li class="odd">
+            <label>City</label>
+            <div class="field">
+              <?php echo $this->cityList('user_filter_city',isset($postedVars['user_filter_city']) ? $postedVars['user_filter_city'] : ''); ?>
+            </div>
+          </li>
+          <div class="clear"></div>
+<?php /*
+          <li class="odd">
+            <label>localities</label>
+            <div class="field">
+              <?php echo $this->localityList('user_filter_localities',$postedVars['user_filter_localities'],$postedVars['user_filter_city'])?>
+            </div>
+          </li>
+          <div class="clear"></div>
+
+
+          <li class="even">
+            <label>meta</label>
+            <div class="field">
+              <?php echo $this->metacategoryList('user_filter_metacat',$postedVars['user_filter_metacat'],$postedVars['user_filter_city'])?>
+            </div>
+          </li>
+          <div class="clear"></div>
+
+          <li class="even">
+            <label>sub</label>
+            <div class="field">
+              <?php echo $this->subcategoryList('user_filter_subcat',$postedVars['user_filter_subcat'],$postedVars['user_filter_metacat'])?>
+            </div>
+          </li>
+          <div class="clear"></div>
+
+            
+            <div class="field" id="user_filter_attributes" name="user_filter_attributes">
+                <?php
+
+    if(!empty($postedVars['user_filter_subcat'])) {
+        $sql = 'SELECT text0 FROM babel_meta WHERE globalcatid = "'.$postedVars['user_filter_subcat'].'"';
+
+        $objStmt = new Zend_Db_Statement_Pdo(Zend_Registry::get('dbconnection'), $sql);
+        $objStmt->execute();
+        $attrString = $objStmt->fetch();
+        $xmlArr = simplexml_load_string($attrString['text0']);
+        $allowedAttributes = Zend_Registry::get('ALLOWED_ATTRIBUTES');
+        
+        foreach($xmlArr as $key => $val) {
+            if(in_array($val->name, $allowedAttributes)) {
+                $attributesArr[] = $val;
+                $caption = (string)$val->name;
+                
+                echo $this->attributes($val->name,$postedVars[$caption], $val->values);
+            }
+        }
+    }
+
+?>
+            </div>
+          */ ?>
+
+        </ul>
+      </div>
+      <div class="col2">
+        <ul>
+          <li class="even">
+            <label>Registered</label>
+            <div class="field">
+                <?php echo $this->yesNo('user_filter_registered',
+                        isset($postedVars['user_filter_registered'])?$postedVars['user_filter_registered']:'') ?>
+            </div>
+          </li>
+          <div class="clear"></div>
+          <li class="odd">
+            <label>Registration Date</label>
+            <div class="field">
+                <?php
+                if($isPost) {
+                        if(!empty($postedVars['user_filter_regdate_from'])) {
+                            $user_filter_regdate_from = $postedVars['user_filter_regdate_from'];
+                        } else {
+                            $user_filter_regdate_from = 'null';
+                        }
+
+                        if(!empty($postedVars['user_filter_regdate_to'])) {
+                            $user_filter_regdate_to = $postedVars['user_filter_regdate_to'];
+                        } else {
+                            $user_filter_regdate_to= 'null';
+                        }
+
+                    }else {
+                        //return blank..initial state
+                        $user_filter_regdate_from = '';
+                        $user_filter_regdate_to = '';
+                    }
+		    ?>
+                <?php echo $this->dateFrom('user_filter_regdate_from',
+                        $user_filter_regdate_from);?>
+                <?php echo $this->dateTo('user_filter_regdate_to',
+                        $user_filter_regdate_to);?>
+            </div>
+          </li>
+          <div class="clear"></div>
+          <li class="even">
+            <label>Last Login Date</label>
+            <div class="field">
+                <?php
+                if($isPost) {
+                        if(!empty($postedVars['user_filter_lastlogin_from'])) {
+                            $user_filter_lastlogin_from = $postedVars['user_filter_lastlogin_from'];
+                        } else {
+                            $user_filter_lastlogin_from = 'null';
+                        }
+
+                        if(!empty($postedVars['user_filter_lastlogin_to'])) {
+                            $user_filter_lastlogin_to = $postedVars['user_filter_lastlogin_to'];
+                        } else {
+                            $user_filter_lastlogin_to= 'null';
+                        }
+
+                    }else {
+                        //return blank..initial state
+                        $user_filter_lastlogin_from = '';
+                        $user_filter_lastlogin_to = '';
+                    }
+		    ?>
+                <?php echo $this->dateFrom('user_filter_lastlogin_from',
+                        $user_filter_lastlogin_from);?>
+                <?php echo $this->dateTo('user_filter_lastlogin_to',
+                        $user_filter_lastlogin_to);?>
+            </div>
+          </li>
+          <div class="clear"></div>
+        <!--  <li class="odd">
+            <label>Date Range</label>
+            <div class="field">
+                <?php echo $this->dateFrom('user_filter_daterange_from',
+                        $postedVars['user_filter_daterange_from']);?>
+                <?php echo $this->dateTo('user_filter_daterange_to',
+                        $postedVars['user_filter_daterange_to']);?>
+            </div>
+          </li> -->
+          <div class="clear"></div>
+        </ul>
+      </div>
+      <div class="col3">
+        <ul>
+          <li class="even">
+            <label>No of Ads Posts</label>
+            <div class="field">
+              <?php echo $this->quantityRange('user_filter_no_of_ads_range',
+                        isset($postedVars['user_filter_no_of_ads_range'])?$postedVars['user_filter_no_of_ads_range']:'');?>
+              <?php echo $this->textBox('user_filter_no_of_ads_text',
+                        isset($postedVars['user_filter_no_of_ads_text'])?$postedVars['user_filter_no_of_ads_text']:'');?>
+            </div>
+          </li>
+          <div class="clear"></div>
+          <li class="odd">
+            <label>No of Replies</label>
+            <div class="field">
+              <?php echo $this->quantityRange('user_filter_no_of_replies_range',
+                        isset($postedVars['user_filter_no_of_replies_range'])?$postedVars['user_filter_no_of_replies_range']:'');?>
+              <?php echo $this->textBox('user_filter_no_of_replies_text',
+                        isset($postedVars['user_filter_no_of_replies_text'])?$postedVars['user_filter_no_of_replies_text']:'');?>
+            </div>
+          </li>
+          <div class="clear"></div>
+          <li class="even">
+            <label>No of Alerts</label>
+            <div class="field">
+              <?php echo $this->quantityRange('user_filter_no_of_alerts_range',
+                        isset($postedVars['user_filter_no_of_alerts_range'])?$postedVars['user_filter_no_of_alerts_range']:'');?>
+              <?php echo $this->textBox('user_filter_no_of_alerts_text',
+                        isset($postedVars['user_filter_no_of_alerts_text'])?$postedVars['user_filter_no_of_alerts_text']:'');?>
+            </div>
+          </li>
+          <div class="clear"></div>
+          <li class="odd">
+            <label>Bulk Upload</label>
+            <div class="field"> <?php echo $this->yesNo('user_filter_bulk_upload',
+                        isset($postedVars['user_filter_bulk_upload'])?$postedVars['user_filter_bulk_upload']:'')?> </div>
+          </li>
+          <div class="clear"></div>
+        </ul>
+      </div>
+      <div class="clear10"></div>
+      <div class="clear10"></div>
+    </div>
+    <div class="clear10"></div>
+    <div class="clear10"></div>
+
+<!-- filter end -->
+
+<!-- summarize start -->
+<div class="title">
+
+<input type="checkbox" <?php if($_POST['show_summarize'] == 'on'){ print 'checked'; } ?> id="show_summarize" name="show_summarize" onchange="javascript:resetSummarize()"> Summarize</div>
+    <div class="clear10"></div>
+    <div class="summarize" id="summarize" style="<?php if($_POST['show_summarize'] != 'on') echo 'display:none'; ?>">
+    	<div class="summarize_inside">
+        	<div class="row">
+                <label>By count of :</label>
+                <div class="field">
+                    <div class="col">
+                        <?php echo $this->summarize('user_summarize_by_count_of','user_count',isset($postedVars['user_summarize_by_count_of'])?$postedVars['user_summarize_by_count_of']:'')?>
+                        <span>User Count</span>
+					</div>
+                </div>
+            </div>
+            <div class="clear10"></div>
+            <div class="clear10"></div>
+
+            <div class="row">
+                <label>For Date :</label>
+                <div class="field">
+                    <div class="col">
+                        <?php echo $this->summarize('user_summarize_for_date','user_reg_date',isset($postedVars['user_summarize_for_date'])?$postedVars['user_summarize_for_date']:'')?>
+                        <span>Registration Date</span>
+					</div>
+                    <div class="col">
+                        <?php echo $this->summarize('user_summarize_for_date','user_last_login_date',isset($postedVars['user_summarize_for_date'])?$postedVars['user_summarize_for_date']:'');?>
+                        <span>Last Login Date</span>
+		    </div>
+                    
+                
+                </div>
+            </div>
+        	
+            <div class="clear10"></div>
+            <div class="clear10"></div>
+
+            <div class="row">
+                <label>In intervals of:</label>
+                <div class="field">
+                    <div class="col">
+                        <?php echo $this->summarize('user_summarize_intervals_of','daily',isset($postedVars['user_summarize_intervals_of'])?$postedVars['user_summarize_intervals_of']:'');?>
+                        <span>Daily</span>
+					</div>
+                    <div class="col">
+                        <?php echo $this->summarize('user_summarize_intervals_of','weekly',isset($postedVars['user_summarize_intervals_of'])?$postedVars['user_summarize_intervals_of']:'');?>
+                        <span>Weekly</span>
+					</div>
+                    <div class="col">
+                        <?php echo $this->summarize('user_summarize_intervals_of','monthly',isset($postedVars['user_summarize_intervals_of'])?$postedVars['user_summarize_intervals_of']:'');?>
+                        <span>Monthly</span>
+					</div>
+                    <div class="col">
+                        <?php echo $this->summarize('user_summarize_intervals_of','yearly',isset($postedVars['user_summarize_intervals_of'])?$postedVars['user_summarize_intervals_of']:'')?>
+                        <span>Yearly</span>
+					</div>
+                </div>
+            </div>
+
+
+            
+        </div>
+    </div>
+    <div class="clear10"></div>
+    <div class="clear10"></div>
+      <div class="btn01 fright">
+          <input type="button" value="reset" onclick="javascript:return resetForm('user_form','user')"  />
+        <input id="user_form_submit" name="user_form_submit" type="submit" onclick="javascript: return isColumnSelected()" value="search" />
+      </div>
+      <div class="clear10"></div>
+      <div class="clear10"></div>
+    </form>
+<!-- summarize start -->
+
+      <?php if(isset($this->summarizeError)) { ?>
+<div class="userError"><?php echo $this->summarizeError;?></div>
+<?php } ?>
+
+      <?php if(isset ($this->columnsToShow)) {
+            echo $this->partial('user/result_set.phtml',array('columns' => $this->columnsToShow));
+?>
+<div class="clear10"></div>
+         <?php
+
+              echo $this->paginationControl($this->paginator,
+                                    'Sliding',
+                                    'user/pagination.phtml',array('requestUrl' => $this->requestUrl));
+            }
+      ?>
+
+       <?php if(isset($postedVars['show_summarize'])) {
+               echo $this->partial('user/result_set_summarize.phtml',array('summarizedData' => $this->summarizedData));
+      } // EOF ELSE
+    ?>
+    <script type="text/javascript">
+	function exportToExcelUser() {
+
+		document.getElementById('is_export_request').value = 'yes';
+		jQuery('#user_form').attr('action',BASE_URL+'/user/index');
+		document.getElementById('user_form').submit();
+		document.getElementById('is_export_request').value = 'no';
+	}
+</script>

@@ -1,0 +1,71 @@
+<?php
+if(!empty($this->columns['data'])) {
+?>
+<div class="dataGrid_table">
+    <table width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tr class="rowHead">
+          <td>Sr. No.</td>
+          <?php
+            if(!empty($this->columns['columns'])) {
+                $srNo = 3;
+                //sort($this->columns['columns'],SORT_STRING);
+              // echo '<td>Id</td>';
+                
+                foreach($this->columns['columns'] as $key => $val) {
+          ?>
+        <td><?php echo $val;?></td>
+        <?php
+            $srNo++;
+                }
+        }
+          ?>
+      </tr>
+
+    <?php
+        if(!empty($this->columns['data'])) {
+            $classCounter = 1;
+            $srNo = $_POST['start_rows'];
+            foreach($this->columns['data'] as $key => $val) {
+                if(($classCounter%2) == 0) $css = 'rowEven';
+                else $css = 'rowOdd';
+                ?>
+    <tr class="<?php echo $css?>">
+        <td style="vertical-align: text-top;"><?php echo $srNo;?></td>
+        <!-- <td style="vertical-align: text-top;"><?php echo $val['Item Id'];?></td> -->
+            <?php
+                $incr = 3;
+                foreach($this->columns['columns'] as $k => $v) {
+
+                    //if(array_key_exists($v, $val)) {
+                    ?>
+
+                <td style="vertical-align: text-top;"><?php echo $val[$v]?></td>
+     <?php
+                    $incr++;
+
+                    //}
+
+                }
+            ?>
+
+    </tr>
+<?php
+            $classCounter++;
+             $srNo++;
+            }
+        }
+    ?>
+    </table>
+    </div>
+
+
+<div class="clear10"></div>
+
+<div class="btn01 fleft">
+      <input type="button" value="Export to Excel file" onclick="javascript:exportToExcelpremiumpacks()">
+    </div>
+<?php } else { ?>
+
+<div class="userError"><?php echo USER_NO_RECORD_FOUND;?></div>
+<?php
+}

@@ -1,0 +1,8 @@
+<?php echo $this->render('layout_header.phtml');?>
+<?php echo $this->loggedAs();?>
+
+<?php echo $this->render('layout_dashboard.phtml');?>
+<?php echo $this->render('layout_body.phtml');?>
+
+<?php echo $this->layout()->content; ?>
+<?php echo $this->render('layout_footer.phtml');?>

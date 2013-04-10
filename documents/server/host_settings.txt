@@ -1,0 +1,24 @@
+set this in Virtual host file for reporting
+*********************kijiji.example.conf
+Listen 8081
+<VirtualHost *:8081>
+
+        ServerName local.reporting.com
+        RewriteEngine On
+
+        DocumentRoot /home/reporting/
+        <Directory /home/reporting/>
+                Options -Indexes FollowSymLinks
+                AllowOverride all
+                Order allow,deny
+                Allow from all
+                FileETag MTime Size
+                SetOutputFilter DEFLATE
+                BrowserMatch ^Mozilla/4 gzip-only-text/html
+                BrowserMatch ^Mozilla/4\.0[678] no-gzip
+                BrowserMatch \bMSIE !no-gzip !gzip-only-text/html
+        </Directory>
+
+      LogLevel warn
+
+</VirtualHost>

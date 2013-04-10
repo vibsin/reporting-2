@@ -1,0 +1,781 @@
+<?php
+$fhandle = Zend_Controller_Front::getInstance();
+$postedVars = $fhandle->getRequest()->getPost();
+if(isset($postedVars['section']) && $postedVars['section']== 'premiumads') $isPost = true;
+else $isPost = false;
+
+?>
+   <div class="inner_wrapper">
+    <form
+        action=""
+        name="premiumads_form"
+        id="premiumads_form"
+        method="POST">
+        <input type="hidden" id="section" name="section" value="premiumads" />
+	<input type="hidden" id="premiumads_subcat_name" name="premiumads_subcat_name" value="" />
+        <input type="hidden" name="start_rows" id="start_rows" value="1" />
+	 <input type="hidden" name="pagination_submit" id="pagination_submit" value="no" />
+        <input type="hidden" name="is_export_request" id="is_export_request" value="no" />
+    <div class="title">Select columns to show in report
+     <a style="text-decoration: none;" id="visibility_for_columns" name="visibility_for_columns" href="javascript:void(0)"
+           onclick="javscript:toggleVisibility('visibility_for_columns','select_cols','collapse')">-</a>
+    </div>
+    
+    <div class="clear10"></div>
+     <div class="select_cols" id="select_cols" style="display: <?php //echo ($isPost) ? 'none' : ''; ?>">
+      <div class="col1">
+        <ul>
+          <li class="even">
+           <?php echo $this->columns('premiumads_columns[]','premiumads_user_name', isset($postedVars['premiumads_columns'])?$postedVars['premiumads_columns']:'');?>
+            User Name</li>
+          <li class="odd">
+           <?php echo $this->columns('premiumads_columns[]','premiumads_user_email', isset($postedVars['premiumads_columns'])?$postedVars['premiumads_columns']:'');?>
+            User Email</li>
+          <li class="even">
+            <?php echo $this->columns('premiumads_columns[]','premiumads_user_mobile', isset($postedVars['premiumads_columns'])?$postedVars['premiumads_columns']:'');?>
+            User Mobile</li>
+          <li class="odd">
+            <?php echo $this->columns('premiumads_columns[]','premiumads_city_name', isset($postedVars['premiumads_columns'])?$postedVars['premiumads_columns']:'');?>
+            City</li>
+           <li class="even">
+            <?php echo $this->columns('premiumads_columns[]','premiumads_ad_localities', isset($postedVars['premiumads_columns'])?$postedVars['premiumads_columns']:'');?>
+            Locality</li>
+          <li class="odd">
+            <?php echo $this->columns('premiumads_columns[]','premiumads_metacategory_name', isset($postedVars['premiumads_columns'])?$postedVars['premiumads_columns']:'');?>
+            Category</li>
+          <li class="even">
+            <?php echo $this->columns('premiumads_columns[]','premiumads_subcategory_name', isset($postedVars['premiumads_columns'])?$postedVars['premiumads_columns']:'');?>
+            Sub-Category</li>
+          <li class="odd">
+            <?php echo $this->columns('premiumads_columns[]','premiumads_order_id', isset($postedVars['premiumads_columns'])?$postedVars['premiumads_columns']:'');?>
+            Premium Ad Order Id </li>
+          <li class="even">
+            <?php echo $this->columns('premiumads_columns[]','premiumads_ad_id', isset($postedVars['premiumads_columns'])?$postedVars['premiumads_columns']:'');?>
+            Ad Id</li>
+          <li class="odd">
+            <?php echo $this->columns('premiumads_columns[]','premiumads_pack_id', isset($postedVars['premiumads_columns'])?$postedVars['premiumads_columns']:'');?>
+            Pack Id</li>
+          <li class="even">
+           <?php echo $this->columns('premiumads_columns[]','premiumads_pack_order_id', isset($postedVars['premiumads_columns'])?$postedVars['premiumads_columns']:'');?>
+            Pack Order Id</li>
+            
+                      <li class="odd">
+           <?php echo $this->columns('premiumads_columns[]','premiumads_reseller_pack_order_id', isset($postedVars['premiumads_columns'])?$postedVars['premiumads_columns']:'');?>
+            Reseller Pack Order Id</li>
+            
+            
+            
+            
+          <li class="even">
+           <?php echo $this->columns('premiumads_columns[]','premiumads_amount', isset($postedVars['premiumads_columns'])?$postedVars['premiumads_columns']:'');?>
+            Gross Amount</li>
+        </ul>
+      </div>
+         
+       <div class="col2">
+        <ul>
+          <li class="even">
+            <?php echo $this->columns('premiumads_columns[]','premiumads_payment_for', isset($postedVars['premiumads_columns'])?$postedVars['premiumads_columns']:'');?>
+            Premium Ad Type</li>
+          <li class="odd">
+            <?php echo $this->columns('premiumads_columns[]','premiumads_payment_type', isset($postedVars['premiumads_columns'])?$postedVars['premiumads_columns']:'');?>
+            Payment Mode</li>
+          <li class="even">
+            <?php echo $this->columns('premiumads_columns[]','premiumads_ad_expiry_date', isset($postedVars['premiumads_columns'])?$postedVars['premiumads_columns']:'');?>
+            Ad Expiry Date</li>
+          <li class="odd">
+            <?php echo $this->columns('premiumads_columns[]','premiumads_ad_first_created_date', isset($postedVars['premiumads_columns'])?$postedVars['premiumads_columns']:'');?>
+            Ad First Created Date</li>
+          <li class="even">
+            <?php echo $this->columns('premiumads_columns[]','premiumads_ad_order_activated_date', isset($postedVars['premiumads_columns'])?$postedVars['premiumads_columns']:'');?>
+            Ad Order Activated Date</li>
+          <li class="odd">
+            <?php echo $this->columns('premiumads_columns[]','premiumads_ad_order_created_date', isset($postedVars['premiumads_columns'])?$postedVars['premiumads_columns']:'');?>
+            Ad Order Created Date</li>
+          <li class="even">
+            <?php echo $this->columns('premiumads_columns[]','premiumads_ad_order_expiry_date', isset($postedVars['premiumads_columns'])?$postedVars['premiumads_columns']:'');?>
+            Ad Order Expiry Date</li>
+          <li class="odd">
+            <?php echo $this->columns('premiumads_columns[]','premiumads_ad_order_delete_date', isset($postedVars['premiumads_columns'])?$postedVars['premiumads_columns']:'');?>
+            Ad Order Delete Date</li>
+          
+          <li class="even">
+            <?php echo $this->columns('premiumads_columns[]','premiumads_ad_status', isset($postedVars['premiumads_columns'])?$postedVars['premiumads_columns']:'');?>
+            Ad Status</li>
+            
+           <li class="odd">
+            <?php echo $this->columns('premiumads_columns[]','premiumads_payment_status', isset($postedVars['premiumads_columns'])?$postedVars['premiumads_columns']:'');?>
+            Order Payment Status</li>  
+            
+            <li class="even">
+           <?php echo $this->columns('premiumads_columns[]','premiumads_net_amount', isset($postedVars['premiumads_columns'])?$postedVars['premiumads_columns']:'');?>
+            Net Amount</li>
+            
+            <li class="odd">
+           <?php echo $this->columns('premiumads_columns[]','premiumads_tax', isset($postedVars['premiumads_columns'])?$postedVars['premiumads_columns']:'');?>
+            Tax</li>
+            <li class="even">
+           <?php echo $this->columns('premiumads_columns[]','premiumads_order_smb', isset($postedVars['premiumads_columns'])?$postedVars['premiumads_columns']:'');?>
+            BGS</li>
+        </ul>
+      </div>
+         
+         
+         
+     <div class="col3">
+        <ul>
+          <li class="even">
+           <?php echo $this->columns('premiumads_columns[]','premiumads_ad_title', isset($postedVars['premiumads_columns'])?$postedVars['premiumads_columns']:'');?>
+            Ad Title</li>
+          <li class="odd">
+           <?php echo $this->columns('premiumads_columns[]','premiumads_ad_description', isset($postedVars['premiumads_columns'])?$postedVars['premiumads_columns']:'');?>
+            Ad Description</li>
+          <li class="even">
+            <?php echo $this->columns('premiumads_columns[]','premiumads_reply_count', isset($postedVars['premiumads_columns'])?$postedVars['premiumads_columns']:'');?>
+            Reply Count</li>
+          <li class="odd">
+            <?php echo $this->columns('premiumads_columns[]','premiumads_visitor_count', isset($postedVars['premiumads_columns'])?$postedVars['premiumads_columns']:'');?>
+            Visitor Count</li>
+          <li class="even">
+            <?php echo $this->columns('premiumads_columns[]','premiumads_ad_type', isset($postedVars['premiumads_columns'])?$postedVars['premiumads_columns']:'');?>
+            Ad Type</li>
+          <li class="odd">
+            <?php echo $this->columns('premiumads_columns[]','attr_you_are', isset($postedVars['premiumads_columns'])?$postedVars['premiumads_columns']:'');?>
+            Individual/Dealer</li>
+          <li class="even">
+            <?php echo $this->columns('premiumads_columns[]','premiumads_vd_telemarketer_name', isset($postedVars['premiumads_columns'])?$postedVars['premiumads_columns']:'');?>
+            Telemarketer Name</li>
+          <li class="odd">
+            <?php echo $this->columns('premiumads_columns[]','premiumads_vd_telemarketer_tl_name', isset($postedVars['premiumads_columns'])?$postedVars['premiumads_columns']:'');?>
+            Telemarketer Lead Name</li>
+          <li class="even">
+            <?php echo $this->columns('premiumads_columns[]','premiumads_vd_territory_manager_name', isset($postedVars['premiumads_columns'])?$postedVars['premiumads_columns']:'');?>
+            Territory Manager Name</li>
+            
+            <li class="odd">
+            <?php echo $this->columns('premiumads_columns[]','premiumads_cheque_no', isset($postedVars['premiumads_columns'])?$postedVars['premiumads_columns']:'');?>
+            Cheque Number</li>
+            
+            <li class="even">
+            <?php echo $this->columns('premiumads_columns[]','premiumads_remark', isset($postedVars['premiumads_columns'])?$postedVars['premiumads_columns']:'');?>
+            Cheque Details</li>
+            
+            
+            <li class="odd">
+            <?php echo $this->columns('premiumads_columns[]','premiumads_extended_product_type', isset($postedVars['premiumads_columns'])?$postedVars['premiumads_columns']:'');?>
+            Accrual Type</li>
+            
+             <li class="even">
+            <?php echo $this->columns('premiumads_columns[]','premiumads_vdu_force_consume_amount', isset($postedVars['premiumads_columns'])?$postedVars['premiumads_columns']:'');?>
+            Force Consume Amount</li>
+            
+            
+                        <li class="odd">
+            <?php echo $this->columns('premiumads_columns[]','premiumads_vdu_remaining_credit', isset($postedVars['premiumads_columns'])?$postedVars['premiumads_columns']:'');?>
+            Pack Remaining Credits</li>
+        </ul>
+      </div>
+         
+     <div class="col4">
+        <ul>
+          <li class="even">
+           <?php echo $this->columns('premiumads_columns[]','premiumads_vd_ro_name', isset($postedVars['premiumads_columns'])?$postedVars['premiumads_columns']:'');?>
+            RO Name</li>
+          <li class="odd">
+           <?php echo $this->columns('premiumads_columns[]','premiumads_refund_amount', isset($postedVars['premiumads_columns'])?$postedVars['premiumads_columns']:'');?>
+            Refund Amount</li>
+          <li class="even">
+            <?php echo $this->columns('premiumads_columns[]','premiumads_refund_reason', isset($postedVars['premiumads_columns'])?$postedVars['premiumads_columns']:'');?>
+            Refund Reason</li>
+          <li class="odd">
+            <?php echo $this->columns('premiumads_columns[]','premiumads_refund_mode', isset($postedVars['premiumads_columns'])?$postedVars['premiumads_columns']:'');?>
+            Refund Mode</li>
+          <li class="even">
+            <?php echo $this->columns('premiumads_columns[]','premiumads_vdu_created_date', isset($postedVars['premiumads_columns'])?$postedVars['premiumads_columns']:'');?>
+            Pack Created Date</li>
+          <li class="odd">
+            <?php echo $this->columns('premiumads_columns[]','premiumads_vdu_expiry_date', isset($postedVars['premiumads_columns'])?$postedVars['premiumads_columns']:'');?>
+            Pack Expiry Date</li>
+          <li class="even">
+            <?php echo $this->columns('premiumads_columns[]','premiumads_tpsl_id', isset($postedVars['premiumads_columns'])?$postedVars['premiumads_columns']:'');?>
+            Tpsl Id</li>
+          <li class="odd">
+            <?php echo $this->columns('premiumads_columns[]','premiumads_auto_renew_status', isset($postedVars['premiumads_columns'])?$postedVars['premiumads_columns']:'');?>
+            Keep Running Status</li>
+            
+         <li class="even">
+            <?php echo $this->columns('premiumads_columns[]','premiumads_ad_order_accounting_date', isset($postedVars['premiumads_columns'])?$postedVars['premiumads_columns']:'');?>
+            Accounting Date</li>
+          <li class="odd">
+            <?php echo $this->columns('premiumads_columns[]','premiumads_ad_order_refund_accounting_date', isset($postedVars['premiumads_columns'])?$postedVars['premiumads_columns']:'');?>
+            Refund Accounting Date</li>
+            <li class="even">
+            <?php echo $this->columns('premiumads_columns[]','premiumads_refund_date', isset($postedVars['premiumads_columns'])?$postedVars['premiumads_columns']:'');?>
+            Admin Deleted Date</li>
+            
+            <li class="odd">
+            <?php echo $this->columns('premiumads_columns[]','premiumads_user_id', isset($postedVars['premiumads_columns'])?$postedVars['premiumads_columns']:'');?>
+           User Id</li>
+            
+          <!-- only javascript -->
+          <li class="even">
+            <input type="button" value="Select All" id="check_uncheck" class="chk_box"  onclick="javascript:checkUncheckAllColumns(this.value)" />
+            </li>
+        </ul>
+      </div>
+    </div>
+    
+    
+    <div class="clear10"></div>
+    <div class="clear10"></div>
+    
+    
+    <div class="title">Select Filters
+    <a style="text-decoration: none;" id="visibility_for_filters" name="visibility_for_filters" href="javascript:void(0)"
+           onclick="javscript:toggleVisibility('visibility_for_filters','select_filters','collapse')">-</a>
+    </div>
+    <div class="clear10"></div>
+    <div class="select_filters" id="select_filters">
+      <div class="col1">
+        <ul>
+            <li class="even">
+            <label>City</label>
+            <div class="field">
+              <?php echo $this->cityList('premiumads_filter_city',$postedVars['premiumads_filter_city'])?>
+            </div>
+          </li>
+          <div class="clear"></div>
+          
+          
+          <li class="odd">
+            <label>Locality</label>
+           <div class="field">
+             <?php echo $this->localityList('premiumads_filter_localities',$postedVars['premiumads_filter_localities'],$postedVars['premiumads_filter_city'])?>
+            </div>
+          </li>
+          <div class="clear"></div>
+          
+          
+          <li class="odd">
+            <label>Category</label>
+            <div class="field">
+              <?php echo $this->metacategoryList('premiumads_filter_metacat',$postedVars['premiumads_filter_metacat'],$postedVars['premiumads_filter_city'])?>
+            </div>
+          </li>
+          <div class="clear"></div>
+          
+          
+          <li class="even">
+            <label>Sub-category</label>
+            <div class="field">
+              <?php echo $this->subcategoryList('premiumads_filter_subcat',$postedVars['premiumads_filter_subcat'],$postedVars['premiumads_filter_metacat'],$postedVars['premiumads_filter_city'])?>
+            </div>
+          </li>
+           <div class="clear"></div>
+           
+           
+           <li class="odd">
+            <label>Payment Mode</label>
+            <div class="field">
+	    <?php echo $this->multiselect('premiumads_filter_payment_mode',
+                        $postedVars['premiumads_filter_payment_mode'],array('Online','Cheque','Tanla','UsedCredit','AutoRenew','Promo'),'','');?>
+	    </div>
+          </li>
+          <div class="clear"></div>
+          
+          <li class="even">
+            <label>Premium Ad type</label>
+            <div class="field">
+	    <?php echo $this->multiselect('premiumads_filter_payment_for',
+                        $postedVars['premiumads_filter_payment_for'],array('Top of Page','Urgent', 'Top of Page + Urgent'),'','');?>
+	    </div>
+          </li>
+          <div class="clear"></div>
+          
+          
+          
+          <li class="odd">
+            <label>Status</label>
+            <div class="field">
+	      <?php echo $this->multiselect('premiumads_filter_status',$postedVars['premiumads_filter_status'],array('Active','Expire','Flag and Delay','User Deleted','Admin Delete'),'',''); ?>
+            </div>
+          </li>
+          <div class="clear"></div>
+            
+          
+          <li class="even">
+            <label>Order Payment Status</label>
+            <div class="field">
+              <?php echo $this->multiselect('premiumads_filter_payment_status',$postedVars['premiumads_filter_payment_status'],array('Initialize','Pending','Successful','Failure','NoResponse','PaymentAfter3Attempts','ConvertToFreeBeforePayment','Refund','PaymentAdminDeleted'),'',''); ?>
+            </div>
+          </li>
+          <div class="clear"></div>
+        </ul>
+      </div>
+      <div class="col2">
+        <ul>
+          
+            <li class="even">
+                <label>Pack Order Id</label>
+                <div class="field">
+                 <?php echo $this->textBox('premiumads_filter_pack_order_id',$postedVars['premiumads_filter_pack_order_id']); ?>
+                </div>
+            </li>
+            <div class="clear"></div>
+          
+            <li class="odd">
+                <label>Pack Id</label>
+                <div class="field">
+                 <?php echo $this->textBox('premiumads_filter_pack_id',$postedVars['premiumads_filter_pack_id']); ?>
+                </div>
+            </li>
+            <div class="clear"></div>
+            
+            
+             <li class="even">
+                <label>Ad Order Id</label>
+                <div class="field">
+                 <?php echo $this->textBox('premiumads_filter_order_id',$postedVars['premiumads_filter_order_id']); ?>
+                </div>
+            </li>
+            <div class="clear"></div>
+            
+            <li class="odd">
+                <label>Ad Id</label>
+                <div class="field">
+                 <?php echo $this->textBox('premiumads_filter_ad_id',$postedVars['premiumads_filter_ad_id']); ?>
+                </div>
+            </li>
+            <div class="clear"></div>
+            
+            <li class="even">
+                <label>User Email</label>
+                <div class="field">
+                 <?php echo $this->textBox('premiumads_filter_user_email',$postedVars['premiumads_filter_user_email']); ?>
+                </div>
+            </li>
+            <div class="clear"></div>
+            
+            
+            <li class="odd">
+                <label>User Id</label>
+                <div class="field">
+                 <?php echo $this->textBox('premiumads_filter_user_id',$postedVars['premiumads_filter_user_id']); ?>
+                </div>
+            </li>
+            <div class="clear"></div>
+            
+            
+            <li class="even">
+                <label>User Mobile</label>
+                <div class="field">
+                 <?php echo $this->textBox('premiumads_filter_user_mobile',$postedVars['premiumads_filter_user_mobile']); ?>
+                </div>
+            </li>
+            <div class="clear"></div>
+            
+            
+            <li class="odd">
+                <label>Tpsl Id</label>
+                <div class="field">
+                 <?php echo $this->textBox('premiumads_filter_tpslid',$postedVars['premiumads_filter_tpslid']); ?>
+                </div>
+            </li>
+            <div class="clear"></div>
+            
+			<li class="even">
+				<label>Ad Type</label>
+				<div class="field">
+				<?php echo $this->multiselect('premiumads_filter_ad_type',$postedVars['premiumads_filter_ad_type'],array('Want','Offer'),'',''); ?>
+				</div>
+			</li>
+			<div class="clear"></div>
+          
+          
+			<li class="odd">
+				<label>Cheque Number </label>
+				<div class="field">
+				<?php echo $this->textBox('premiumads_filter_cheque_number',$postedVars['premiumads_filter_cheque_number']); ?>
+				</div>
+			</li>
+			<div class="clear"></div>
+            
+            <li class="even">
+            <label>BGS</label>
+            <div class="field">
+	    <?php echo $this->customPresentNotPresent('premiumads_filter_smb',
+                        $postedVars['premiumads_filter_smb'],array('Yes','No'));?>     
+	    </div>
+          </li>
+          <div class="clear"></div>
+          
+          
+        </ul>
+      </div>
+      <div class="col3">
+        <ul>
+          <div class="clear"></div>
+          
+          
+          <li class="even">
+            <label>Create Date</label>
+            <div class="field">
+	       <?php
+	       if($isPost) {
+	       	if(!empty($postedVars['premiumads_filter_ad_order_created_date_from'])) {
+	       		$premiumads_filter_order_created_date_from = $postedVars['premiumads_filter_ad_order_created_date_from'];
+	       	} else {
+	       		$premiumads_filter_order_created_date_from = 'null';
+	       	}
+
+	       	if(!empty($postedVars['premiumads_filter_ad_order_created_date_to'])) {
+	       		$premiumads_filter_ad_first_created_date_to = $postedVars['premiumads_filter_ad_order_created_date_to'];
+	       	} else {
+	       		$premiumads_filter_ad_first_created_date_to= 'null';
+	       	}
+
+	       }else {
+	       	//return blank..initial state
+	       	$premiumads_filter_order_created_date_from = '';
+	       	$premiumads_filter_ad_first_created_date_to = '';
+	       }
+		    ?>
+	        <?php echo $this->dateFrom('premiumads_filter_ad_order_created_date_from',
+                        $premiumads_filter_order_created_date_from);?>
+                <?php echo $this->dateTo('premiumads_filter_ad_order_created_date_to',
+                        $premiumads_filter_ad_first_created_date_to);?>
+            </div>
+          </li>
+          <div class="clear"></div>
+          
+          
+           <li class="odd">
+            <label>Activated date</label>
+            <div class="field">
+	       <?php
+	       if($isPost) {
+	       	if(!empty($postedVars['premiumads_filter_ad_order_activated_date_from'])) {
+	       		$premiumads_filter_ad_order_activated_date_from = $postedVars['premiumads_filter_ad_order_activated_date_from'];
+	       	} else {
+	       		$premiumads_filter_ad_order_activated_date_from = 'null';
+	       	}
+
+	       	if(!empty($postedVars['premiumads_filter_ad_order_activated_date_to'])) {
+	       		$premiumads_filter_ad_order_activated_date_to = $postedVars['premiumads_filter_ad_order_activated_date_to'];
+	       	} else {
+	       		$premiumads_filter_ad_order_activated_date_to= 'null';
+	       	}
+
+	       }else {
+	       	//return blank..initial state
+	       	$premiumads_filter_ad_order_activated_date_from = '';
+	       	$premiumads_filter_ad_order_activated_date_to = '';
+	       }
+		    ?>
+	        <?php echo $this->dateFrom('premiumads_filter_ad_order_activated_date_from',
+                        $premiumads_filter_ad_order_activated_date_from);?>
+                <?php echo $this->dateTo('premiumads_filter_ad_order_activated_date_to',
+                        $premiumads_filter_ad_order_activated_date_to);?>
+            </div>
+          </li>
+          <div class="clear"></div>
+          
+          
+          <li class="even">
+            <label>Expired Date</label>
+            <div class="field">
+	       <?php
+	       if($isPost) {
+	       	if(!empty($postedVars['premiumads_filter_ad_order_expiry_date_from'])) {
+	       		$premiumads_filter_ad_order_expiry_date_from = $postedVars['premiumads_filter_ad_order_expiry_date_from'];
+	       	} else {
+	       		$premiumads_filter_ad_order_expiry_date_from = 'null';
+	       	}
+
+	       	if(!empty($postedVars['premiumads_filter_ad_order_expiry_date_to'])) {
+	       		$premiumads_filter_ad_order_expiry_date_to = $postedVars['premiumads_filter_ad_order_expiry_date_to'];
+	       	} else {
+	       		$premiumads_filter_ad_order_expiry_date_to= 'null';
+	       	}
+
+	       }else {
+	       	//return blank..initial state
+	       	$premiumads_filter_ad_order_expiry_date_from = '';
+	       	$premiumads_filter_ad_order_expiry_date_to = '';
+	       }
+		    ?>
+	        <?php echo $this->dateFrom('premiumads_filter_ad_order_expiry_date_from',
+                        $premiumads_filter_ad_order_expiry_date_from);?>
+                <?php echo $this->dateTo('premiumads_filter_ad_order_expiry_date_to',
+                        $premiumads_filter_ad_order_expiry_date_to);?>
+            </div>
+          </li>
+          <div class="clear"></div>
+          
+          
+           <li class="odd">
+            <label>Admin Deleted Date</label>
+            <div class="field">
+	       <?php
+	       if($isPost) {
+	       	if(!empty($postedVars['premiumads_filter_admin_order_date_from'])) {
+	       		$premiumads_filter_admin_order_date_from = $postedVars['premiumads_filter_admin_order_date_from'];
+	       	} else {
+	       		$premiumads_filter_admin_order_date_from = 'null';
+	       	}
+
+	       	if(!empty($postedVars['premiumads_filter_admin_order_date_to'])) {
+	       		$premiumads_filter_admin_order_date_to = $postedVars['premiumads_filter_admin_order_date_to'];
+	       	} else {
+	       		$premiumads_filter_admin_order_date_to= 'null';
+	       	}
+
+	       }else {
+	       	//return blank..initial state
+	       	$premiumads_filter_admin_order_date_from = '';
+	       	$premiumads_filter_admin_order_date_to = '';
+	       }
+		    ?>
+	        <?php echo $this->dateFrom('premiumads_filter_admin_order_date_from',
+                        $premiumads_filter_admin_order_date_from);?>
+                <?php echo $this->dateTo('premiumads_filter_admin_order_date_to',
+                        $premiumads_filter_admin_order_date_to);?>
+            </div>
+          </li>
+          <div class="clear"></div>
+          
+          
+          
+          
+          
+          <li class="odd">
+            <label>Accounting Date</label>
+            <div class="field">
+	       <?php
+	       if($isPost) {
+	       	if(!empty($postedVars['premiumads_filter_accounting_date_from'])) {
+	       		$premiumads_filter_admin_order_date_from = $postedVars['premiumads_filter_accounting_date_from'];
+	       	} else {
+	       		$premiumads_filter_admin_order_date_from = 'null';
+	       	}
+
+	       	if(!empty($postedVars['premiumads_filter_accounting_date_to'])) {
+	       		$premiumads_filter_admin_order_date_to = $postedVars['premiumads_filter_accounting_date_to'];
+	       	} else {
+	       		$premiumads_filter_admin_order_date_to= 'null';
+	       	}
+
+	       }else {
+	       	//return blank..initial state
+	       	$premiumads_filter_accounting_date_from = '';
+	       	$premiumads_filter_accounting_date_to = '';
+	       }
+		    ?>
+	        <?php echo $this->dateFrom('premiumads_filter_accounting_date_from',
+                        $premiumads_filter_admin_order_date_from);?>
+                <?php echo $this->dateTo('premiumads_filter_accounting_date_to',
+                        $premiumads_filter_admin_order_date_to);?>
+            </div>
+          </li>
+          <div class="clear"></div>
+          
+          
+          
+          <li class="odd">
+            <label>Refund Accounting Date</label>
+            <div class="field">
+	       <?php
+	       if($isPost) {
+	       	if(!empty($postedVars['premiumads_filter_refund_date_from'])) {
+	       		$premiumads_filter_admin_order_date_from = $postedVars['premiumads_filter_refund_date_from'];
+	       	} else {
+	       		$premiumads_filter_admin_order_date_from = 'null';
+	       	}
+
+	       	if(!empty($postedVars['premiumads_filter_refund_date_to'])) {
+	       		$premiumads_filter_admin_order_date_to = $postedVars['premiumads_filter_refund_date_to'];
+	       	} else {
+	       		$premiumads_filter_admin_order_date_to= 'null';
+	       	}
+
+	       }else {
+	       	//return blank..initial state
+	       	$premiumads_filter_refund_date_from = '';
+	       	$premiumads_filter_refund_date_to = '';
+	       }
+		    ?>
+	        <?php echo $this->dateFrom('premiumads_filter_refund_date_from',
+                        $premiumads_filter_refund_date_from);?>
+                <?php echo $this->dateTo('premiumads_filter_refund_date_to',
+                        $premiumads_filter_refund_date_to);?>
+            </div>
+          </li>
+          <div class="clear"></div>
+          
+          
+          
+           <li class="even">
+            <label>User Deleted Date</label>
+            <div class="field">
+	       <?php
+	       if($isPost) {
+	       	if(!empty($postedVars['premiumads_filter_user_order_date_from'])) {
+	       		$premiumads_filter_user_order_date_from = $postedVars['premiumads_filter_user_order_date_from'];
+	       	} else {
+	       		$premiumads_filter_user_order_date_from = 'null';
+	       	}
+
+	       	if(!empty($postedVars['premiumads_filter_user_order_date_to'])) {
+	       		$premiumads_filter_user_order_date_to = $postedVars['premiumads_filter_user_order_date_to'];
+	       	} else {
+	       		$premiumads_filter_user_order_date_to= 'null';
+	       	}
+
+	       }else {
+	       	//return blank..initial state
+	       	$premiumads_filter_user_order_date_from = '';
+	       	$premiumads_filter_user_order_date_to = '';
+	       }
+		    ?>
+	        <?php echo $this->dateFrom('premiumads_filter_user_order_date_from',
+                        $premiumads_filter_user_order_date_from);?>
+                <?php echo $this->dateTo('premiumads_filter_user_order_date_to',
+                        $premiumads_filter_user_order_date_to);?>
+            </div>
+          </li>
+          <div class="clear"></div>
+        
+          <li class="odd">
+            <label>Date Filter</label>
+            <div class="field">
+	       <?php
+	       if($isPost) {
+	       	if(!empty($postedVars['premiumads_filter_general_date_from'])) {
+	       		$premiumads_filter_general_date_from = $postedVars['premiumads_filter_general_date_from'];
+	       	} else {
+	       		$premiumads_filter_general_date_from = 'null';
+	       	}
+
+	       	if(!empty($postedVars['premiumads_filter_general_date_to'])) {
+	       		$premiumads_filter_general_date_from = $postedVars['premiumads_filter_general_date_to'];
+	       	} else {
+	       		$premiumads_filter_general_date_from= 'null';
+	       	}
+
+	       }else {
+	       	//return blank..initial state
+	       	$premiumads_filter_general_date_from = '';
+	       	$premiumads_filter_general_date_to = '';
+	       }
+		    ?>
+	        <?php echo $this->dateFrom('premiumads_filter_general_date_from',
+                        $premiumads_filter_general_date_from);?>
+                <?php echo $this->dateTo('premiumads_filter_general_date_to',
+                        $premiumads_filter_general_date_to);?>
+            </div>
+          </li>
+          <div class="clear"></div>
+          
+          
+          <!--copy from here for displaying attributes, just  change the $class value -->
+            <div id="premiumads_filter_attributes" name="premiumads_filter_attributes">
+                <?php
+
+                if(!empty($postedVars['premiumads_filter_subcat'])) {
+                	$cityId = $postedVars['premiumads_filter_city'];
+                	$subcatId = $postedVars['premiumads_filter_subcat'];
+
+                	if($cityId == 'all') {
+                		$sql = 'SELECT text0 FROM babel_meta WHERE globalcatid = "'.$subcatId.'"';
+                	} else {
+                		$sql = 'SELECT text0 FROM babel_meta WHERE globalcatid = (SELECT a.nod_globalId FROM babel_node as a WHERE a.node_id = "'.$subcatId.'")';
+                	}
+
+                	$objStmt = new Zend_Db_Statement_Pdo(Zend_Registry::get('dbconnection'), $sql);
+                	$objStmt->execute();
+                	$attrString = $objStmt->fetch();
+                	$xmlArr = simplexml_load_string($attrString['text0']);
+                	$allowedAttributes = Zend_Registry::get('ALLOWED_ATTRIBUTES');
+                	//print_r($xmlArr);
+
+                	$class = 1;
+                	foreach($xmlArr as $key => $val) {
+                		if(in_array($val->name, $allowedAttributes)) {
+                			$attributesArr[] = $val;
+                			$caption = (string)$val->name;
+
+                			echo $this->attributes($val->name,$postedVars[$caption], $val->values, $class);
+                			$class++;
+                		}
+
+                	}
+                }
+
+?>
+            </div>
+            <!--copy ends -->
+          
+          
+          
+            
+   
+          <div class="clear"></div>
+          
+          <div class="clear"></div>
+        </ul>
+      </div>
+      <div class="clear10"></div>
+      <div class="clear10"></div>
+    </div>
+    
+    <div class="clear10"></div>
+    <div class="clear10"></div>
+    <?php
+    echo $this->partial('premiumads/summarize.phtml',array('postedVars' => $postedVars));
+    echo $this->partial('premiumads/cashin_accruals.phtml',array('postedVars' => $postedVars, 'isPost'=>$isPost));
+    ?>
+    <div class="clear10"></div>
+    <div class="clear10"></div>
+    
+    <div class="clear10"></div>
+    <div class="clear10"></div>
+      <div class="btn01 fright">
+	   <input type="button" value="reset" onclick="javascript:return resetForm('premiumads_form','premiumads')"  />
+	  <input id="premiumads_form_submit" name="premiumads_form_submit" type="submit" onclick="javascript: return isColumnSelected()" value="search" />
+      </div>
+    </form>
+       <div class="clear10"></div>
+      <div class="clear10"></div>
+
+
+
+      
+      <?php if(isset($this->summarizeError)) { ?>
+<div class="userError"><?php echo $this->summarizeError;?></div>
+<?php } ?>
+
+      <?php if(isset ($this->columnsToShow)) {
+      	echo $this->partial('premiumads/result_set.phtml',array('columns' => $this->columnsToShow));
+?>
+<div class="clear10"></div>
+         <?php
+
+         echo $this->paginationControl($this->paginator,
+         'Sliding',
+         'premiumads/pagination.phtml',array('requestUrl' => $this->requestUrl));
+      }
+      ?>                                                        
+                                                               
+       <?php if(isset($postedVars['show_summarize'])) { 
+       	echo $this->partial('premiumads/result_set_summarize.phtml',array('summarizedData' => $this->summarizedData, 'mtd'=>$this->mtd));
+       } // EOF ELSE
+    ?>
+    <script type="text/javascript">
+    function exportToExcelPremiumAds() {
+
+    	document.getElementById('is_export_request').value = 'yes';
+    	jQuery('#premiumads_form').attr('action',BASE_URL+'/premiumads/index');
+    	document.getElementById('premiumads_form').submit();
+    	document.getElementById('is_export_request').value = 'no';
+    }
+</script>

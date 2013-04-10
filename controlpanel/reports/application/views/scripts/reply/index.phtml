@@ -1,0 +1,642 @@
+<?php
+   $fhandle = Zend_Controller_Front::getInstance();
+   $postedVars = $fhandle->getRequest()->getPost();
+   if($postedVars['reply_form_submit'] || ($postedVars['pagination_submit'] == 'yes')) $isPost = true;
+   else $isPost = false;
+
+?>
+  <div class="inner_wrapper">
+   <form
+        action=""
+        name="reply_form"
+        id="reply_form"
+        method="POST" >
+        <input type="hidden" id="section" name="section" value="reply" />
+        <input type="hidden" name="start_rows" id="start_rows" value="1" />
+	 <input type="hidden" name="pagination_submit" id="pagination_submit" value="no" />
+        <input type="hidden" name="is_export_request" id="is_export_request" value="no" />
+    <div class="title">Select columns to show in report
+    <a style="text-decoration: none;" id="visibility_for_columns" name="visibility_for_columns" href="javascript:void(0)"
+           onclick="javscript:toggleVisibility('visibility_for_columns','select_cols','collapse')">-</a>
+    </div>
+    <div class="clear10"></div>
+     <div class="select_cols" id="select_cols" style="display: <?php //echo ($isPost) ? 'none' : ''; ?>">
+      <div class="col1">
+        <ul>
+          <li class="even">
+            <?php echo $this->columns('reply_columns[]','reply_email', $postedVars['reply_columns']);?>
+            Replier E-mail</li>
+          <li class="odd">
+            <?php echo $this->columns('reply_columns[]','reply_date', $postedVars['reply_columns']);?>
+            Reply Date</li>
+          <li class="even">
+            <?php echo $this->columns('reply_columns[]','reply_content', $postedVars['reply_columns']);?>
+            Reply Content</li>
+          <li class="odd">
+            <?php echo $this->columns('reply_columns[]','reply_mobile', $postedVars['reply_columns']);?>
+            Reply Mobile</li>
+          <li class="even">
+            <?php echo $this->columns('reply_columns[]','ad_id', $postedVars['reply_columns']);?>
+            Ad ID</li>
+          <li class="odd">
+            <?php echo $this->columns('reply_columns[]','ad_title', $postedVars['reply_columns']);?>
+            Ad Title</li>
+          <li class="even">
+            <?php echo $this->columns('reply_columns[]','poster_email', $postedVars['reply_columns']);?>
+            Poster E-mail</li>
+          <li class="odd">
+            <?php echo $this->columns('reply_columns[]','ad_created_date', $postedVars['reply_columns']);?>
+            Ad Create Date</li>
+          
+          <li class="even">
+            <?php echo $this->columns('reply_columns[]','reply_poster_id', $postedVars['reply_columns']);?>
+            Reply Poster Id</li>
+          
+           </ul>
+      </div>
+
+      <div class="col2">
+        <ul>
+          <li class="even">
+            <?php echo $this->columns('reply_columns[]','ad_modified_date', $postedVars['reply_columns']);?>
+            Ad Last Update Date</li>
+         
+          <li class="odd">
+            <?php echo $this->columns('reply_columns[]','city_name', $postedVars['reply_columns']);?>
+            City</li>
+          
+          <li class="even">
+            <?php echo $this->columns('reply_columns[]','Ad_locality', $postedVars['reply_columns']);?>
+            Locality</li>
+          
+          
+          <li class="odd">
+            <?php echo $this->columns('reply_columns[]','metacategory_name', $postedVars['reply_columns']);?>
+            Category</li>
+          
+          <li class="even">
+            <?php echo $this->columns('reply_columns[]','subcategory_name', $postedVars['reply_columns']);?>
+            Sub-category</li> 
+          
+          <li class="even">
+            <?php echo $this->columns('reply_columns[]','free_premium_type', $postedVars['reply_columns']);?>
+            Free/Premium</li>
+          
+          <li class="odd">
+            <?php echo $this->columns('reply_columns[]','ad_type', $postedVars['reply_columns']);?>
+            Ad Type (Offering/Want)</li>
+          <li class="even">
+            <?php echo $this->columns('reply_columns[]','ad_status', $postedVars['reply_columns']);?>
+            Status</li>
+          <li class="odd">
+            <?php echo $this->columns('reply_columns[]','reply_user_agent', $postedVars['reply_columns']);?>
+            Reply User agent</li>  
+        </ul>
+      </div>
+      <div class="col3">
+        <ul>
+          <li class="odd">
+            <?php echo $this->columns('reply_columns[]','regular_noclick', $postedVars['reply_columns']);?>
+            Regular/No-click</li>
+          
+          <li class="even">
+            <?php echo $this->columns('reply_columns[]','no_of_images', $postedVars['reply_columns']);?>
+            No. of images</li>
+          <li class="odd">
+            <?php echo $this->columns('reply_columns[]','no_of_visitors', $postedVars['reply_columns']);?>
+            No of visitors</li>
+          
+          <li class="even">
+            <?php echo $this->columns('reply_columns[]','poster_mobile', $postedVars['reply_columns']);?>
+            Poster Mobile</li>
+          
+          <li class="even">
+            <?php echo $this->columns('reply_columns[]','price_type', $postedVars['reply_columns']);?>
+            Price Type</li>
+          <li class="odd">
+            <?php echo $this->columns('reply_columns[]','price_value', $postedVars['reply_columns']);?>
+            Price</li>
+          
+          <li class="even">
+            <?php echo $this->columns('reply_columns[]','premium_ad_type', $postedVars['reply_columns']);?>
+            Premium Ad Type</li>
+          
+          <li class="odd">
+            <?php echo $this->columns('reply_columns[]','ad_delete_date', $postedVars['reply_columns']);?>
+            Ad Delete Date</li>                     
+        </ul>
+      </div>
+      <div class="col4">
+        <ul>
+           <li class="even">
+            <?php echo $this->columns('reply_columns[]','ad_delete_reason', $postedVars['reply_columns']);?>
+            Ad Delete Reason</li>
+          
+          <li class="odd">
+            <?php echo $this->columns('reply_columns[]','Condition', $postedVars['reply_columns']);?>
+            Condition (New/Used)</li>
+          
+          <li class="even">
+            <?php echo $this->columns('reply_columns[]','individual_dealer', $postedVars['reply_columns']);?>
+            Individual/Dealer</li>
+          
+          <li class="even">
+            <?php echo $this->columns('reply_columns[]','brand_name', $postedVars['reply_columns']);?>
+            Brand Name</li>
+          
+          <li class="odd">
+            <?php echo $this->columns('reply_columns[]','no_of_bedrooms', $postedVars['reply_columns']);?>
+            No. of bedrooms</li>
+          
+          <li class="even">
+            <?php echo $this->columns('reply_columns[]','type_of_land', isset($postedVars['reply_columns'])?$postedVars['reply_columns']:'');?>
+            Type of land</li>
+          <li class="odd">
+            <?php echo $this->columns('reply_columns[]','Ad_year_of_make', isset($postedVars['reply_columns'])?$postedVars['reply_columns']:'');?>
+            Year of make</li>
+          <li class="even">
+            <?php echo $this->columns('reply_columns[]','type_of_job', isset($postedVars['reply_columns'])?$postedVars['reply_columns']:'');?>
+            Type of job</li>
+          <!-- only javascript -->
+          <li class="odd">
+            <input type="button" value="Select All" id="check_uncheck" class="chk_box"  onclick="javascript:checkUncheckAllColumns(this.value)" />
+            </li>
+          
+        </ul>
+      </div>
+    </div>
+    <div class="clear10"></div>
+    <div class="clear10"></div>
+    <div class="title">Select Filters
+     <a style="text-decoration: none;" id="visibility_for_filters" name="visibility_for_filters" href="javascript:void(0)"
+           onclick="javscript:toggleVisibility('visibility_for_filters','select_filters','collapse')">-</a>
+    </div>
+    <div class="clear10"></div>
+    <div class="select_filters" id="select_filters">
+      <div class="col1">
+        <ul>
+          <li class="even">
+            <label>Replier E-mail</label>
+            <div class="field">
+               <?php echo $this->equalsContainsExcludes('reply_filter_email_select_ece',
+                      $postedVars['reply_filter_email_select_ece']); ?>
+                <?php echo $this->textBox('reply_filter_email_text',
+                        $postedVars['reply_filter_email_text']); ?>
+            </div>
+          </li>
+          <div class="clear"></div>
+          <li class="odd">
+            <label>Reply Date</label>
+            <div class="field">
+               <?php
+	            if($isPost) {
+                        if(!empty($postedVars['reply_filter_date_from'])) {
+                            $reply_filter_date_from = $postedVars['reply_filter_date_from'];
+                        } else {
+                            $reply_filter_date_from = 'null';
+                        }
+
+                        if(!empty($postedVars['reply_filter_date_to'])) {
+                            $reply_filter_date_to = $postedVars['reply_filter_date_to'];
+                        } else {
+                            $reply_filter_date_to= 'null';
+                        }
+
+                    }else {
+                        //return blank..initial state
+                        $reply_filter_date_from = '';
+                        $reply_filter_date_to = '';
+                    }
+		    ?>
+               <?php echo $this->dateFrom('reply_filter_date_from',
+                        $reply_filter_date_from);?>
+                <?php echo $this->dateTo('reply_filter_date_to',
+                        $reply_filter_date_to);?>
+            </div>
+          </li>
+          <div class="clear"></div>
+          <li class="even">
+            <label>Reply Content</label>
+            <div class="field">
+               <?php echo $this->equalsContainsExcludes('reply_filter_reply_content_ece',
+                      $postedVars['reply_filter_reply_content_ece']); ?>
+                <?php echo $this->textBox('reply_filter_reply_content_text',
+                        $postedVars['reply_filter_reply_content_text']); ?>
+            </div>
+          </li>
+          <div class="clear"></div>
+          <li class="odd">
+            <label>Reply Mobile</label>
+            <div class="field">
+             <?php echo $this->presentNotpresentradio('reply_filter_repliermobile',
+                        $postedVars['reply_filter_repliermobile']);?>  
+            </div>
+          </li>
+          <div class="clear"></div>
+          <li class="even">
+            <label>Reply User Agent</label>
+            <div class="field">
+             <?php echo $this->customPresentNotPresent('reply_filter_reply_useragent',
+                        $postedVars['reply_filter_reply_useragent'],array('Mobile','Web'));?>  
+            </div>
+          </li>
+          <div class="clear"></div>
+          <li class="odd">
+            <label>Ad ID</label>
+            <div class="field">
+               <?php echo $this->textBox('reply_filter_ad_id',$postedVars['reply_filter_ad_id']); ?>
+            </div>
+          </li>
+          <div class="clear"></div>
+          <li class="even">
+            <label>Ad Title</label>
+            <div class="field">
+               <?php echo $this->equalsContainsExcludes('reply_filter_ad_title_select_ece',
+                      $postedVars['reply_filter_ad_title_select_ece']); ?>
+                <?php echo $this->textBox('reply_filter_ad_title_text',
+                        $postedVars['reply_filter_ad_title_text']); ?>
+            </div>
+          </li>
+          <div class="clear"></div>
+          <li class="odd">
+            <label>Ad Delete Reason</label>
+            <div class="field">
+              <?php echo $this->equalsContainsExcludes('reply_filter_addelete_reason_ece',
+                      $postedVars['reply_filter_addelete_reason']); ?>
+              <?php echo $this->textBox('reply_filter_addelete_reason_text',
+                        $postedVars['reply_filter_addelete_reason_text']); ?>
+                
+            </div>
+          </li>
+          <div class="clear"></div>
+          <li class="even">
+            <label>Poster E-mail</label>
+            <div class="field">             
+               <?php echo $this->equalsContainsExcludes('reply_filter_poster_email',
+                      $postedVars['reply_filter_poster_email']); ?>
+                <?php echo $this->textBox('reply_filter_poster_email_text',
+                        $postedVars['reply_filter_poster_email_text']); ?>
+            </div>
+          </li>
+          <div class="clear"></div>
+          <li class="odd">
+            <label>Poster Mobile</label>
+            <div class="field">
+              <?php echo $this->presentNotpresentradio('reply_filter_postermobile',
+                        $postedVars['reply_filter_postermobile']);?>
+            </div>
+          </li>
+          <div class="clear"></div>
+          <li class="even">
+            <label>Ad Create Date</label>
+            <div class="field">
+               <?php
+	            if($isPost) {
+                        if(!empty($postedVars['reply_filter_createdate_from'])) {
+                            $reply_filter_createdate_from = $postedVars['reply_filter_createdate_from'];
+                        } else {
+                            $reply_filter_createdate_from = 'null';
+                        }
+
+                        if(!empty($postedVars['reply_filter_createdate_to'])) {
+                            $reply_filter_createdate_to = $postedVars['reply_filter_createdate_to'];
+                        } else {
+                            $reply_filter_createdate_to= 'null';
+                        }
+
+                    }else {
+                        //return blank..initial state
+                        $reply_filter_createdate_from = '';
+                        $reply_filter_createdate_to = '';
+                    }
+		    ?>
+                <?php echo $this->dateFrom('reply_filter_createdate_from',
+                        $reply_filter_createdate_from);?>
+                <?php echo $this->dateTo('reply_filter_createdate_to',
+                        $reply_filter_createdate_to);?>
+            </div>
+          </li>
+          <div class="clear"></div>
+          <li class="odd">
+            <label>Ad Last Update</label>
+            <div class="field">
+               <?php
+	            if($isPost) {
+                        if(!empty($postedVars['reply_filter_adlastupdate_from'])) {
+                            $reply_filter_adlastupdate_from = $postedVars['reply_filter_adlastupdate_from'];
+                        } else {
+                            $reply_filter_adlastupdate_from = 'null';
+                        }
+
+                        if(!empty($postedVars['reply_filter_adlastupdate_to'])) {
+                            $reply_filter_adlastupdate_to = $postedVars['reply_filter_adlastupdate_to'];
+                        } else {
+                            $reply_filter_adlastupdate_to= 'null';
+                        }
+
+                    }else {
+                        //return blank..initial state
+                        $reply_filter_adlastupdate_from = '';
+                        $reply_filter_adlastupdate_to = '';
+                    }
+		    ?>
+                <?php echo $this->dateFrom('reply_filter_adlastupdate_from',
+                        $reply_filter_adlastupdate_from);?>
+                <?php echo $this->dateTo('reply_filter_adlastupdate_to',
+                        $reply_filter_adlastupdate_to);?>
+            </div>
+          </li>
+          <div class="clear"></div>
+          <li class="even">
+            <label>Ad Delete Date</label>
+            <div class="field">
+               <?php
+	            if($isPost) {
+                        if(!empty($postedVars['reply_filter_addeletedate_from'])) {
+                            $reply_filter_addeletedate_from = $postedVars['reply_filter_addeletedate_from'];
+                        } else {
+                            $reply_filter_addeletedate_from = 'null';
+                        }
+
+                        if(!empty($postedVars['reply_filter_addeletedate_to'])) {
+                            $reply_filter_addeletedate_to = $postedVars['reply_filter_addeletedate_to'];
+                        } else {
+                            $reply_filter_addeletedate_to= 'null';
+                        }
+
+                    }else {
+                        //return blank..initial state
+                        $reply_filter_addeletedate_from = '';
+                        $reply_filter_addeletedate_to = '';
+                    }
+		    ?>
+              <?php echo $this->dateFrom('reply_filter_addeletedate_from',
+                        $reply_filter_addeletedate_from);?>
+                <?php echo $this->dateTo('reply_filter_addeletedate_to',
+                        $reply_filter_addeletedate_to);?> 
+            </div>
+          </li>          
+          <div class="clear"></div>
+          <li class="odd">
+            <label>Free/Premium</label>
+            <div class="field">
+             <?php echo $this->customPresentNotPresent('reply_filter_free_premium',
+                        $postedVars['reply_filter_free_premium'],array('Free','Premium'));?>  
+            </div>
+          </li>
+          <div class="clear"></div>
+        </ul>
+      </div>
+      <div class="col2">
+        <ul>
+          
+          <li class="odd">
+            <label>Premium Ad type</label>
+            <div class="field">
+              <?php echo $this->customPresentNotPresent('reply_filter_premium_ad_type',
+                        $postedVars['reply_filter_premium_ad_type'],array('Top of Page','Urgent'));?>   
+            </div>
+          </li>
+          <div class="clear"></div>
+          <li class="even">
+            <label>No of images</label>
+            <div class="field">
+              <?php echo $this->quantityRange('reply_filter_no_of_images_range',
+                                              $postedVars['reply_filter_no_of_images_range']); ?>
+               <?php echo $this->textBox('reply_filter_no_of_images_text',
+                        $postedVars['reply_filter_no_of_images_text']);?>
+            </div>
+          </li>
+          <div class="clear"></div>
+          <li class="odd">
+            <label>No of visitor</label>
+            <div class="field">
+            <?php echo $this->quantityRange('reply_filter_no_of_visitors_range',
+                                              $postedVars['reply_filter_no_of_visitors_range']); ?>
+               <?php echo $this->textBox('reply_filter_no_of_visitors_text',
+                        $postedVars['reply_filter_no_of_visitors_text']);?>
+            </div>
+          </li>
+          <div class="clear"></div>
+          <li class="even">
+            <label>Price</label>
+            <div class="field">
+             <?php echo $this->quantityRange('reply_filter_price_range',
+                                              $postedVars['reply_filter_price_range']); ?>
+               <?php echo $this->textBox('reply_filter_price_text',
+                        $postedVars['reply_filter_price_text']);?>
+            </div>
+          </li>
+          
+          <div class="clear"></div>
+          <li class="odd">
+            <label>Ad Type</label>
+            <div class="field">
+              <?php echo $this->multiselect('reply_filter_ad_type',$postedVars['reply_filter_ad_type'],array('Offering','Want'),'',''); ?>
+            </div>
+          </li>
+          <div class="clear"></div>
+          <li class="even">
+            <label>Status</label>
+            <div class="field">
+              <?php echo $this->multiselect('reply_filter_status',$postedVars['reply_filter_status'],array('Active','Expire','Flag and Delay','User Deleted','Admin Delete'),'',''); ?>
+            </div>
+          </li>
+           <div class="clear"></div>
+	  <li class="odd">
+            <label>Flag Reason</label>
+            <div class="field">
+	       <?php echo $this->multiselect('reply_filter_flag_reason',$postedVars['reply_filter_flag_reason'],array('Banned word','Paid ad','Payment pending','Duplicated'),'disable',$postedVars['reply_filter_status']); ?>
+            </div>
+          </li>
+          <div class="clear"></div>
+          <div class="clear"></div>
+          <li class="even">
+            <label>Regular/No click</label>
+            <div class="field">
+             <?php echo $this->multiselect('reply_filter_regular',$postedVars['reply_filter_regular'],array('Regular','No-click'),'',''); ?>
+            </div>
+          </li>
+          <div class="clear"></div>
+          <li class="odd">
+            <label>Price Type</label>
+            <div class="field">
+               <?php echo $this->multiselect('reply_filter_price_type',$postedVars['reply_filter_price_type'],array('Numeric','Best offer','Please contact','Barter Exchange','Free'),''); ?>            
+            </div>
+          </li>
+          <div class="clear"></div>
+        </ul>
+      </div>
+      <div class="col3">
+        <ul>
+          <div class="clear"></div>
+          <div class="clear"></div>
+          <li class="odd">
+            <label>City</label>
+            <div class="field">
+              <?php echo $this->cityList('reply_filter_city',$postedVars['reply_filter_city'])?>
+            </div>
+          </li>
+          <div class="clear"></div>
+          <li class="even">
+            <label>Locality</label>
+            <div class="field">
+               <?php echo $this->localityList('reply_filter_localities',$postedVars['reply_filter_localities'],$postedVars['reply_filter_city'])?>
+            </div>
+          </li>
+          <div class="clear"></div>
+          <li class="odd">
+            <label>Category</label>
+            <div class="field">
+                <?php echo $this->metacategoryList('reply_filter_metacat',$postedVars['reply_filter_metacat'],$postedVars['reply_filter_city'])?>
+            </div>
+          </li>
+          <div class="clear"></div>
+          <li class="even">
+            <label>Sub-category</label>
+            <div class="field">
+               <?php echo $this->subcategoryList('reply_filter_subcat',$postedVars['reply_filter_subcat'],$postedVars['reply_filter_metacat'],$postedVars['reply_filter_city'])?>
+            </div>
+          </li>
+          
+            <!--copy from here for displaying attributes, just  change the $class value -->
+            <div id="reply_filter_attributes" name="reply_filter_attributes">
+                <?php
+
+    if(!empty($postedVars['reply_filter_subcat'])) { 
+        $cityId = $postedVars['reply_filter_city'];
+        $subcatId = $postedVars['reply_filter_subcat'];
+    	
+    	if($cityId == 'all') {
+          $sql = 'SELECT text0 FROM babel_meta WHERE globalcatid = "'.$subcatId.'"';
+        } else {
+          $sql = 'SELECT text0 FROM babel_meta WHERE globalcatid = (SELECT a.nod_globalId FROM babel_node as a WHERE a.node_id = "'.$subcatId.'")'; 
+        }
+
+        $objStmt = new Zend_Db_Statement_Pdo(Zend_Registry::get('dbconnection'), $sql);
+        $objStmt->execute();
+        $attrString = $objStmt->fetch();
+        $xmlArr = simplexml_load_string($attrString['text0']);
+        $allowedAttributes = Zend_Registry::get('ALLOWED_ATTRIBUTES');
+        //print_r($xmlArr);
+        
+        $class = 1;
+        foreach($xmlArr as $key => $val) {
+            if(in_array($val->name, $allowedAttributes)) {
+                $attributesArr[] = $val;
+                $caption = (string)$val->name;
+                
+                echo $this->attributes($val->name,$postedVars[$caption], $val->values, $class);
+                $class++;
+            }
+            
+        }
+    }
+
+?>
+            </div>
+            <!--copy ends -->
+          <div class="clear"></div>
+        </ul>
+      </div>
+      <div class="clear10"></div>
+      <div class="clear10"></div>
+    </div>
+    <div class="clear10"></div>
+    <div class="clear10"></div>
+	<div class="title"><input type="checkbox" <?php if($_POST['show_summarize'] == 'on'){ print 'checked'; } ?> id="show_summarize" name="show_summarize" value='on' onchange="javascript:resetSummarize();"> Summarize</div>
+    <div class="clear10"></div>
+    <div class="summarize" id="summarize" style="<?php if($_POST['show_summarize'] != 'on') echo 'display:none'; ?>">
+    	<div class="summarize_inside">
+        	<div class="row">
+                <label>By count of :</label>
+                <div class="field">
+                    <div class="col">
+                        <?php echo $this->summarize('reply_summarize_by_count_of','reply_count',$postedVars['reply_summarize_by_count_of'])?>
+                        <span>Reply Count</span>
+					</div>
+                    
+                    <div class="col">
+                        <?php echo $this->summarize('reply_summarize_by_count_of','replier_count',$postedVars['reply_summarize_by_count_of'])?>
+                        <span>Replier Count</span>
+					</div>
+                     
+                </div>
+            </div>
+            <div class="clear10"></div>
+            <div class="clear10"></div>
+             <div class="row">
+                <label>For Date :</label>
+                <div class="field">
+                    <div class="col">
+                        <?php echo $this->summarize('reply_summarize_for_reply_date','reply_date',$postedVars['reply_summarize_for_reply_date'])?>
+                        <span>Reply Date</span>
+		    </div>
+                    
+                </div>
+            </div>
+            <div class="clear10"></div>
+            <div class="clear10"></div>
+             <div class="row">
+                <label>In intervals of :</label>
+                <div class="field">
+                    <div class="col">
+                         <?php echo $this->summarize('reply_summarize_intervals_of','daily',$postedVars['reply_summarize_intervals_of'])?>
+                        <span>Daily</span>
+					</div>
+                    <div class="col">
+                        <?php echo $this->summarize('reply_summarize_intervals_of','weekly',$postedVars['reply_summarize_intervals_of'])?>
+                        <span>Weekly</span>
+					</div>
+                    <div class="col">
+                        <?php echo $this->summarize('reply_summarize_intervals_of','monthly',$postedVars['reply_summarize_intervals_of'])?>
+                        <span>Monthly</span>
+					</div>
+                    <div class="col">
+                        <?php echo $this->summarize('reply_summarize_intervals_of','yearly',$postedVars['reply_summarize_intervals_of'])?>
+                        <span>Yearly</span>
+		     </div>
+                </div>
+            </div>
+          
+           
+        </div>
+    </div>
+    <div class="clear10"></div>
+    <div class="clear10"></div>
+      <div class="btn01 fright">
+           <input type="button" value="reset" onclick="javascript:return resetForm('reply_form','reply')"  />
+         <input id="reply_form_submit" name="reply_form_submit" type="submit" onclick="javascript: return isColumnSelected()" value="search" />
+      </div>
+   </form>
+      <div class="clear10"></div>
+      <div class="clear10"></div>
+     <?php if(isset($this->summarizeError)) { ?>
+<div class="userError"><?php echo $this->summarizeError;?></div>
+<?php } ?>
+
+      <?php if(isset ($this->columnsToShow)) {
+            echo $this->partial('reply/result_set.phtml',array('columns' => $this->columnsToShow));
+?>
+<div class="clear10"></div>
+         <?php
+
+              echo $this->paginationControl($this->paginator,
+                                    'Sliding',
+                                    'reply/pagination.phtml',array('requestUrl' => $this->requestUrl));
+            }
+      ?>
+
+       <?php if(isset($postedVars['show_summarize'])) {
+               echo $this->partial('reply/result_set_summarize.phtml',array('summarizedData' => $this->summarizedData));
+      } // EOF ELSE
+    ?>
+    <script type="text/javascript">
+	function exportToExcelReply() {
+
+		document.getElementById('is_export_request').value = 'yes';
+		jQuery('#reply_form').attr('action',BASE_URL+'/reply/index');
+		document.getElementById('reply_form').submit();
+		document.getElementById('is_export_request').value = 'no';
+	}
+</script>

@@ -1,0 +1,51 @@
+<body>
+        <div class="logo"><img border="0" width="172" height="93" src="<?php echo IMAGES_URL."/logoBig1.gif";?>" alt=""/></div>
+
+    <?php
+        $h = Zend_Controller_Front::getInstance()->getRequest()->getControllerName();
+        $auth = Zend_Auth::getInstance();
+        $i = explode(",",$auth->getIdentity()->allowed_section_ids);
+        
+    ?>
+<div class="wrapper">
+  <div class="header">
+    <ul>
+            <?php if(in_array("1", $i)) {?>
+      <li class="<?php echo ($h == 'ads') ? 'active' : ''; ?>"><a href="<?php echo BASE_URL?>/ads"><span>Ads/Posters</span></a></li>
+            <?php } 
+            if(in_array("2", $i)) {?>
+      <li class="<?php echo ($h == 'user') ? 'active' : ''; ?>"><a href="<?php echo BASE_URL?>/user"><span>Users</span></a></li>
+            <?php } 
+            if(in_array("3", $i)) {?>
+      <li class="<?php echo ($h == 'reply') ? 'active' : ''; ?>"><a href="<?php echo BASE_URL?>/reply"><span>Replies/Repliers</span></a></li>
+      <?php } 
+            if(in_array("4", $i)) {?>
+      <li class="<?php echo ($h == 'alerts') ? 'active' : ''; ?>"><a href="<?php echo BASE_URL?>/alerts"><span>Alerts</span></a></li>
+      <?php } 
+            if(in_array("5", $i)) {?>
+      <li class="<?php echo ($h == 'search') ? 'active' : ''; ?>"><a href="<?php echo BASE_URL?>/search"><span>Search Keyword</span></a></li>
+      <?php } 
+            if(in_array("6", $i)) {?>
+      
+      <li class="<?php echo ($h == 'premiumads') ? 'active' : ''; ?>"><a href="<?php echo BASE_URL?>/premiumads"><span>Premium Ads</span></a></li>
+      <?php } 
+            if(in_array("7", $i)) {?>
+      
+      <li class="<?php echo ($h == 'premiumpacks') ? 'active' : ''; ?>"><a href="<?php echo BASE_URL?>/premiumpacks"><span>Premium Packs</span></a></li>
+      <?php } 
+      
+            if(in_array("10", $i)) {?>
+      <li class="<?php echo ($h == 'bgs') ? 'active' : ''; ?>"><a href="<?php echo BASE_URL?>/bgs"><span>Bgs</span></a></li>
+      <?php } 
+            if(in_array("8", $i)) {?>
+      
+      <li class="<?php echo ($h == 'settings') ? 'active' : ''; ?>"><a href="<?php echo BASE_URL?>/settings"><span>Settings</span></a></li>
+      
+      <?php }  ?>
+    </ul>
+  </div>
+  <div class="clear"></div>
+  <script type="text/javascript">
+      var BASE_URL = '<?php echo BASE_URL?>';
+  </script>
+  <div id="ajax_msg_div" style="display:none">Please wait ...</div>

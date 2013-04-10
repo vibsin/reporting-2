@@ -1,0 +1,869 @@
+<?php
+$fhandle = Zend_Controller_Front::getInstance();
+$postedVars = $fhandle->getRequest()->getPost();
+if(isset($postedVars['section']) && $postedVars['section']== 'premiumpacks') $isPost = true;
+else $isPost = false;
+
+?>
+   <div class="inner_wrapper">
+    <form
+        action=""
+        name="premiumpacks_form"
+        id="premiumpacks_form"
+        method="POST">
+        <input type="hidden" id="section" name="section" value="premiumpacks" />
+	<input type="hidden" id="premiumpacks_subcat_name" name="premiumpacks_subcat_name" value="" />
+        <input type="hidden" name="start_rows" id="start_rows" value="1" />
+	 <input type="hidden" name="pagination_submit" id="pagination_submit" value="no" />
+        <input type="hidden" name="is_export_request" id="is_export_request" value="no" />
+    <div class="title">Select columns to show in report
+     <a style="text-decoration: none;" id="visibility_for_columns" name="visibility_for_columns" href="javascript:void(0)"
+           onclick="javscript:toggleVisibility('visibility_for_columns','select_cols','collapse')">-</a>
+    </div>
+    
+    <div class="clear10"></div>
+     <div class="select_cols" id="select_cols" style="display: <?php //echo ($isPost) ? 'none' : ''; ?>">
+      <div class="col1">
+        <ul>
+          <li class="even">
+           <?php echo $this->columns('premiumpacks_columns[]','premiumads_user_name', isset($postedVars['premiumpacks_columns'])?$postedVars['premiumpacks_columns']:'');?>
+            User Name</li>
+            <li class="odd">
+            <?php echo $this->columns('premiumpacks_columns[]','premiumads_user_email', isset($postedVars['premiumpacks_columns'])?$postedVars['premiumpacks_columns']:'');?>
+            User email</li>
+            <li class="even">
+           <?php echo $this->columns('premiumpacks_columns[]','premiumads_user_mobile', isset($postedVars['premiumpacks_columns'])?$postedVars['premiumpacks_columns']:'');?>
+            User mobile number</li>            
+        	<li class="odd">
+           <?php echo $this->columns('premiumpacks_columns[]','premiumads_ad_id', isset($postedVars['premiumpacks_columns'])?$postedVars['premiumpacks_columns']:'');?>
+             Ad Id</li>
+              <li class="even">
+            <?php echo $this->columns('premiumpacks_columns[]','premiumads_metacategory_name', isset($postedVars['premiumpacks_columns'])?$postedVars['premiumpacks_columns']:'');?>
+             Category</li>
+             <li class="odd">
+            <?php echo $this->columns('premiumpacks_columns[]','premiumads_subcategory_name', isset($postedVars['premiumpacks_columns'])?$postedVars['premiumpacks_columns']:'');?>
+             Sub-Category</li>
+             <li class="even">
+           <?php echo $this->columns('premiumpacks_columns[]','premiumads_city_name', isset($postedVars['premiumpacks_columns'])?$postedVars['premiumpacks_columns']:'');?>
+             City</li>
+             <li class="odd">
+           <?php echo $this->columns('premiumpacks_columns[]','premiumads_ad_localities', isset($postedVars['premiumpacks_columns'])?$postedVars['premiumpacks_columns']:'');?>
+             Locality</li>
+             
+             
+          <li class="even">
+           <?php echo $this->columns('premiumpacks_columns[]','premiumads_extended_product_type', isset($postedVars['premiumpacks_columns'])?$postedVars['premiumpacks_columns']:'');?>
+             Accrual Type</li>
+      </div>
+      
+       <div class="col2">
+        <ul>
+          <li class="even">
+            <?php echo $this->columns('premiumpacks_columns[]','premiumads_payment_type', isset($postedVars['premiumpacks_columns'])?$postedVars['premiumpacks_columns']:'');?>
+            Payment Mode</li>
+          <li class="odd">
+           <?php echo $this->columns('premiumpacks_columns[]','premiumads_payment_for', isset($postedVars['premiumpacks_columns'])?$postedVars['premiumpacks_columns']:'');?>
+              Premium Ad Type</li>
+              <li class="even">
+            <?php echo $this->columns('premiumpacks_columns[]','premiumads_ad_order_id', isset($postedVars['premiumpacks_columns'])?$postedVars['premiumpacks_columns']:'');?>
+             Premium Ad Order ID</li>
+             <li class="odd">
+           <?php echo $this->columns('premiumpacks_columns[]','premiumads_pack_order_id', isset($postedVars['premiumpacks_columns'])?$postedVars['premiumpacks_columns']:'');?>
+            Pack Order ID</li>
+            
+                         <li class="even">
+           <?php echo $this->columns('premiumpacks_columns[]','premiumads_reseller_pack_order_id', isset($postedVars['premiumpacks_columns'])?$postedVars['premiumpacks_columns']:'');?>
+           Reseller Pack Order ID</li>
+            
+            
+            
+             <li class="odd">
+            <?php echo $this->columns('premiumpacks_columns[]','premiumads_vdu_id', isset($postedVars['premiumpacks_columns'])?$postedVars['premiumpacks_columns']:'');?>
+             Pack ID</li>
+          <li class="even">
+            <?php echo $this->columns('premiumpacks_columns[]','premiumads_vdu_status', isset($postedVars['premiumpacks_columns'])?$postedVars['premiumpacks_columns']:'');?>
+            Pack Status</li>
+            <li class="odd">
+            <?php echo $this->columns('premiumpacks_columns[]','premiumads_vdu_created_date', isset($postedVars['premiumpacks_columns'])?$postedVars['premiumpacks_columns']:'');?>
+            Pack Created Date</li>
+              <li class="even">
+           <?php echo $this->columns('premiumpacks_columns[]','premiumads_ad_order_activated_date', isset($postedVars['premiumpacks_columns'])?$postedVars['premiumpacks_columns']:'');?>
+              Pack Activated Date</li>
+              <li class="odd">
+            <?php echo $this->columns('premiumpacks_columns[]','premiumads_vdu_expiry_date', isset($postedVars['premiumpacks_columns'])?$postedVars['premiumpacks_columns']:'');?>
+             Pack Expiry Date</li> 
+              <li class="even">
+            <?php echo $this->columns('premiumpacks_columns[]','premiumads_ad_order_accounting_date', isset($postedVars['premiumpacks_columns'])?$postedVars['premiumpacks_columns']:'');?>
+            Accounting Date</li> 
+            <li class="odd">
+            <?php echo $this->columns('premiumpacks_columns[]','premiumads_ad_order_refund_accounting_date', isset($postedVars['premiumpacks_columns'])?$postedVars['premiumpacks_columns']:'');?>
+           Refund Accounting Date</li> 
+            <li class="odd">
+            <?php echo $this->columns('premiumpacks_columns[]','premiumads_refund_date', isset($postedVars['premiumpacks_columns'])?$postedVars['premiumpacks_columns']:'');?>
+           Admin Deleted Date</li>
+           <li class="even">
+            <?php echo $this->columns('premiumpacks_columns[]','premiumads_pausestarttime', isset($postedVars['premiumpacks_columns'])?$postedVars['premiumpacks_columns']:'');?>
+           Pack Pause Date</li>
+        </ul>
+      </div>
+      
+     <div class="col3">
+        <ul>
+          <li class="even">
+           <?php echo $this->columns('premiumpacks_columns[]','premiumads_vd_total_credit', isset($postedVars['premiumpacks_columns'])?$postedVars['premiumpacks_columns']:'');?>
+             Size of Pack</li>
+          <li class="odd">
+            <?php echo $this->columns('premiumpacks_columns[]','premiumads_vdu_current_credits_used', isset($postedVars['premiumpacks_columns'])?$postedVars['premiumpacks_columns']:'');?>
+            Number of Credits used</li>
+          <li class="even">
+            <?php echo $this->columns('premiumpacks_columns[]','premiumads_vdu_total_credits_used', isset($postedVars['premiumpacks_columns'])?$postedVars['premiumpacks_columns']:'');?>
+            Total Number of Credits used Till Date</li>
+          <li class="odd">
+            <?php echo $this->columns('premiumpacks_columns[]','premiumads_vd_previous_pack_bool', isset($postedVars['premiumpacks_columns'])?$postedVars['premiumpacks_columns']:'');?>
+            Renewal</li>
+            <li class="even">
+            <?php echo $this->columns('premiumpacks_columns[]','premiumads_vd_previous_pack', isset($postedVars['premiumpacks_columns'])?$postedVars['premiumpacks_columns']:'');?>
+             Renewal-ID</li>
+             <li class="odd">
+            <?php echo $this->columns('premiumpacks_columns[]','premiumads_tpsl_id', isset($postedVars['premiumpacks_columns'])?$postedVars['premiumpacks_columns']:'');?>
+             Tpslid</li>
+             <li class="even">
+            <?php echo $this->columns('premiumpacks_columns[]','attr_you_are', isset($postedVars['premiumpacks_columns'])?$postedVars['premiumpacks_columns']:'');?>
+            Individual/Dealer</li>
+            
+            
+            <li class="odd">
+            <?php echo $this->columns('premiumpacks_columns[]','premiumads_cheque_no', isset($postedVars['premiumpacks_columns'])?$postedVars['premiumpacks_columns']:'');?>
+            Cheque Number</li>
+            
+            <li class="even">
+            <?php echo $this->columns('premiumpacks_columns[]','premiumads_remark', isset($postedVars['premiumpacks_columns'])?$postedVars['premiumpacks_columns']:'');?>
+            Cheque Details</li>
+             <li class="odd">
+            <?php echo $this->columns('premiumpacks_columns[]','premiumads_payment_status', isset($postedVars['premiumpacks_columns'])?$postedVars['premiumpacks_columns']:'');?>
+            Order Payment Status</li>
+            <li class="odd">
+            <?php echo $this->columns('premiumpacks_columns[]','premiumads_order_smb', isset($postedVars['premiumpacks_columns'])?$postedVars['premiumpacks_columns']:'');?>
+            BGS</li>
+            
+            <li class="even">
+            <?php echo $this->columns('premiumpacks_columns[]','premiumads_vdu_force_consume_amount', isset($postedVars['premiumpacks_columns'])?$postedVars['premiumpacks_columns']:'');?>
+            Force Consume Amount</li>
+            
+            
+            <li class="odd">
+            <?php echo $this->columns('premiumpacks_columns[]','premiumads_vdu_remaining_credit', isset($postedVars['premiumpacks_columns'])?$postedVars['premiumpacks_columns']:'');?>
+            Pack Remaining Credits</li>
+            
+            
+        </ul>
+      </div>
+         
+     <div class="col4">
+        <ul>
+        	 <li class="even">
+            <?php echo $this->columns('premiumpacks_columns[]','premiumads_vd_territory_manager_name', isset($postedVars['premiumpacks_columns'])?$postedVars['premiumpacks_columns']:'');?>
+            Territory Manager Name</li>
+        <li class="odd">
+           <?php echo $this->columns('premiumpacks_columns[]','premiumads_vd_telemarketer_tl_name', isset($postedVars['premiumpacks_columns'])?$postedVars['premiumpacks_columns']:'');?>
+              Telemarketer Lead Name</li>
+          <li class="even">
+            <?php echo $this->columns('premiumpacks_columns[]','premiumads_vd_telemarketer_name', isset($postedVars['premiumpacks_columns'])?$postedVars['premiumpacks_columns']:'');?>
+            Telemarketer Name</li>
+             <li class="odd">
+            <?php echo $this->columns('premiumpacks_columns[]','premiumads_amount', isset($postedVars['premiumpacks_columns'])?$postedVars['premiumpacks_columns']:'');?>
+             Gross Amount</li>
+             
+              <li class="even">
+            <?php echo $this->columns('premiumpacks_columns[]','premiumads_net_amount', isset($postedVars['premiumpacks_columns'])?$postedVars['premiumpacks_columns']:'');?>
+             Net Amount</li>
+             
+             
+              <li class="odd">
+            <?php echo $this->columns('premiumpacks_columns[]','premiumads_tax', isset($postedVars['premiumpacks_columns'])?$postedVars['premiumpacks_columns']:'');?>
+             Tax</li>
+             
+             
+             <li class="even">
+            <?php echo $this->columns('premiumpacks_columns[]','premiumads_vd_ro_name', isset($postedVars['premiumpacks_columns'])?$postedVars['premiumpacks_columns']:'');?>
+             RO Name</li>
+             
+             <li class="odd">
+            <?php echo $this->columns('premiumpacks_columns[]','premiumads_user_id', isset($postedVars['premiumpacks_columns'])?$postedVars['premiumpacks_columns']:'');?>
+             User Id</li>
+             
+              <li class="even">
+            <input type="button" value="Select All" id="check_uncheck" class="chk_box"  onclick="javascript:checkUncheckAllColumns(this.value)" />
+            </li> 
+             
+        </ul>
+      </div>
+    </div>
+    
+    
+    <div class="clear10"></div>
+    <div class="clear10"></div>
+    
+    
+    <div class="title">Select Filters
+    <a style="text-decoration: none;" id="visibility_for_filters" name="visibility_for_filters" href="javascript:void(0)"
+           onclick="javscript:toggleVisibility('visibility_for_filters','select_filters','collapse')">-</a>
+    </div>
+    <div class="clear10"></div>
+    <div class="select_filters" id="select_filters">
+      <div class="col1">
+        <ul>
+            <li class="even">
+            <label>City</label>
+            <div class="field">
+              <?php echo $this->cityList('premiumpacks_filter_city',$postedVars['premiumpacks_filter_city'])?>
+            </div>
+          </li>
+          <div class="clear"></div>
+          
+           <li class="odd">
+            <label>Locality</label>
+           <div class="field">
+             <?php echo $this->localityList('premiumpacks_filter_localities',$postedVars['premiumpacks_filter_localities'],$postedVars['premiumpacks_filter_city'])?>
+            </div>
+          </li>
+          <div class="clear"></div>
+          
+          <li class="odd">
+            <label>Category</label>
+            <div class="field">
+              <?php echo $this->metacategoryList('premiumpacks_filter_metacat',$postedVars['premiumpacks_filter_metacat'],$postedVars['premiumpacks_filter_city'])?>
+            </div>
+          </li>
+          <div class="clear"></div>
+          
+          
+          <li class="even">
+            <label>Sub-category</label>
+            <div class="field">
+              <?php echo $this->subcategoryList('premiumpacks_filter_subcat',$postedVars['premiumpacks_filter_subcat'],$postedVars['premiumpacks_filter_metacat'],$postedVars['premiumpacks_filter_city'])?>
+            </div>
+          </li>
+           <div class="clear"></div>
+           
+           
+           <li class="odd">
+            <label>Payment Mode</label>
+            <div class="field">
+	    <?php echo $this->multiselect('premiumpacks_filter_payment_mode',
+                        $postedVars['premiumpacks_filter_payment_mode'],array('Online','Check-Cash','Tanla','Used Credit','AutoRenew'),'','');?>
+	    </div>
+          </li>
+          <div class="clear"></div>
+          <li class="even">
+            <label>Premium Ad Type</label>
+            <div class="field">
+	    <?php 
+
+
+
+	    echo $this->multiselect('premiumads_payment_for',
+                        $postedVars['premiumads_payment_for'],array('Top of Page','Urgent', 'Top of Page + Urgent'));?>
+	    </div>
+          </li>
+          <div class="clear"></div>
+          
+          
+          
+          <li class="odd">
+            <label>Pack Status</label>
+            <div class="field">
+	      <?php echo $this->multiselect('premiumpacks_filter_status',$postedVars['premiumpacks_filter_status'],array('Active','Expire','Flag and Delay','User Deleted','Admin Deleted', 'Zero Credits Remaining', 'Refunded','Paused'),'',''); ?>
+            </div>
+          </li>
+          <div class="clear"></div>
+          
+          
+           <li class="even">
+            <label>Product Type</label>
+            <div class="field">
+	      <?php echo $this->multiselect('premiumads_product_type',
+                        $postedVars['premiumads_product_type'],array('Ad','Packs w/ reseller','Packs w/ reseller distributed')); ?>
+            </div>
+          </li>
+          <div class="clear"></div>
+          
+          
+                     <li class="odd">
+            <label>Payment Status</label>
+            <div class="field">
+	      <?php echo $this->multiselect('premiumpacks_filter_payment_status',$postedVars['premiumpacks_filter_payment_status'],array('Initialize','Pending','Successful','Failure','NoResponse','PaymentAfter3Attempts','ConvertToFreeBeforePayment','Refund','PaymentAdminDeleted'),'',''); ?>
+            </div>
+          </li>
+          <div class="clear"></div>
+            
+          
+          
+        </ul>
+      </div>
+      <div class="col2">
+        <ul>
+            <li class="even">
+                <label>User Email</label>
+                <div class="field">                 
+                 
+                 <?php echo $this->equalsContainsExcludes('premiumpacks_filter_user_email_opts',
+                      $postedVars['premiumpacks_filter_user_email_opts']); ?>
+                <?php echo $this->textBox('premiumpacks_filter_user_email',
+                        $postedVars['premiumpacks_filter_user_email']); ?>
+                </div>
+            </li>
+            <div class="clear"></div>
+           
+            <li class="odd">
+                <label>User Mobile</label>
+                <div class="field">
+                 <?php echo $this->textBox('premiumpacks_filter_user_mobile',$postedVars['premiumpacks_filter_user_mobile']); ?>
+                </div>
+            </li>
+            <div class="clear"></div>
+            
+            
+            <li class="even">
+                <label>User Id</label>
+                <div class="field">
+                 <?php echo $this->textBox('premiumpacks_filter_user_id',$postedVars['premiumpacks_filter_user_id']); ?>
+                </div>
+            </li>
+            <div class="clear"></div>
+            
+            <li class="odd">
+                <label>Pack Order Id</label>
+                <div class="field">
+                 <?php echo $this->textBox('premiumpacks_filter_pack_order_id',$postedVars['premiumpacks_filter_pack_order_id']); ?>
+                </div>
+            </li>
+            <div class="clear"></div>
+          
+            <li class="even">
+                <label>Pack Id</label>
+                <div class="field">
+                 <?php echo $this->textBox('premiumpacks_filter_pack_id',$postedVars['premiumpacks_filter_pack_id']); ?>
+                </div>
+            </li>
+            
+            
+            
+                        <li class="odd">
+                <label>Reseller Pack Order Id</label>
+                <div class="field">
+                 <?php echo $this->textBox('premiumpacks_filter_reseller_pack_order_id',$postedVars['premiumpacks_filter_reseller_pack_order_id']); ?>
+                </div>
+            </li>
+            <div class="clear"></div>
+          
+            <li class="even">
+                <label>Reseller Pack Id</label>
+                <div class="field">
+                 <?php echo $this->textBox('premiumpacks_filterrs_reseller_pack_id',$postedVars['premiumpacks_filterrs_reseller_pack_id']); ?>
+                </div>
+            </li>
+            
+            
+			<li class="odd">
+				<label>Tpsl Id</label>
+				<div class="field">
+				<?php echo $this->textBox('premiumpacks_filter_tpslid',$postedVars['premiumpacks_filter_tpslid']); ?>
+				</div>
+			</li>
+            <div class="clear"></div>
+            
+            
+            
+            <li class="even">
+				<label>Ad Id</label>
+				<div class="field">
+				<?php echo $this->textBox('premiumpacks_filter_adid',$postedVars['premiumpacks_filter_adid']); ?>
+				</div>
+			</li>
+            <div class="clear"></div>
+            <li class="odd">
+				<label>Ad Order Id</label>
+				<div class="field">
+				<?php echo $this->textBox('premiumpacks_filter_adorderid',$postedVars['premiumpacks_filter_adorderid']); ?>
+				</div>
+			</li>
+			<li class="even">
+				<label>Cheque Number </label>
+				<div class="field">
+				<?php echo $this->textBox('premiumpacks_filter_cheque_number',$postedVars['premiumpacks_filter_cheque_number']); ?>
+				</div>
+			</li>
+            <div class="clear"></div>
+            
+            
+			<li class="odd">
+				<label>BGS</label>
+				<div class="field">
+				<?php echo $this->customPresentNotPresent('premiumads_filter_smb',
+				$postedVars['premiumads_filter_smb'],array('Yes','No'));?>     
+				</div>
+			</li>
+			<div class="clear"></div>
+        </ul>
+      </div>
+      <div class="col3">
+        <ul>
+          <div class="clear"></div>
+          
+          
+          <li class="even">
+            <label>Admin deleted date</label>
+            <div class="field">
+	       <?php
+	       if($isPost) {
+	       	if(!empty($postedVars['premiumpacks_filter_admin_deleted_date_from'])) {
+	       		$premiumpacks_filter_admin_created_date_from = $postedVars['premiumpacks_filter_admin_deleted_date_from'];
+	       	} else {
+	       		$premiumpacks_filter_admin_created_date_from = 'null';
+	       	}
+
+	       	if(!empty($postedVars['premiumpacks_filter_admin_deleted_date_to'])) {
+	       		$premiumpacks_filter_admin_created_date_to = $postedVars['premiumpacks_filter_admin_deleted_date_to'];
+	       	} else {
+	       		$premiumpacks_filter_admin_created_date_to= 'null';
+	       	}
+
+	       }else {
+	       	$premiumpacks_filter_admin_created_date_from = '';
+	       	$premiumpacks_filter_admin_created_date_to = '';
+	       }
+		    ?>
+	        <?php echo $this->dateFrom('premiumpacks_filter_admin_deleted_date_from',
+                        $premiumpacks_filter_admin_created_date_from);?>
+                <?php echo $this->dateTo('premiumpacks_filter_admin_deleted_date_to',
+                        $premiumpacks_filter_admin_created_date_to);?>
+            </div>
+          </li>
+          <div class="clear"></div>
+          
+      
+      
+      
+      
+      
+      
+      <li class="odd">
+            <label>Refund Accounting date</label>
+            <div class="field">
+	       <?php
+	       if($isPost) {
+	       	if(!empty($postedVars['premiumpacks_filter_refund_date_from'])) {
+	       		$premiumpacks_filter_refund_date_from = $postedVars['premiumpacks_filter_refund_date_from'];
+	       	} else {
+	       		$premiumpacks_filter_refund_date_from = 'null';
+	       	}
+
+	       	if(!empty($postedVars['premiumpacks_filter_refund_date_to'])) {
+	       		$premiumpacks_filter_refund_date_to = $postedVars['premiumpacks_filter_refund_date_to'];
+	       	} else {
+	       		$premiumpacks_filter_refund_date_to= 'null';
+	       	}
+
+	       }else {
+	       	$premiumpacks_filter_refund_date_from = '';
+	       	$premiumpacks_filter_refund_date_to = '';
+	       }
+		    ?>
+	        <?php echo $this->dateFrom('premiumpacks_filter_refund_date_from',
+                        $premiumpacks_filter_refund_date_from);?>
+                <?php echo $this->dateTo('premiumpacks_filter_refund_date_to',
+                        $premiumpacks_filter_refund_date_to);?>
+            </div>
+          </li>
+          <div class="clear"></div>
+          
+          
+          
+          
+          
+          
+          <li class="even">
+            <label>Accounting date</label>
+            <div class="field">
+	       <?php
+	       if($isPost) {
+	       	if(!empty($postedVars['premiumpacks_filter_accounting_date_from'])) {
+	       		$premiumpacks_filter_accounting_date_from = $postedVars['premiumpacks_filter_accounting_date_from'];
+	       	} else {
+	       		$premiumpacks_filter_accounting_date_from = 'null';
+	       	}
+
+	       	if(!empty($postedVars['premiumpacks_filter_accounting_date_to'])) {
+	       		$premiumpacks_filter_accounting_date_to = $postedVars['premiumpacks_filter_accounting_date_to'];
+	       	} else {
+	       		$premiumpacks_filter_accounting_date_to= 'null';
+	       	}
+
+	       }else {
+	       	$premiumpacks_filter_accounting_date_from = '';
+	       	$premiumpacks_filter_accounting_date_to = '';
+	       }
+		    ?>
+	        <?php echo $this->dateFrom('premiumpacks_filter_accounting_date_from',
+                        $premiumpacks_filter_accounting_date_from);?>
+                <?php echo $this->dateTo('premiumpacks_filter_accounting_date_to',
+                        $premiumpacks_filter_accounting_date_to);?>
+            </div>
+          </li>
+          <div class="clear"></div>
+          
+          
+          <li class="odd">
+            <label>Pack Create Date</label>
+            <div class="field">
+	       <?php
+	       if($isPost) {
+	       	if(!empty($postedVars['premiumpacks_filter_created_date_from'])) {
+	       		$premiumpacks_filter_ad_deleted_from = $postedVars['premiumpacks_filter_created_date_from'];
+	       	} else {
+	       		$premiumpacks_filter_ad_deleted_from = 'null';
+	       	}
+
+	       	if(!empty($postedVars['premiumpacks_filter_created_date_to'])) {
+	       		$premiumpacks_filter_ad_deleted_to = $postedVars['premiumpacks_filter_created_date_to'];
+	       	} else {
+	       		$premiumpacks_filter_ad_deleted_to= 'null';
+	       	}
+
+	       }else {
+	       	//return blank..initial state
+	       	$premiumpacks_filter_ad_deleted_from = '';
+	       	$premiumpacks_filter_ad_deleted_to = '';
+	       }
+		    ?>
+	        <?php echo $this->dateFrom('premiumpacks_filter_created_date_from',
+                        $premiumpacks_filter_ad_deleted_from);?>
+                <?php echo $this->dateTo('premiumpacks_filter_created_date_to',
+                        $premiumpacks_filter_ad_deleted_to);?>
+            </div>
+          </li>
+          <div class="clear"></div>
+          
+          
+          <li class="even">
+            <label>Pack Activated date</label>
+            <div class="field">
+	       <?php
+	       if($isPost) {
+	       	if(!empty($postedVars['premiumpacks_filter_activated_date_from'])) {
+	       		$premiumpacks_filter_activated_date_from = $postedVars['premiumpacks_filter_activated_date_from'];
+	       	} else {
+	       		$premiumpacks_filter_activated_date_from = 'null';
+	       	}
+
+	       	if(!empty($postedVars['premiumpacks_filter_activated_date_to'])) {
+	       		$premiumpacks_filter_activated_date_to = $postedVars['premiumpacks_filter_activated_date_to'];
+	       	} else {
+	       		$premiumpacks_filter_activated_date_to= 'null';
+	       	}
+
+	       }else {
+	       	//return blank..initial state
+	       	$premiumpacks_filter_activated_date_from = '';
+	       	$premiumpacks_filter_activated_date_to = '';
+	       }
+		    ?>
+	        <?php echo $this->dateFrom('premiumpacks_filter_activated_date_from',
+                        $premiumpacks_filter_activated_date_from);?>
+                <?php echo $this->dateTo('premiumpacks_filter_activated_date_to',
+                        $premiumpacks_filter_activated_date_to);?>
+            </div>
+          </li>
+          <div class="clear"></div>
+          
+          
+          <li class="odd">
+            <label>Pack Expired Date</label>
+            <div class="field">
+	       <?php
+	       if($isPost) {
+	       	if(!empty($postedVars['premiumpacks_filter_expiry_date_from'])) {
+	       		$premiumpacks_filter_expiry_date_from = $postedVars['premiumpacks_filter_expiry_date_from'];
+	       	} else {
+	       		$premiumpacks_filter_expiry_date_from = 'null';
+	       	}
+
+	       	if(!empty($postedVars['premiumpacks_filter_expiry_date_to'])) {
+	       		$premiumpacks_filter_expiry_date_to = $postedVars['premiumpacks_filter_expiry_date_to'];
+	       	} else {
+	       		$premiumpacks_filter_expiry_date_to= 'null';
+	       	}
+
+	       }else {
+	       	//return blank..initial state
+	       	$premiumpacks_filter_expiry_date_from = '';
+	       	$premiumpacks_filter_expiry_date_to = '';
+	       }
+		    ?>
+	        <?php echo $this->dateFrom('premiumpacks_filter_expiry_date_from',
+                        $premiumpacks_filter_expiry_date_from);?>
+                <?php echo $this->dateTo('premiumpacks_filter_expiry_date_to',
+                        $premiumpacks_filter_expiry_date_to);?>
+            </div>
+          </li>
+          <div class="clear"></div>
+          
+          
+          <li class="even">
+            <label>Pack Pause Date</label>
+            <div class="field">
+	       <?php
+	       if($isPost) {
+	       	if(!empty($postedVars['premiumpacks_filter_pause_date_from'])) {
+	       		$premiumpacks_filter_pause_date_from = $postedVars['premiumpacks_filter_pause_date_from'];
+	       	} else {
+	       		$premiumpacks_filter_pause_date_from = 'null';
+	       	}
+
+	       	if(!empty($postedVars['premiumpacks_filter_pause_date_to'])) {
+	       		$premiumpacks_filter_pause_date_to = $postedVars['premiumpacks_filter_pause_date_to'];
+	       	} else {
+	       		$premiumpacks_filter_pause_date_to= 'null';
+	       	}
+
+	       }else {
+	       	//return blank..initial state
+	       	$premiumpacks_filter_pause_date_from = '';
+	       	$premiumpacks_filter_pause_date_to = '';
+	       }
+		    ?>
+	        <?php echo $this->dateFrom('premiumpacks_filter_pause_date_from',
+                        $premiumpacks_filter_pause_date_from);?>
+                <?php echo $this->dateTo('premiumpacks_filter_pause_date_to',
+                        $premiumpacks_filter_pause_date_to);?>
+            </div>
+          </li>
+          <div class="clear"></div>
+          
+          <!-- <li class="even">
+            <label>User Deleted date</label>
+            <div class="field"> -->
+	       <?php
+	       /*
+	       if($isPost) {
+	       if(!empty($postedVars['premiumpacks_filter_ad_order_delete_date_from'])) {
+	       $premiumpacks_filter_ad_order_delete_date_from = $postedVars['premiumpacks_filter_ad_order_delete_date_from'];
+	       } else {
+	       $premiumpacks_filter_ad_order_delete_date_from = 'null';
+	       }
+
+	       if(!empty($postedVars['premiumpacks_filter_ad_order_delete_date_to'])) {
+	       $premiumpacks_filter_ad_order_delete_date_to = $postedVars['premiumpacks_filter_ad_order_delete_date_to'];
+	       } else {
+	       $premiumpacks_filter_ad_order_delete_date_to= 'null';
+	       }
+
+	       }else {
+	       //return blank..initial state
+	       $premiumpacks_filter_ad_order_delete_date_from = '';
+	       $premiumpacks_filter_ad_order_delete_date_to = '';
+	       }
+	       ?>
+	       <?php echo $this->dateFrom('premiumpacks_filter_ad_order_delete_date_from',
+	       $premiumpacks_filter_ad_order_delete_date_from); echo $this->dateTo('premiumpacks_filter_ad_order_delete_date_to',
+                        $premiumpacks_filter_ad_order_delete_date_to);*/?>
+         <!--   </div>
+          </li>
+          <div class="clear"></div>-->
+          
+          
+          
+          <li class="odd">
+			<label>Pack Usage Date</label>
+			<div class="field">
+			<?php
+			if($isPost) {
+				if(!empty($postedVars['premiumpacks_filter_usage_date_from'])) {
+					$premiumpacks_filter_usage_date_from = $postedVars['premiumpacks_filter_usage_date_from'];
+				} else {
+					$premiumpacks_filter_usage_date_from = 'null';
+				}
+
+				if(!empty($postedVars['premiumpacks_filter_usage_date_to'])) {
+					$premiumpacks_filter_usage_date_to = $postedVars['premiumpacks_filter_usage_date_to'];
+				} else {
+					$premiumpacks_filter_usage_date_to= 'null';
+				}
+
+			}else {
+				//return blank..initial state
+				$premiumpacks_filter_usage_date_from = '';
+				$premiumpacks_filter_usage_date_to = '';
+			}
+			?>
+			<?php echo $this->dateFrom('premiumpacks_filter_usage_date_from',
+			$premiumpacks_filter_usage_date_from);?>
+			<?php echo $this->dateTo('premiumpacks_filter_usage_date_to',
+			$premiumpacks_filter_usage_date_to);?>
+			</div>
+		</li>
+		
+		<li class="even">
+            <label>Pack size</label>
+            <div class="field">
+              <?php 
+              echo $this->quantityRange('user_filter_pack_size_range',isset($postedVars['user_filter_pack_size_range'])?$postedVars['user_filter_pack_size_range']:'');
+              echo $this->textBox('user_filter_pack_size_text',isset($postedVars['user_filter_pack_size_text'])?$postedVars['user_filter_pack_size_text']:'');?>
+              
+            </div>
+          </li>
+          
+         <li class="odd">
+            <label>Pack Amount</label>
+            <div class="field">
+              <?php 
+              echo $this->quantityRange('user_filter_pack_amount_range',isset($postedVars['user_filter_pack_amount_range'])?$postedVars['user_filter_pack_amount_range']:'');
+              echo $this->textBox('user_filter_pack_amount_text',isset($postedVars['user_filter_pack_amount_text'])?$postedVars['user_filter_pack_amount_text']:'');?>
+              
+            </div>
+          </li>
+		<div class="clear"></div>
+          
+          
+          <!--copy from here for displaying attributes, just  change the $class value -->
+            <div id="premiumpacks_filter_attributes" name="premiumpacks_filter_attributes">
+                <?php
+
+                if(!empty($postedVars['premiumpacks_filter_subcat'])) {
+                	$cityId = $postedVars['premiumpacks_filter_city'];
+                	$subcatId = $postedVars['premiumpacks_filter_subcat'];
+
+                	if($cityId == 'all') {
+                		$sql = 'SELECT text0 FROM babel_meta WHERE globalcatid = "'.$subcatId.'"';
+                	} else {
+                		$sql = 'SELECT text0 FROM babel_meta WHERE globalcatid = (SELECT a.nod_globalId FROM babel_node as a WHERE a.node_id = "'.$subcatId.'")';
+                	}
+
+                	$objStmt = new Zend_Db_Statement_Pdo(Zend_Registry::get('dbconnection'), $sql);
+                	$objStmt->execute();
+                	$attrString = $objStmt->fetch();
+                	$xmlArr = simplexml_load_string($attrString['text0']);
+                	$allowedAttributes = Zend_Registry::get('ALLOWED_ATTRIBUTES');
+                	//print_r($xmlArr);
+
+                	$class = 1;
+                	foreach($xmlArr as $key => $val) {
+                		if(in_array($val->name, $allowedAttributes)) {
+                			$attributesArr[] = $val;
+                			$caption = (string)$val->name;
+
+                			echo $this->attributes($val->name,$postedVars[$caption], $val->values, $class);
+                			$class++;
+                		}
+
+                	}
+                }
+
+?>
+            </div>
+            <!--copy ends -->
+          
+          
+          
+            
+   
+          <div class="clear"></div>
+          
+          <div class="clear"></div>
+        </ul>
+      </div>
+      
+      
+      
+      
+      
+      
+      
+   
+      
+      
+      
+      
+      
+      
+      
+    
+    
+    
+    
+    
+    
+
+      
+      
+    </div>
+    
+    
+    
+    <?php 
+
+
+    echo $this->partial('premiumpacks/summarize.phtml',array('postedVars' => $postedVars));
+    
+    $auth = Zend_Auth::getInstance();
+    $usertype = $auth->getIdentity()->user_type;
+    if($usertype != "ro") {
+        echo $this->partial('premiumpacks/cashin_accruals.phtml',array('postedVars' => $postedVars, 'isPost'=>$isPost));
+    }
+
+    ?>
+      
+      
+      
+      
+    
+    
+    <div class="clear10"></div>
+    <div class="clear10"></div>
+    
+    <div class="clear10"></div>
+    <div class="clear10"></div>
+            <div class="btn01 fright">
+	   <input type="button" value="reset" onclick="javascript:return resetForm('premiumpacks_form','premiumpacks')"  />
+	  <input id="premiumpacks_form_submit" name="premiumpacks_form_submit" type="submit" onclick="javascript: return isColumnSelected()" value="search" />
+      </div>
+    </form>
+       <div class="clear10"></div>
+      <div class="clear10"></div>
+
+
+
+      
+      <?php if(isset($this->summarizeError)) { ?>
+<div class="userError"><?php echo $this->summarizeError;?></div>
+<?php } ?>
+
+      <?php if(isset ($this->columnsToShow)) {
+      	echo $this->partial('premiumpacks/result_set.phtml',array('columns' => $this->columnsToShow));
+?>
+<div class="clear10"></div>
+         <?php
+
+         echo $this->paginationControl($this->paginator,
+         'Sliding',
+         'premiumpacks/pagination.phtml',array('requestUrl' => $this->requestUrl));
+      }
+      ?>                                                        
+                                                               
+       <?php if(isset($postedVars['show_summarize'])) { 
+       	echo $this->partial('premiumpacks/result_set_summarize.phtml',array('summarizedData' => $this->summarizedData, 'mtd'=>$this->mtd));
+       } // EOF ELSE
+    ?>
+    
+
+   
+    <script type="text/javascript">
+    function exportToExcelpremiumpacks() {
+
+    	document.getElementById('is_export_request').value = 'yes';
+    	jQuery('#premiumpacks_form').attr('action',BASE_URL+'/premiumpacks/index');
+    	document.getElementById('premiumpacks_form').submit();
+    	document.getElementById('is_export_request').value = 'no';
+    }
+</script>

@@ -1,0 +1,52 @@
+<style type="text/css">
+    .followTab {
+        width:99%;
+        border: 3px solid black;
+        -moz-border-radius: 15px 15px 15px 15px;
+        text-align: center;
+        position: fixed;
+        height: 50px;
+        background-color: #fcefa1;
+        padding-top: 10px;
+        margin: 0px 5px 0px 5px;
+        z-index: 0;
+        opacity: 0.85;
+}
+.close_followTab {
+    float:right;
+    margin-right: 5px;
+
+}
+
+</style>
+
+<script type="text/javascript">
+    function closeFollowTab() {
+        jQuery(".followTab").hide('slow');
+    }
+
+</script>
+
+
+<?php
+
+$obj = new Quikr_SolrIndex();
+$r = $obj->checkSolr();
+if($r == false) {
+?>
+<div class="followTab">
+    <span class="close_followTab"><a href="javascript:void(0)" onclick="javascript:closeFollowTab()">close</a></span>
+    <h1>Solr Server is not running on port <?php echo SOLR_PORT;?>. Please contact system administrator to start Solr server.</h1>
+    <div style="clear: both"></div>
+</div>
+<?php } 
+
+
+if($_GET["show_matching"] == "1") {?>
+<div class="followTab">
+    <span class="close_followTab"><a href="javascript:void(0)" onclick="javascript:closeFollowTab()">close</a></span>
+    <h1>Showing Matching Ads</h1>
+    <div style="clear: both"></div>
+</div>
+    <?php
+}

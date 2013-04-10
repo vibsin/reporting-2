@@ -1,0 +1,69 @@
+
+       <div class="clear10"></div>
+    <div class="clear10"></div>
+    <div class="title">&nbsp;&nbsp;<input type="checkbox" <?php if($_POST['show_cashin'] == 'on'){ print 'checked'; } ?> id="show_cashin" name="show_cashin" onchange="javascript:resetCashin();" value="on" /> Cash-in/Accruals</div>
+    <div class="clear10"></div>
+     <div class="summarize" id="cashin" style="<?php if($_POST['show_cashin'] != 'on') echo 'display:none'; ?>">
+    	<div class="summarize_inside">
+        	<div class="row select_filters">
+        	<ul>
+        	<li class="even">
+                <label>Date range :</label>
+                            <div class="field">
+	       <?php
+	       if($this->isPost) {
+	       	if(!empty($this->postedVars['cashin_date_from'])) {
+	       		$premiumpacks_filter_ad_deleted_from = $this->postedVars['cashin_date_from'];
+	       	} else {
+	       		$premiumpacks_filter_ad_deleted_from = 'null';
+	       	}
+
+	       	if(!empty($this->postedVars['cashin_date_to'])) {
+	       		$premiumpacks_filter_ad_deleted_to = $this->postedVars['cashin_date_to'];
+	       	} else {
+	       		$premiumpacks_filter_ad_deleted_to= 'null';
+	       	}
+
+	       }else {
+	       	//return blank..initial state
+	       	$premiumpacks_filter_ad_deleted_from = '';
+	       	$premiumpacks_filter_ad_deleted_to = '';
+	       }
+		    ?>
+	        <?php echo $this->dateFrom('cashin_date_from',
+                        $premiumpacks_filter_ad_deleted_from);?>
+                <?php echo $this->dateTo('cashin_date_to',
+                        $premiumpacks_filter_ad_deleted_to);?>
+            </div>
+                        
+            </li>
+            
+            <li class="even">
+            <label>Report type :</label>
+            <div class="field">
+            <span class="radio"><input type="radio" name="cashin_accruals_radio" value="cashin" <?php echo $_POST["cashin_accruals_radio"]=="cashin"?"checked":"";?>>Cashin</span>
+                <span class="radio"><input type="radio" name="cashin_accruals_radio" value="accruals" <?php echo $_POST["cashin_accruals_radio"]=="accruals"?"checked":"";?>>Accruals</span>	    	    </div>
+          </li>
+          
+          
+            </ul>
+            
+            </div>
+            </div>
+
+            <div class="clear10"></div>
+            <div class="clear10"></div>
+
+            
+            </div>
+       
+    
+    <div class="clear10"></div>
+    <div class="clear10"></div>
+    
+
+      
+      
+      
+      
+      

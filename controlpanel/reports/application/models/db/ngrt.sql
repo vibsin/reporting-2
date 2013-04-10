@@ -1,0 +1,14 @@
+DROP TABLE IF EXISTS "admin";
+CREATE TABLE "admin" ("id" INTEGER PRIMARY KEY  AUTOINCREMENT  NOT NULL  UNIQUE , "allowed_section_ids" VARCHAR NOT NULL , "username" VARCHAR NOT NULL UNIQUE , "password" VARCHAR NOT NULL , "salt" VARCHAR NOT NULL, "user_type" VARCHAR NOT NULL, "created_time" DATETIME NOT NULL , "modified_time" DATETIME NOT NULL , "last_login_time" DATETIME NULL , "no_of_logins" INTEGER NOT NULL  DEFAULT 0, "is_active" INTEGER NOT NULL  DEFAULT 0);
+INSERT INTO "admin" VALUES(1,'1,2,3,4,5,6,7,8','admin','7c9bd4bee280fb112616b67a3628db9d','@ngrt#','admin','02-01-2012 12:15:08','02-01-2012 12:15:08','02-01-2012 15:56:39',9,0);
+INSERT INTO "admin" VALUES(2,'1,2,3','user1','e607ec2be2def7b72d0fc12849cdd409','@ngrt#','user','02-01-2012 12:19:29','02-01-2012 12:19:29','02-01-2012 15:03:29',3,0);
+DROP TABLE IF EXISTS "sections";
+CREATE TABLE "sections" ("id" INTEGER PRIMARY KEY  AUTOINCREMENT  NOT NULL  UNIQUE , "caption" VARCHAR);
+INSERT INTO "sections" VALUES(1,'ads');
+INSERT INTO "sections" VALUES(2,'users');
+INSERT INTO "sections" VALUES(3,'reply');
+INSERT INTO "sections" VALUES(4,'alerts');
+INSERT INTO "sections" VALUES(5,'search');
+INSERT INTO "sections" VALUES(6,'premiumads');
+INSERT INTO "sections" VALUES(7,'premiumpacks');
+INSERT INTO "sections" VALUES(8,'settings');

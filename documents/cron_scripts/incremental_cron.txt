@@ -1,0 +1,43 @@
+#########incremental script for reporting
+0 0 * * * /usr/local/php/bin/php /home/reporting/controlpanel/reports/application/indexing_scripts/Searchindexing.php NEWEST 1
+0 0 * * * /usr/local/php/bin/php /home/reporting/controlpanel/reports/application/indexing_scripts/Alertsindexing.php UNSUBSCRIBE 1
+0 0 * * * /usr/local/php/bin/php /home/reporting/controlpanel/reports/application/indexing_scripts/Alertsindexing.php NEWEST 1
+0 1 * * * /usr/local/php/bin/php /home/reporting/controlpanel/reports/application/indexing_scripts/Replyindexing.php NEWEST 1
+#0 5 * * * /usr/local/php/bin/php /home/reporting/controlpanel/reports/application/indexing_scripts/DeletedAdsindexing.php NEWEST 1
+#0 6 * * * /usr/local/php/bin/php /home/reporting/controlpanel/reports/application/indexing_scripts/Adsindexing.php NEWEST 1
+0 9 * * * /usr/local/php/bin/php /home/reporting/controlpanel/reports/application/indexing_scripts/Userindexing.php NEWEST 1
+0 11 * * * /usr/local/php/bin/php /home/reporting/controlpanel/reports/application/indexing_scripts/BgsIndexing.php NEWEST 1
+
+
+
+#premium ads indexing script
+45 9 * * * /usr/local/php/bin/php /home/reporting/controlpanel/reports/application/indexing_scripts/PremiumAdsindexing.php REMAPPED 2
+0 10 * * * /usr/local/php/bin/php /home/reporting/controlpanel/reports/application/indexing_scripts/PremiumAdsindexing.php NEWEST 1
+30 10 * * * /usr/local/php/bin/php /home/reporting/controlpanel/reports/application/indexing_scripts/PremiumAdsindexing.php NEWESTUPDATE 1
+45 10 * * * /usr/local/php/bin/php /home/reporting/controlpanel/reports/application/indexing_scripts/PremiumAdsindexing.php REFUNDED 1
+0 11 * * * /usr/local/php/bin/php /home/reporting/controlpanel/reports/application/indexing_scripts/PremiumAdsindexing.php PAIDTOFREE 1
+30 11 * * * /usr/local/php/bin/php /home/reporting/controlpanel/reports/application/indexing_scripts/PremiumAdsindexing.php CHECKAUTORENEW 1
+45 11 * * * /usr/local/php/bin/php /home/reporting/controlpanel/reports/application/indexing_scripts/PremiumAdsindexing.php UNCHECKAUTORENEW 1
+0 12 * * * /usr/local/php/bin/php /home/reporting/controlpanel/reports/application/indexing_scripts/PremiumAdsindexing.php EXPIREDPACKAD 1
+0 13 * * * /usr/local/php/bin/php /home/reporting/controlpanel/reports/application/indexing_scripts/PremiumAdsindexing.php EXPIREDPACK 1
+
+
+#########optimize solr
+#0 12 * * 0 /usr/local/php/bin/php /home/reporting/controlpanel/reports/application/indexing_scripts/OptimizeSolr.php
+
+########cleanup cron
+30 23 * * * /bin/sh /home/reporting/controlpanel/reports/application/utilities/cleanup_crons/clean_csv_folder.sh
+30 23 * * * /bin/sh /home/reporting/controlpanel/reports/application/utilities/cleanup_crons/clean_cron_log.sh
+
+#######RABBITMQ consumers
+##ALERTS
+*/1 * * * * /bin/sh /home/reporting/controlpanel/reports/application/utilities/background_script_checkers/rabbitmq_alerts.sh
+
+##Ads
+*/1 * * * * /bin/sh /home/reporting/controlpanel/reports/application/utilities/background_script_checkers/RabbitMqController.sh
+
+##send deleted alerts mail
+0 23 * * * /usr/local/php/bin/php /home/reporting/controlpanel/reports/application/log/mailer/send_deleted_alerts_mail.php
+
+##send system health report
+0 14 * * * /usr/local/php/bin/php /home/reporting/controlpanel/reports/application/log/mailer/send_system_heath_report.php

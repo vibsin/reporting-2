@@ -1,0 +1,292 @@
+<?php
+$fhandle = Zend_Controller_Front::getInstance();
+   $postedVars = $this->posts;
+   
+   if($postedVars['search_form_submit'] || ($postedVars['pagination_submit'] == 'yes')) $isPost = true;
+   else $isPost = false;
+
+ ?>
+
+<div class="inner_wrapper">
+
+    <form
+        action=""
+        name="search_form"
+        id="search_form"
+        method="POST" >
+        <input type="hidden" id="section" name="section" value="search" />
+        <input type="hidden" name="start_rows" id="start_rows" value="1" />
+        <input type="hidden" name="pagination_submit" id="pagination_submit" value="no" />
+        <input type="hidden" name="is_export_request" id="is_export_request" value="no" />
+        <input type="hidden" name="special_checkbox_for_count" id="special_checkbox_for_count" value="" />
+        
+    <div class="title" style="display: none;visibility:hidden;" >Select columns to show in report
+
+        <a style="text-decoration: none;" id="visibility_for_columns" name="visibility_for_columns" href="javascript:void(0)"
+           onclick="javscript:toggleVisibility('visibility_for_columns','select_cols','collapse')">-</a>
+
+    </div>
+    <div class="clear10"></div>
+    <div class="select_cols" id="select_cols" style="display: none;visibility:hidden;">
+      <div class="col1">
+        <ul>
+          <li class="even"><?php echo $this->columns('search_columns[]','keyword', $postedVars['search_columns']);?> Keyword</li>
+          <li class="odd"><?php echo $this->columns('search_columns[]','meta_category', $postedVars['search_columns']);?> Category</li>
+        </ul>
+      </div>
+        
+      <div class="col2">
+        <ul>
+          <li class="even"><?php echo $this->columns('search_columns[]','sub_category', $postedVars['search_columns']);?> Sub-category</li>
+          <li class="odd"><?php echo $this->columns('search_columns[]','city', $postedVars['search_columns']);?> City</li>
+        </ul>
+      </div>
+
+      <div class="col3">
+        <ul>
+          <li class="even"><?php echo $this->columns('search_columns[]','search_date', $postedVars['search_columns']);?> Search Date</li>
+          <li class="odd"><?php echo $this->columns('search_columns[]','search_count', $postedVars['search_columns']);?> Search Count</li>
+        </ul>
+      </div>
+      <div class="col4">
+        <ul>
+          <li class="even"><?php echo $this->columns('search_columns[]','no_of_results', $postedVars['search_columns']);?> No. of Results</li>
+        </ul>
+      </div>
+    </div>
+    <div class="clear10" style="display: none;visibility:hidden;"></div>
+    <div class="clear10" style="display: none;visibility:hidden;"></div>
+    <div class="title">Select Filters
+        <a style="text-decoration: none;" id="visibility_for_filters" name="visibility_for_filters" href="javascript:void(0)"
+           onclick="javscript:toggleVisibility('visibility_for_filters','select_filters','collapse')">-</a>
+        </div>
+    <div class="clear10"></div>
+    <div class="select_filters" id="select_filters" style="display: <?php //echo ($isPost) ? 'none' : ''; ?>">
+      <div class="col1">
+        <ul>
+          <li class="even">
+            <label>Keyword</label>
+            <div class="field">
+              <?php echo $this->equalsContainsExcludes('search_filter_keyword_select_ece',
+                      $postedVars['search_filter_keyword_select_ece']); ?>
+                <?php echo $this->textBox('search_filter_keyword_text',
+                        $postedVars['search_filter_keyword_text']); ?>
+            </div>
+          </li>
+          <div class="clear"></div>
+          
+          <li class="odd">
+            <label>No. of Results</label>
+            <div class="field">
+              <?php echo $this->quantityRange('search_filter_no_of_results_range',
+                        $postedVars['search_filter_no_of_results_range']);?>
+              <?php echo $this->textBox('search_filter_no_of_results_text',
+                        $postedVars['search_filter_no_of_results_text']);?>
+            </div>
+          </li>
+          <div class="clear"></div>
+        </ul>
+      </div>
+      <div class="col2">
+        <ul>
+
+            <li class="even">
+            <label>City</label>
+            <div class="field">
+              <?php echo $this->cityList('search_filter_city',$postedVars['search_filter_city'])?>
+            </div>
+          </li>
+          <div class="clear"></div>
+
+          <li class="odd">
+            <label>Category</label>
+            <div class="field">
+              <?php echo $this->metacategoryList('search_filter_metacat',$postedVars['search_filter_metacat'],$postedVars['search_filter_city'])?>
+            </div>
+          </li>
+          <div class="clear"></div>
+
+          <li class="even">
+            <label>Sub-category</label>
+            <div class="field">
+              <?php echo $this->subcategoryList('search_filter_subcat',$postedVars['search_filter_subcat'],$postedVars['search_filter_metacat'],$postedVars['search_filter_city'])?>
+            </div>
+          </li>
+          <div class="clear"></div>
+
+        </ul>
+      </div>
+      <div class="col3">
+        <ul>
+          <li class="even">
+            <label>Search Date</label>
+            <div class="field">
+                <?php //echo $this->dateFrom('search_filter_searchdate_from',
+                        //$postedVars['search_filter_searchdate_from']);?>
+                <?php //echo $this->dateTo('search_filter_searchdate_to',
+                        //$postedVars['user_filter_searchdate_to']);?>
+                        
+                        
+                <?php
+                    if($isPost) {
+                        
+                        if(!empty($postedVars['search_filter_searchdate_from'])) {
+                            $search_filter_searchdate_from = $postedVars['search_filter_searchdate_from'];
+                        } else {
+                            $search_filter_searchdate_from = 'null';
+                        }
+
+                        if(!empty($postedVars['search_filter_searchdate_to'])) {
+                            $search_filter_searchdate_to = $postedVars['search_filter_searchdate_to'];
+                        } else {
+                            $search_filter_searchdate_to = 'null';
+                        }
+
+                    }else {
+                        
+                        //return blank..initial state
+                        $search_filter_searchdate_from = '';
+                        $search_filter_searchdate_to = '';
+                    }
+
+
+                ?>
+
+                <?php echo $this->dateFrom('search_filter_searchdate_from', $search_filter_searchdate_from);?>
+                <?php echo $this->dateTo('search_filter_searchdate_to',$search_filter_searchdate_to);?>
+            </div>
+          </li>
+          <div class="clear"></div>
+          <li class="odd">
+            <label>Search Count (min)</label>
+            <div class="field">
+              <?php //echo $this->quantityRange('search_filter_searchcount_range', $postedVars['search_filter_searchcount_range']);?>
+              <?php echo $this->textBox('search_filter_searchcount_text',
+                        $postedVars['search_filter_searchcount_text']);?>
+            </div>
+          </li>
+          <div class="clear"></div>
+        </ul>
+      </div>
+      <div class="clear10"></div>
+      <div class="clear10"></div>
+    </div>
+    <div class="clear10"></div>
+    <div class="clear10"></div>
+	<div class="title">
+<?php
+    if(isset($postedVars['show_summarize'])) {
+        $checked= 'checked="checked"';
+        $sumDisplay = '';
+    } else {
+        $checked = '';
+        $sumDisplay = 'none';
+    }
+?>
+<?php
+/**
+Vibhor:Summarize is not applicable in Search section
+<input <?php echo $checked;?> type="checkbox" id="show_summarize" name="show_summarize" onchange="javascript:resetSummarize()"> Summarize</div>
+*/?>
+</div>
+<div class="clear10"></div>
+    <div class="summarize" id="summarize" style="display:<?php echo $sumDisplay;?>;">
+    	<div class="summarize_inside">
+        	<div class="row">
+                <label>By Count of:</label>
+                <div class="field">
+                    <div class="col">
+                        <?php echo $this->summarize('search_summarize_by_count_of','search_count',$postedVars['search_summarize_by_count_of'])?>
+                        <span>Search Count</span>
+                    </div>
+                </div>
+            </div>
+            <div class="clear10"></div>
+            <div class="clear10"></div>
+        	<div class="row">
+                <label>For Date :</label>
+                <div class="field">
+                    <div class="col">
+                    <?php echo $this->summarize('search_summarize_for_date','search_search_date',$postedVars['search_summarize_for_date'])?>
+                    <span>Search Date</span>
+                    </div>
+            </div>
+                </div>
+            <div class="clear10"></div>
+            <div class="clear10"></div>
+
+
+            <div class="row">
+                <label>In intervals of:</label>
+                <div class="field">
+                    <div class="col">
+                        <?php echo $this->summarize('search_summarize_intervals_of','daily',$postedVars['search_summarize_intervals_of'])?>
+                        <span>Daily</span>
+					</div>
+                    <div class="col">
+                        <?php echo $this->summarize('search_summarize_intervals_of','weekly',$postedVars['search_summarize_intervals_of'])?>
+                        <span>Weekly</span>
+					</div>
+                    <div class="col">
+                        <?php echo $this->summarize('search_summarize_intervals_of','monthly',$postedVars['search_summarize_intervals_of'])?>
+                        <span>Monthly</span>
+					</div>
+                    <div class="col">
+                        <?php echo $this->summarize('search_summarize_intervals_of','yearly',$postedVars['search_summarize_intervals_of'])?>
+                        <span>Yearly</span>
+					</div>
+                </div>
+            </div>
+
+            
+        </div>
+    </div>
+    <div class="clear10"></div>
+    <div class="clear10"></div>
+      <div class="btn01 fright">
+          <input type="button" value="reset" onclick="javascript:return resetForm('search_form','search')"  />
+        <input id="search_form_submit" name="search_form_submit" type="submit" onclick="javascript: return isColumnSelected()" value="search" />
+      </div>
+      <div class="clear10"></div>
+      <div class="clear10"></div>
+    </form>
+<!-- summarize ends -->
+<?php if(isset($this->summarizeError)) { ?>
+<div class="userError"><?php echo $this->summarizeError;?></div>
+<?php } ?>
+    <?php if(isset ($this->columnsToShow)) {
+            echo $this->partial('search/result_set.phtml',array('columns' => $this->columnsToShow));
+?>
+<div class="clear10"></div>
+<?php
+            //print_r($this->paginator);
+            echo $this->paginationControl($this->paginator,
+
+                                    'Sliding',
+
+                                    'search/pagination.phtml',array('requestUrl' => $this->requestUrl));
+         } ?>
+
+
+<?php if(isset($postedVars['show_summarize']) && isset($this->summarizedData)) { 
+    echo $this->partial('search/result_set_summarize.phtml',array('summarizedData' => $this->summarizedData));
+    } ?>
+
+  </div>
+  
+  <script type="text/javascript">
+//	jQuery(document).ready(function () {
+//            //var ddvalue = jQuery('#search_filter_searchcount_range').val();
+//           jQuery('#search_filter_searchcount_range').attr('onchange','javascript:disableColumnSelection(this.value,\'search_filter_searchcount_text\')'); 
+//        });
+        
+        
+        function exportToExcelAlerts() {
+		
+		document.getElementById('is_export_request').value = 'yes';
+		jQuery('#search_form').attr('action',BASE_URL+'/search/index');
+		document.getElementById('search_form').submit();
+		document.getElementById('is_export_request').value = 'no';
+		
+	}
+</script>

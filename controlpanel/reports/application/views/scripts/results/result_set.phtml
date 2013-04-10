@@ -1,0 +1,155 @@
+<?php
+   $user_reports = '';
+  if($_POST['user_form_submit']=='search')
+   {
+       $columns = $_POST['user_columns'];      
+       $solr = new Model_Solr();
+       $user_reports = $solr->getUserDetailsFromSolr($_POST);
+
+   if(is_array($user_reports))
+   {
+?>
+
+<div class="dataGrid report">
+      <div class="gridRow rowHead">
+        <?php
+         $csv = '';
+         foreach($columns as $key=>$val)
+          {
+              $k =$key+1;
+              $csv .= ucfirst($val).",";
+              print "<div class=\"c$k\">".ucfirst($val)."</div>";
+          }
+              $csv = rtrim($csv,",")."\n";
+        ?>
+      </div>
+      <?php
+       foreach($user_reports['items'] as $cnt=>$Reportvalue)
+       {
+           if(($cnt+1)%2==1)
+           {
+             $col = 'rowOdd';
+           }
+           else
+           {
+             $col = 'rowEven';
+           }
+      ?>
+      <div class="gridRow <?php print $col; ?>">
+        <?php for($i=0; $i < count($columns); $i++) {
+            $va = trim($columns[$i]);
+             $num = $i+1;
+             $csv .= $Reportvalue->$va.",";
+             if($num == count($columns))
+             {
+                  $csv = rtrim($csv,",");
+                  $csv .= "\n";
+             }
+       ?>       
+        <div class="<?php print c.$num; ?>"><?php print $Reportvalue->$va; ?></div>
+         <?php } ?>
+      </div>
+      <?php }
+            // echo $csv;
+         ?>
+    </div>
+    <div class="clear10"></div>
+
+    <div class="btn01 fleft">
+      <form action='' method='post'>
+      <input type='hidden' name='csv_data' value='<?php print $csv; ?>' />
+      <input type='hidden' name='export_csv' value='set' />
+      <input type="submit" value="Export to Excel file" />
+      </form>
+    </div>
+    <div class="clear10"></div>
+    <div class="clear10"></div>
+    <!-- summrize section -->
+    <?php if($_POST['user_summarize_by_count_of'][0] == 'user_count')
+     {
+    ?>
+    <div class="dataGrid_01 report">
+      <div class="gridRow rowHead">
+      <?php
+    if($_POST['show_summarize'] == 'on')
+    {
+       $summarry = array();
+       if($_POST[user_summarize_for_date][0] == 'user_reg_date' && $_POST['user_summarize_intervals_of'][0] =='')
+        {
+            $summarry['usercount'] = $user_reports['count'];
+            $summarry['registration_date'] = $_POST['user_filter_regdate_from'].' TO '.$_POST['user_filter_regdate_to'];   
+        }
+        elseif($_POST[user_summarize_for_date][0] == 'user_last_login_date' && $_POST['user_summarize_intervals_of'][0] =='')
+        {
+            $summarry['usercount'] = $user_reports['count'];
+            $summarry['last_login_date'] = $_POST['user_filter_lastlogin_from'].' TO '.$_POST['user_filter_lastlogin_to'];   
+        }
+        elseif($_POST[user_summarize_for_date][0] == 'user_reg_date' && $_POST['user_summarize_intervals_of'][0] !='')
+        {
+            if($_POST['user_summarize_intervals_of'][0] == 'daily')
+            { 
+                $startDate = strtotime($_POST['user_filter_regdate_from']);
+                $stopdate  = strtotime($_POST['user_filter_regdate_to']);
+                $solr->getUserSummarizeDetails();
+               // $solr->getDailySummary($user_reports['items'],$startDate,$stopdate);
+                //print_r($solr->getWeeklySummary($user_reports['items'],$startDate,$stopdate));
+            }
+           
+        }
+
+      if(is_array($summarry) && $summarry['usercount']!='')
+      {
+            $csv_summarize = '';
+            $q = 0;
+            foreach($summarry as $x=>$f)
+            {
+             $csv_summarize .= ucfirst($x).","; 
+             $q++; 
+      ?>
+        <div class="c<?php print $q; ?>"><?php print ucfirst($x); ?></div> 
+      <?php
+             }
+             $csv_summarize = rtrim($csv_summarize,",")."\n";
+      ?>
+        </div>
+        <div class="gridRow <?php print $col; ?>">
+        <?php   $n =0;
+                $sum_cnt = count($summarry);
+              foreach($summarry as $sum_value) {
+                  $n++;
+                  $csv_summarize .= $sum_value.",";
+                  if($n == $sum_cnt)
+                  {
+                     $n = 0;
+                     $csv_summarize = rtrim($csv_summarize,",");
+                     $csv_summarize .= "\n";
+
+                  }
+        ?>       
+        <div class="<?php print c.$n; ?>"><?php print $sum_value; ?></div>
+         <?php } ?>
+      </div> 
+      
+    <?php
+      }
+    } 
+    ?>
+    </div> </div>
+    
+    <div class="clear10"></div>
+    <div class="btn01 fleft">
+      <form action='' method='post'>
+      <input type='hidden' name='csv_summarize_data' value='<?php print $csv_summarize; ?>' />
+      <input type='hidden' name='export_summarize_csv' value='set' />      
+      <input type="submit" value="Export to Excel file" />
+      </form>
+    </div>
+    
+ <?php
+     }
+    }
+
+ 
+   }
+ ?>   
+    

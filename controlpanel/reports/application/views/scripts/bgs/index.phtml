@@ -1,0 +1,556 @@
+<?php
+$fhandle = Zend_Controller_Front::getInstance();
+$postedVars = $fhandle->getRequest()->getPost();
+if (isset($postedVars['section']) && $postedVars['section'] == 'bgs')
+    $isPost = true;
+else
+    $isPost = false;
+?>  
+<div class="inner_wrapper">
+    <form
+        action=""
+        name="bgs_form"
+        id="bgs_form"
+        method="POST" >
+        <input type="hidden" id="section" name="section" value="bgs" />
+        <input type="hidden" name="start_rows" id="start_rows" value="1" />
+        <input type="hidden" name="pagination_submit" id="pagination_submit" value="no" />
+        <input type="hidden" name="is_export_request" id="is_export_request" value="no" />
+        <!-- columns start -->
+        <div class="title">Select columns to show in report
+            <a style="text-decoration: none;" id="visibility_for_columns" name="visibility_for_columns" href="javascript:void(0)"
+               onclick="javscript:toggleVisibility('visibility_for_columns','select_cols','collapse')">-</a>
+        </div>
+        <div class="clear10"></div>
+        <div class="select_cols" id="select_cols" style="display: <?php //echo ($isPost) ? 'none' : '';  ?>">
+
+            <div class="col1">
+                <ul>
+                    <li class="even">
+<?php echo $this->columns('bgs_columns[]', 'id', (isset($postedVars['bgs_columns']) ? $postedVars['bgs_columns'] : '')); ?>
+                        Id</li>
+                    <li class="odd">
+<?php echo $this->columns('bgs_columns[]', 'lead_item_type_s', (isset($postedVars['bgs_columns']) ? $postedVars['bgs_columns'] : '')); ?>
+                        Lead type</li>
+                    <li class="even">
+<?php echo $this->columns('bgs_columns[]', 'lead_item_id_l', (isset($postedVars['bgs_columns']) ? $postedVars['bgs_columns'] : '')); ?>
+                        Lead id</li>
+                    <li class="odd">
+<?php echo $this->columns('bgs_columns[]', 'lead_item_date_tdt', (isset($postedVars['bgs_columns']) ? $postedVars['bgs_columns'] : '')); ?>
+                        Lead date</li>
+                    
+                    <li class="even">
+<?php echo $this->columns('bgs_columns[]', 'lead_item_email_s', (isset($postedVars['bgs_columns']) ? $postedVars['bgs_columns'] : '')); ?>
+                        Lead Replier/Ad poster's email</li>
+                    
+                    <li class="odd">
+<?php echo $this->columns('bgs_columns[]', 'lead_item_mobile_s', (isset($postedVars['bgs_columns']) ? $postedVars['bgs_columns'] : '')); ?>
+                        Lead Replier/Ad poster's mobile</li>
+                    
+                    <li class="even">
+<?php echo $this->columns('bgs_columns[]', 'lead_item_title_t', (isset($postedVars['bgs_columns']) ? $postedVars['bgs_columns'] : '')); ?>
+                        Lead title</li>
+                    
+                    <li class="odd">
+<?php echo $this->columns('bgs_columns[]', 'lead_item_desc_t', (isset($postedVars['bgs_columns']) ? $postedVars['bgs_columns'] : '')); ?>
+                        Lead desc</li>
+                    
+                    <li class="even">
+<?php echo $this->columns('bgs_columns[]', 'lead_item_style_s', (isset($postedVars['bgs_columns']) ? $postedVars['bgs_columns'] : '')); ?>
+                        Lead style</li>
+                    <li class="odd">
+<?php echo $this->columns('bgs_columns[]', 'bgs_poster_email_s', (isset($postedVars['bgs_columns']) ? $postedVars['bgs_columns'] : '')); ?>
+                        Bgs poster email</li>
+                </ul>
+            </div>
+
+
+            <div class="col2">
+                <ul>
+                    
+                    
+                    <li class="even">
+<?php echo $this->columns('bgs_columns[]', 'bgs_poster_id_l', (isset($postedVars['bgs_columns']) ? $postedVars['bgs_columns'] : '')); ?>
+                        Bgs poster id</li>
+                    
+                    
+                    <li class="odd">
+<?php echo $this->columns('bgs_columns[]', 'bgs_poster_mobile_s', (isset($postedVars['bgs_columns']) ? $postedVars['bgs_columns'] : '')); ?>
+                        Bgs poster mobile</li>
+                    
+                    
+                    <li class="even">
+<?php echo $this->columns('bgs_columns[]', 'action_item_id_l', (isset($postedVars['bgs_columns']) ? $postedVars['bgs_columns'] : '')); ?>
+                        Bgs user's Ad/Alert id</li>
+                    
+                    <li class="odd">
+<?php echo $this->columns('bgs_columns[]', 'action_item_title_t', (isset($postedVars['bgs_columns']) ? $postedVars['bgs_columns'] : '')); ?>
+                        Bgs Ad Title</li>
+                    
+                    <li class="even">
+<?php echo $this->columns('bgs_columns[]', 'action_item_desc_t', (isset($postedVars['bgs_columns']) ? $postedVars['bgs_columns'] : '')); ?>
+                        Bgs Ad Desc</li>
+                    
+                    <li class="odd">
+<?php echo $this->columns('bgs_columns[]', 'action_item_style_s', (isset($postedVars['bgs_columns']) ? $postedVars['bgs_columns'] : '')); ?>
+                        Bgs Ad style</li>
+                    
+                    
+                     <li class="even">
+<?php echo $this->columns('bgs_columns[]', 'is_star', (isset($postedVars['bgs_columns']) ? $postedVars['bgs_columns'] : '')); ?>
+                        Is star</li>
+                    <li class="odd">
+<?php echo $this->columns('bgs_columns[]', 'is_read', (isset($postedVars['bgs_columns']) ? $postedVars['bgs_columns'] : '')); ?>
+                        Is read</li>
+                    <li class="even">
+<?php echo $this->columns('bgs_columns[]', 'is_called', (isset($postedVars['bgs_columns']) ? $postedVars['bgs_columns'] : '')); ?>
+                        Is called</li>
+                     <li class="odd">
+<?php echo $this->columns('bgs_columns[]', 'is_smsed', (isset($postedVars['bgs_columns']) ? $postedVars['bgs_columns'] : '')); ?>
+                        Is smsed</li>
+                    
+                </ul>
+            </div>
+
+
+            <div class="col3">
+                <ul>
+                  
+                    <li class="even">
+<?php echo $this->columns('bgs_columns[]', 'is_replied', (isset($postedVars['bgs_columns']) ? $postedVars['bgs_columns'] : '')); ?>
+                        Is replied</li>
+                    <li class="odd">
+<?php echo $this->columns('bgs_columns[]', 'app_version', (isset($postedVars['bgs_columns']) ? $postedVars['bgs_columns'] : '')); ?>
+                        App version</li>
+                    
+                    
+                    <li class="even">
+<?php echo $this->columns('bgs_columns[]', 'action_item_city_name_s', (isset($postedVars['bgs_columns']) ? $postedVars['bgs_columns'] : '')); ?>
+                        Bgs Ad/Alert City</li>
+                    
+                    <li class="odd">
+<?php echo $this->columns('bgs_columns[]', 'action_item_category_name_s', (isset($postedVars['bgs_columns']) ? $postedVars['bgs_columns'] : '')); ?>
+                        Bgs Ad/Alert Metacat</li>
+                    
+                    <li class="even">
+<?php echo $this->columns('bgs_columns[]', 'action_item_subcategory_name_s', (isset($postedVars['bgs_columns']) ? $postedVars['bgs_columns'] : '')); ?>
+                        Bgs Ad/Alert Subcat</li>
+                    
+                    
+                    <li class="odd">
+<?php echo $this->columns('bgs_columns[]', 'action_item_pack_id_l', (isset($postedVars['bgs_columns']) ? $postedVars['bgs_columns'] : '')); ?>
+                        Bgs Ad/Alert Pack id</li>
+                    <li class="even">
+<?php echo $this->columns('bgs_columns[]', 'action_item_pack_status_s', (isset($postedVars['bgs_columns']) ? $postedVars['bgs_columns'] : '')); ?>
+                        Bgs Ad/Alert Pack status</li>
+                    
+                    <li class="odd">
+<?php echo $this->columns('bgs_columns[]', 'action_item_ro_name_s', (isset($postedVars['bgs_columns']) ? $postedVars['bgs_columns'] : '')); ?>
+                        Bgs Ad/Alert RO name</li>
+                    <li class="even">
+<?php echo $this->columns('bgs_columns[]', 'action_item_pack_order_id_s', (isset($postedVars['bgs_columns']) ? $postedVars['bgs_columns'] : '')); ?>
+                        Bgs Ad/Alert Order id</li>
+                    
+                    <li class="odd">
+<?php echo $this->columns('bgs_columns[]', 'action_item_pack_city_name_s', (isset($postedVars['bgs_columns']) ? $postedVars['bgs_columns'] : '')); ?>
+                        Bgs Ad/Alert Pack City</li>
+                    
+                    
+                    
+                    <li class="even">
+            <input type="button" value="Select All" id="check_uncheck" class="chk_box"  onclick="javascript:checkUncheckAllColumns(this.value)" />
+            </li>
+                </ul>
+            </div>
+           
+        </div>
+        <div class="clear10"></div>
+        <div class="clear10"></div>
+
+        <!-- columns end -->
+
+        <!-- filter start -->
+        <div class="title">Select Filters <a style="text-decoration: none;" id="visibility_for_filters" name="visibility_for_filters" href="javascript:void(0)"
+                                             onclick="javscript:toggleVisibility('visibility_for_filters','select_filters','collapse')">-</a></div>
+        <div class="clear10"></div>
+        <div class="select_filters" id="select_filters" style="display: <?php //echo ($isPost) ? 'none' : '';  ?>">
+            <div class="col1">
+                <ul>
+                    
+                    <li class="odd">
+                        <label>Id</label>
+                        <div class="field">
+                            <?php echo $this->textBox('bgs_filter_id', isset($postedVars['bgs_filter_id']) ? $postedVars['bgs_filter_id'] : '');
+                            ?>
+                        </div>
+                    </li>
+
+                    <div class="clear"></div>
+                    
+                    
+                    <li class="even">
+                        <label>Lead type</label>
+                        <div class="field">
+                            <?php
+                            echo $this->customPresentNotPresent('bgs_filter_lead_item_type_s', $postedVars['bgs_filter_lead_item_type_s'], array('Reply', 'Ad'));
+                            
+                            ?>
+                        </div>
+                    </li>
+
+                    <div class="clear"></div>
+                    <li class="odd">
+                        <label>Lead id</label>
+                        <div class="field">
+                            <?php echo $this->textBox('bgs_filter_lead_item_id_l', isset($postedVars['bgs_filter_lead_item_id_l']) ? $postedVars['bgs_filter_lead_item_id_l'] : '');
+                            ?>
+                        </div>
+                    </li>
+                    <div class="clear"></div>
+
+                    <li class="even">
+                        <label>Lead date</label>
+                        <div class="field">
+                            <?php
+                            if ($isPost) {
+                                if (!empty($postedVars['bgs_filter_lead_date_from'])) {
+                                    $bgs_filter_lead_date_from = $postedVars['bgs_filter_lead_date_from'];
+                                } else {
+                                    $bgs_filter_lead_date_from = 'null';
+                                }
+
+                                if (!empty($postedVars['bgs_filter_lead_date_to'])) {
+                                    $bgs_filter_lead_date_to = $postedVars['bgs_filter_lead_date_to'];
+                                } else {
+                                    $bgs_filter_lead_date_to = 'null';
+                                }
+                            } else {
+                                //return blank..initial state
+                                $bgs_filter_lead_date_from = '';
+                                $bgs_filter_lead_date_to = '';
+                            }
+                            ?>
+                            <?php echo $this->dateFrom('bgs_filter_lead_date_from', $bgs_filter_lead_date_from);
+                            ?>
+                            <?php echo $this->dateTo('bgs_filter_lead_date_to', $bgs_filter_lead_date_to);
+                            ?>
+                        </div>
+                    </li>
+                    <div class="clear"></div>
+                    
+                    <li class="odd">
+                        <label>Lead Replier/Ad poster's email</label>
+                        <div class="field">
+                            <?php echo $this->equalsContainsExcludes('bgs_filter_lead_item_email_s_select_ece', $postedVars['bgs_filter_lead_item_email_s_select_ece']);
+                            ?>
+                            <?php echo $this->textBox('bgs_filter_lead_item_email_s_text', $postedVars['bgs_filter_lead_item_email_s_text']);
+                            ?>
+                        </div>
+                    </li>
+                    <div class="clear"></div>
+
+                    <div class="clear"></div>
+                    <li class="even">
+                        <label>Lead style</label>
+                        <div class="field">
+                            <?php echo $this->radioCheckbox('bgs_filter_lead_item_style_s', $postedVars['bgs_filter_lead_item_style_s'], array('Free', 'TOP', 'URGENT', 'TOP+URGENT'),"checkbox"); ?>
+                        </div>
+                    </li>
+                    
+                    
+                    
+                    <li class="odd">
+                        <label>Bgs poster email</label>
+                        <div class="field">
+                            <?php echo $this->equalsContainsExcludes('bgs_filter_bgs_poster_email_s_select_ece', $postedVars['bgs_filter_bgs_poster_email_s_select_ece']);
+                            ?>
+                            <?php echo $this->textBox('bgs_filter_bgs_poster_email_s_text', $postedVars['bgs_filter_bgs_poster_email_s_text']);
+                            ?>
+                        </div>
+                    </li>
+                    <div class="clear"></div>
+                    
+                    
+                    <li class="even">
+                        <label>Bgs poster id</label>
+                        <div class="field">
+                            <?php echo $this->textBox('bgs_filter_bgs_poster_id_l', isset($postedVars['bgs_filter_bgs_poster_id_l']) ? $postedVars['bgs_filter_bgs_poster_id_l'] : '');
+                            ?>
+                        </div>
+                    </li>
+
+                    <div class="clear"></div>
+                    
+                    
+                    <li class="odd">
+                        <label>Bgs poster mobile</label>
+                        <div class="field">
+                            <?php echo $this->textBox('bgs_filter_bgs_poster_mobile_s', isset($postedVars['bgs_filter_bgs_poster_mobile_s']) ? $postedVars['bgs_filter_bgs_poster_mobile_s'] : '');
+                            ?>
+                        </div>
+                    </li>
+
+                    <div class="clear"></div>
+                    
+                    
+                    
+                    <li class="even">
+                        <label>Bgs user's Ad/Alert id</label>
+                        <div class="field">
+                            <?php echo $this->textBox('bgs_filter_action_item_id_l', isset($postedVars['bgs_filter_action_item_id_l']) ? $postedVars['bgs_filter_action_item_id_l'] : '');
+                            ?>
+                        </div>
+                    </li>
+
+                    <div class="clear"></div>
+                </ul>
+            </div>
+            <div class="col2">
+                <ul>
+                    <li class="even">
+                        <label>Is star</label>
+                        <div class="field">
+                            <?php echo $this->yesNo('bgs_filter_is_star', isset($postedVars['bgs_filter_is_star']) ? $postedVars['bgs_filter_is_star'] : '')
+                            ?>
+                        </div>
+                    </li>
+                    <div class="clear"></div>
+                    <li class="odd">
+                        <label>Is read</label>
+                        <div class="field">
+                            <?php echo $this->yesNo('bgs_filter_is_read', isset($postedVars['bgs_filter_is_read']) ? $postedVars['bgs_filter_is_read'] : '')
+                            ?>
+                        </div>
+                    </li>
+                    <div class="clear"></div>
+                    <li class="even">
+                        <label>Is called</label>
+                        <div class="field">
+                            <?php echo $this->yesNo('bgs_filter_is_called', isset($postedVars['bgs_filter_is_called']) ? $postedVars['bgs_filter_is_called'] : '')
+                            ?>
+                        </div>
+                    </li>
+                    <div class="clear"></div>
+                    <li class="odd">
+                        <label>Is smsed</label>
+                        <div class="field">
+                            <?php echo $this->yesNo('bgs_filter_is_smsed', isset($postedVars['bgs_filter_is_smsed']) ? $postedVars['bgs_filter_is_smsed'] : '')
+                            ?>
+                        </div>
+                    </li>
+                    <div class="clear"></div>
+                    <li class="even">
+                        <label>Is replied</label>
+                        <div class="field">
+                            <?php echo $this->yesNo('bgs_filter_is_replied', isset($postedVars['bgs_filter_is_replied']) ? $postedVars['bgs_filter_is_replied'] : '')
+                            ?>
+                        </div>
+                    </li>
+                    <div class="clear"></div>
+                    
+                    <li class="odd">
+                        <label>App version</label>
+                        <div class="field">
+                            <?php echo $this->textBox('bgs_filter_app_version_text', isset($postedVars['bgs_filter_app_version_text']) ? $postedVars['bgs_filter_app_version_text'] : '');
+                            ?>
+                        </div>
+                    </li>
+
+                    <div class="clear"></div>
+                    
+                    <li class="even">
+                        <label>Bgs Ad/Alert City</label>
+                        <div class="field">
+                            <?php echo $this->cityList('bgs_filter_city', $postedVars['bgs_filter_city']) ?>
+                        </div>
+                    </li>
+                    <div class="clear"></div>
+                    <li class="odd">
+                        <label> Bgs Ad/Alert Metacat</label>
+                        <div class="field">
+                            <?php echo $this->metacategoryList('bgs_filter_metacat', $postedVars['bgs_filter_metacat'], $postedVars['bgs_filter_city']) ?>
+                        </div>
+                    </li>
+                    <div class="clear"></div>
+                    <li class="even">
+                        <label>Bgs Ad/Alert Subcat</label>
+                        <div class="field">
+                            <?php echo $this->subcategoryList('bgs_filter_subcat', $postedVars['bgs_filter_subcat'], $postedVars['bgs_filter_metacat'], $postedVars['bgs_filter_city']) ?>
+                        </div>
+                    </li>
+                    <div class="clear"></div>
+                    
+                    <li class="odd">
+                        <label>Bgs Ad style</label>
+                        <div class="field">
+                            <?php echo $this->radioCheckbox('bgs_filter_action_item_style_s', $postedVars['bgs_filter_action_item_style_s'], array('Free', 'TOP', 'URGENT', 'TOP+URGENT'),"checkbox"); ?>
+                            
+                        </div>
+                    </li>
+                    
+                    <div class="clear"></div>
+                    
+                    
+                </ul>
+            </div>
+            
+            <div class="col3">
+                <ul>
+                    <li class="odd">
+                        <label>Bgs Ad/Alert Pack id</label>
+                        <div class="field">
+                            <?php echo $this->textBox('bgs_filter_action_item_pack_id_l', isset($postedVars['bgs_filter_action_item_pack_id_l']) ? $postedVars['bgs_filter_action_item_pack_id_l'] : '');
+                            ?>
+                        </div>
+                    </li>
+                    <div class="clear"></div>
+
+                    <li class="even">
+                        <label>Bgs Ad/Alert Pack status</label>
+                        <div class="field">
+                            <?php echo $this->radioCheckbox('bgs_filter_action_item_pack_status_s', $postedVars['bgs_filter_action_item_pack_status_s'], array('Enabled', 'Disabled'),'radio');
+                            ?>
+                        </div>
+                    </li>
+                    <div class="clear"></div>
+                    
+                    <li class="odd">
+                        <label>Bgs Ad/Alert RO name</label>
+                        <div class="field">
+                            <?php echo $this->textBox('bgs_filter_action_item_ro_name_s', isset($postedVars['bgs_filter_action_item_ro_name_s']) ? $postedVars['bgs_filter_action_item_ro_name_s'] : '');
+                            ?>
+                        </div>
+                    </li>
+                    <div class="clear"></div>
+                    
+                    
+                    <li class="even">
+                        <label>Bgs Ad/Alert Order id</label>
+                        <div class="field">
+                            <?php echo $this->textBox('bgs_filter_action_item_pack_order_id_s', isset($postedVars['bgs_filter_action_item_pack_order_id_s']) ? $postedVars['bgs_filter_action_item_pack_order_id_s'] : '');
+                            ?>
+                        </div>
+                    </li>
+                    <div class="clear"></div>
+                    
+                    
+                    <li class="odd">
+                        <label>Bgs Ad/Alert Pack City</label>
+                        <div class="field">
+                            <?php echo $this->cityList('bgs_filter_action_item_pack_city_id_l', $postedVars['bgs_filter_action_item_pack_city_id_l']) ?>
+                        </div>
+                    </li>
+                    <div class="clear"></div>
+                    
+                </ul>
+            </div>
+            
+            <div class="clear10"></div>
+            <div class="clear10"></div>
+        </div>
+        <div class="clear10"></div>
+        <div class="clear10"></div>
+
+        <!-- filter end -->
+
+        <!-- summarize start -->
+        <div class="title">
+
+            <input type="checkbox" <?php if ($_POST['show_summarize'] == 'on') {
+                                print 'checked';
+                            } ?> id="show_summarize" name="show_summarize" onchange="javascript:resetSummarize()"> Summarize</div>
+        <div class="clear10"></div>
+        <div class="summarize" id="summarize" style="<?php if ($_POST['show_summarize'] != 'on') echo 'display:none'; ?>">
+            <div class="summarize_inside">
+                <div class="row">
+                    <label>By count of :</label>
+                    <div class="field">
+                        <div class="col">
+<?php echo $this->summarize('bgs_summarize_by_count_of', 'bgs_count', isset($postedVars['bgs_summarize_by_count_of']) ? $postedVars['bgs_summarize_by_count_of'] : '') ?>
+                            <span>Lead count</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="clear10"></div>
+                <div class="clear10"></div>
+
+                <div class="row">
+                    <label>For Date :</label>
+                    <div class="field">
+                        <div class="col">
+<?php echo $this->summarize('bgs_summarize_for_date', 'lead_item_date_tdt', isset($postedVars['bgs_summarize_for_date']) ? $postedVars['bgs_summarize_for_date'] : '') ?>
+                            <span>Lead date</span>
+                        </div>
+
+
+                    </div>
+                </div>
+
+                <div class="clear10"></div>
+                <div class="clear10"></div>
+
+                <div class="row">
+                    <label>In intervals of:</label>
+                    <div class="field">
+                        <div class="col">
+<?php echo $this->summarize('bgs_summarize_intervals_of', 'daily', isset($postedVars['bgs_summarize_intervals_of']) ? $postedVars['bgs_summarize_intervals_of'] : ''); ?>
+                            <span>Daily</span>
+                        </div>
+                        <div class="col">
+<?php echo $this->summarize('bgs_summarize_intervals_of', 'weekly', isset($postedVars['bgs_summarize_intervals_of']) ? $postedVars['bgs_summarize_intervals_of'] : ''); ?>
+                            <span>Weekly</span>
+                        </div>
+                        <div class="col">
+<?php echo $this->summarize('bgs_summarize_intervals_of', 'monthly', isset($postedVars['bgs_summarize_intervals_of']) ? $postedVars['bgs_summarize_intervals_of'] : ''); ?>
+                            <span>Monthly</span>
+                        </div>
+                        <div class="col">
+<?php echo $this->summarize('bgs_summarize_intervals_of', 'yearly', isset($postedVars['bgs_summarize_intervals_of']) ? $postedVars['bgs_summarize_intervals_of'] : '') ?>
+                            <span>Yearly</span>
+                        </div>
+                    </div>
+                </div>
+
+
+
+            </div>
+        </div>
+        <div class="clear10"></div>
+        <div class="clear10"></div>
+        <div class="btn01 fright">
+            <input type="button" value="reset" onclick="javascript:return resetForm('bgs_form','bgs')"  />
+            <input id="bgs_form_submit" name="bgs_form_submit" type="submit" onclick="javascript: return isColumnSelected()" value="search" />
+        </div>
+        <div class="clear10"></div>
+        <div class="clear10"></div>
+    </form>
+    <!-- summarize start -->
+
+    <?php if (isset($this->summarizeError)) { ?>
+        <div class="userError"><?php echo $this->summarizeError; ?></div>
+    <?php } ?>
+
+    <?php
+    if (isset($this->columnsToShow)) {
+        echo $this->partial('bgs/result_set.phtml', array('columns' => $this->columnsToShow));
+        ?>
+        <div class="clear10"></div>
+        <?php
+        echo $this->paginationControl($this->paginator, 'Sliding', 'bgs/pagination.phtml', array('requestUrl' => $this->requestUrl));
+    }
+    ?>
+
+    <?php
+    if (isset($postedVars['show_summarize'])) {
+        echo $this->partial('bgs/result_set_summarize.phtml', array('summarizedData' => $this->summarizedData));
+    } // EOF ELSE
+    ?>
+    <script type="text/javascript">
+        function exportToExcelBgs() {
+
+            document.getElementById('is_export_request').value = 'yes';
+            jQuery('#bgs_form').attr('action',BASE_URL+'/bgs/index');
+            document.getElementById('bgs_form').submit();
+            document.getElementById('is_export_request').value = 'no';
+        }
+    </script>

@@ -1,0 +1,376 @@
+<?php
+$fhandle = Zend_Controller_Front::getInstance();
+   //$postedVars = $fhandle->getRequest()->getPost();
+
+   $postedVars = $this->posts;
+
+   if($postedVars['alerts_form_submit'] || ($postedVars['pagination_submit'] == 'yes')) $isPost = true;
+   else $isPost = false;
+
+ ?>
+<div class="inner_wrapper">
+    <form
+        action=""
+        name="alerts_form"
+        id="alerts_form"
+        method="post" >
+        <input type="hidden" id="section" name="section" value="alerts" />
+        <input type="hidden" name="start_rows" id="start_rows" value="1" />
+        <input type="hidden" name="pagination_submit" id="pagination_submit" value="no" />
+        <input type="hidden" name="is_export_request" id="is_export_request" value="no" />
+
+    <div class="title">Select columns to show in report
+
+        <a style="text-decoration: none;" id="visibility_for_columns" name="visibility_for_columns" href="javascript:void(0)"
+           onclick="javscript:toggleVisibility('visibility_for_columns','select_cols','collapse')">-</a>
+
+    </div>
+
+    <div class="clear10"></div>
+    <div class="select_cols" id="select_cols" style="display: <?php //echo ($isPost) ? 'none' : ''; ?>">
+      <div class="col1">
+        <ul>
+          <li class="even"><?php echo $this->columns('alerts_columns[]','email', $postedVars['alerts_columns']);?> Email</li>
+          <li class="odd"><?php echo $this->columns('alerts_columns[]','mobile', $postedVars['alerts_columns']);?> Mobile</li>
+          <li class="even"><?php echo $this->columns('alerts_columns[]','city', $postedVars['alerts_columns']);?> City</li>
+
+        </ul>
+      </div>
+      <div class="col2">
+        <ul>
+        <li class="even"><?php echo $this->columns('alerts_columns[]','locality', $postedVars['alerts_columns']);?> Locality</li>
+         <li class="odd"><?php echo $this->columns('alerts_columns[]','meta_category', $postedVars['alerts_columns']);?> Category</li>
+         <li class="even"><?php echo $this->columns('alerts_columns[]','sub_category', $postedVars['alerts_columns']);?> Sub-category</li>
+        </ul>
+      </div>
+      <div class="col3">
+        <ul>
+          <li class="even"><?php echo $this->columns('alerts_columns[]','want_offering', $postedVars['alerts_columns']);?> Want/Offering</li>
+          <li class="odd"><?php echo $this->columns('alerts_columns[]','status', $postedVars['alerts_columns']);?> Status</li>
+         <?php /* <li class="even"><?php echo $this->columns('alerts_columns[]','frequency', $postedVars['alerts_columns']);?> Frequency</li> */?>
+        </ul>
+      </div>
+      <div class="col4">
+        <ul>
+          <li class="even"><?php echo $this->columns('alerts_columns[]','create_date', $postedVars['alerts_columns']);?> Create Date</li>
+           <li class="odd"><?php echo $this->columns('alerts_columns[]','unsubscribe_date', $postedVars['alerts_columns']);?> Unsubscribe Date</li>
+            <?php /*<li class="even"><?php echo $this->columns('alerts_columns[]','no_of_emails', $postedVars['alerts_columns']);?> No. of e-mails sent</li> */?>
+        <!-- only javascript -->
+          <li class="odd">
+            <input type="button" value="Select All" id="check_uncheck" class="chk_box"  onclick="javascript:checkUncheckAllColumns(this.value)" />
+            </li>
+        </ul>
+      </div>
+    </div>
+    <div class="clear10"></div>
+    <div class="clear10"></div>
+
+    <div class="title">Select Filters
+        <a style="text-decoration: none;" id="visibility_for_filters" name="visibility_for_filters" href="javascript:void(0)"
+           onclick="javscript:toggleVisibility('visibility_for_filters','select_filters','collapse')">-</a>
+
+        </div>
+    <div class="clear10"></div>
+    <div class="select_filters" id="select_filters" style="display: <?php //echo ($isPost) ? 'none' : ''; ?>">
+      <div class="col1">
+        <ul>
+
+          <li class="even">
+            <label>Email</label>
+            <div class="field">
+              <?php echo $this->equalsContainsExcludes('alerts_filter_email_select_ece',
+                      $postedVars['alerts_filter_email_select_ece']); ?>
+                <?php echo $this->textBox('alerts_filter_email_text',
+                        $postedVars['alerts_filter_email_text']); ?>
+            </div>
+          </li>
+          <div class="clear"></div>
+
+          <li class="odd">
+            <label>Mobile</label>
+            <div class="field">
+                <?php //echo $this->presentNotpresent('alerts_filter_mobile',$postedVars['alerts_filter_mobile']);?>
+                <?php echo $this->presentNotpresentradio('alerts_filter_mobile',(isset($postedVars['alerts_filter_mobile']) ? $postedVars['alerts_filter_mobile'] : null)); ?>
+            </div>
+          </li>
+          <div class="clear"></div>
+
+           <li class="even">
+            <label>Want/Offering</label>
+            <div class="field">
+                <?php echo $this->wantOffering('alerts_filter_wantoffering',
+                        (isset($postedVars['alerts_filter_wantoffering']) ? $postedVars['alerts_filter_wantoffering']:null));?>
+            </div>
+          </li>
+
+          <div class="clear"></div>
+
+          <li class="odd">
+            <label>Status</label>
+            <div class="field">
+                <?php echo $this->subscribe('alerts_filter_status',
+                        (isset($postedVars['alerts_filter_status']) ? $postedVars['alerts_filter_status'] : null));?>
+            </div>
+          </li>
+          <div class="clear"></div>
+
+
+
+        </ul>
+      </div>
+      <div class="col2">
+        <ul>
+
+            <li class="even">
+            <label>City</label>
+            <div class="field">
+              <?php echo $this->cityList('alerts_filter_city',$postedVars['alerts_filter_city'])?>
+            </div>
+          </li>
+          <div class="clear"></div>
+
+         <li class="odd">
+            <label>Locality</label>
+            <div class="field">
+              <?php echo $this->localityList('alerts_filter_localities',$postedVars['alerts_filter_localities'],$postedVars['alerts_filter_city'])?>
+            </div>
+          </li>
+          <div class="clear"></div>
+
+
+          <li class="even">
+            <label>Category</label>
+            <div class="field">
+              <?php echo $this->metacategoryList('alerts_filter_metacat',$postedVars['alerts_filter_metacat'],$postedVars['alerts_filter_city'])?>
+            </div>
+          </li>
+          <div class="clear"></div>
+
+          <li class="odd">
+            <label>Sub-category</label>
+            <div class="field">
+              <?php echo $this->subcategoryList('alerts_filter_subcat',$postedVars['alerts_filter_subcat'],$postedVars['alerts_filter_metacat'],$postedVars['alerts_filter_city'])?>
+            </div>
+          </li>
+          <div class="clear"></div>
+
+        </ul>
+      </div>
+      <div class="col3">
+        <ul>
+          <li class="even">
+            <label>Create Date</label>
+            <div class="field">
+                <?php
+                    if($isPost) {
+                        if(!empty($postedVars['alerts_filter_createdate_from'])) {
+                            $alerts_filter_createdate_from = $postedVars['alerts_filter_createdate_from'];
+                        } else {
+                            $alerts_filter_createdate_from = 'null';
+                        }
+
+                        if(!empty($postedVars['alerts_filter_createdate_to'])) {
+                            $alerts_filter_createdate_to = $postedVars['alerts_filter_createdate_to'];
+                        } else {
+                            $alerts_filter_createdate_to = 'null';
+                        }
+
+                    }else {
+                        //return blank..initial state
+                        $alerts_filter_createdate_from = '';
+                        $alerts_filter_createdate_to = '';
+                    }
+
+
+                ?>
+
+                <?php echo $this->dateFrom('alerts_filter_createdate_from', $alerts_filter_createdate_from);?>
+                <?php echo $this->dateTo('alerts_filter_createdate_to',$alerts_filter_createdate_to);?>
+
+            </div>
+          </li>
+          <div class="clear"></div>
+
+          <li class="odd">
+            <label>Unsubscribe Date</label>
+            <div class="field">
+                <?php
+                    if($isPost) {
+                        if(!empty($postedVars['alerts_filter_unsubscribedate_from'])) {
+                            $alerts_filter_unsubscribedate_from = $postedVars['alerts_filter_unsubscribedate_from'];
+                        } else {
+                            $alerts_filter_unsubscribedate_from = 'null';
+                        }
+
+                        if(!empty($postedVars['alerts_filter_unsubscribedate_to'])) {
+                            $alerts_filter_unsubscribedate_to = $postedVars['alerts_filter_unsubscribedate_to'];
+                        } else {
+                            $alerts_filter_unsubscribedate_to = 'null';
+                        }
+
+                    }else {
+                        //return blank..initial state
+                        $alerts_filter_unsubscribedate_from = '';
+                        $alerts_filter_unsubscribedate_to = '';
+                    }
+
+                ?>
+
+
+                <?php echo $this->dateFrom('alerts_filter_unsubscribedate_from',$alerts_filter_unsubscribedate_from);?>
+                <?php echo $this->dateTo('alerts_filter_unsubscribedate_to',$alerts_filter_unsubscribedate_to);?>
+            </div>
+          </li>
+          <div class="clear"></div>
+          <?php /*
+          <li class="even">
+            <label>Frequency</label>
+            <div class="field">
+              <?php echo $this->quantityRange('alerts_filter_frequency_range',
+                        $postedVars['alerts_filter_frequency_range']);?>
+              <?php echo $this->textBox('alerts_filter_frequency_text',
+                        $postedVars['alerts_filter_frequency_text']);?>
+            </div>
+          </li>
+          <div class="clear"></div>
+          */?>
+
+          <?php /*
+          <li class="even">
+            <label>No. of e-mails sent</label>
+            <div class="field">
+              <?php echo $this->quantityRange('alerts_filter_no_of_emails_range',
+                        $postedVars['alerts_filter_no_of_emails_range']);?>
+              <?php echo $this->textBox('alerts_filter_no_of_emails_text',
+                        $postedVars['alerts_filter_no_of_emails_text']);?>
+            </div>
+          </li>
+          <div class="clear"></div>
+           *
+           */?>
+        </ul>
+      </div>
+      <div class="clear10"></div>
+      <div class="clear10"></div>
+    </div>
+    <div class="clear10"></div>
+    <div class="clear10"></div>
+	<div class="title">
+<?php
+    if(isset($postedVars['show_summarize'])) {
+        $checked= 'checked="checked"';
+        $sumDisplay = '';
+    } else {
+        $checked = '';
+        $sumDisplay = 'none';
+    }
+?>
+<input <?php echo $checked;?> type="checkbox" id="show_summarize" name="show_summarize" onchange="javascript:resetSummarize()" /> Summarize</div>
+    <div class="clear10"></div>
+    <div class="summarize" id="summarize" style="display:<?php echo $sumDisplay;?>;">
+    	<div class="summarize_inside">
+        	<div class="row">
+                <label>By count of :</label>
+                <div class="field">
+                    <div class="col">
+                        <?php echo $this->summarize('alerts_summarize_by_count_of','alerts_count',$postedVars['alerts_summarize_by_count_of'])?>
+                        <span>Alerts Count</span>
+					</div>
+                </div>
+            </div>
+            <div class="clear10"></div>
+            <div class="clear10"></div>
+
+            <div class="row">
+                <label>For Date :</label>
+                <div class="field">
+                    <div class="col">
+                        <?php echo $this->summarize('alerts_summarize_for_date','alerts_create_date',
+                                (isset($postedVars['alerts_summarize_for_date']) ? $postedVars['alerts_summarize_for_date'] : null));?>
+                        <span>Create Date</span>
+					</div>
+                    <div class="col">
+                        <?php echo $this->summarize('alerts_summarize_for_date','alerts_unsubscribe_date',
+                                (isset($postedVars['alerts_summarize_for_date']) ? $postedVars['alerts_summarize_for_date'] : null));?>
+                        <span>Unsubscribe Date</span>
+		    </div>
+
+
+                </div>
+            </div>
+
+            <div class="clear10"></div>
+            <div class="clear10"></div>
+
+            <div class="row">
+                <label>In intervals of:</label>
+                <div class="field">
+                    <div class="col">
+                        <?php echo $this->summarize('alerts_summarize_intervals_of','daily',
+                                (isset($postedVars['alerts_summarize_intervals_of']) ? $postedVars['alerts_summarize_intervals_of'] : null));?>
+                        <span>Daily</span>
+					</div>
+                    <div class="col">
+                        <?php echo $this->summarize('alerts_summarize_intervals_of','weekly',
+                                (isset($postedVars['alerts_summarize_intervals_of']) ? $postedVars['alerts_summarize_intervals_of'] : null));?>
+                        <span>Weekly</span>
+					</div>
+                    <div class="col">
+                        <?php echo $this->summarize('alerts_summarize_intervals_of','monthly',
+                                (isset($postedVars['alerts_summarize_intervals_of']) ? $postedVars['alerts_summarize_intervals_of']: null));?>
+                        <span>Monthly</span>
+					</div>
+                    <div class="col">
+                        <?php echo $this->summarize('alerts_summarize_intervals_of','yearly',
+                                (isset($postedVars['alerts_summarize_intervals_of']) ? $postedVars['alerts_summarize_intervals_of']: null));?>
+                        <span>Yearly</span>
+					</div>
+                </div>
+            </div>
+
+
+
+        </div>
+    </div>
+    <div class="clear10"></div>
+    <div class="clear10"></div>
+      <div class="btn01 fright">
+          <input type="button" value="reset" onclick="javascript:return resetForm('alerts_form','alerts')"  />
+        <input id="alerts_form_submit" name="alerts_form_submit" type="submit" onclick="javascript: return isColumnSelected()" value="search" />
+      </div>
+      <div class="clear10"></div>
+      <div class="clear10"></div>
+    </form>
+<!-- summarize ends -->
+<?php if(isset($this->summarizeError)) { ?>
+<div class="userError"><?php echo $this->summarizeError;?></div>
+<?php } ?>
+    <?php if(isset ($this->columnsToShow)) {
+            echo $this->partial('alerts/result_set.phtml',array('columns' => $this->columnsToShow));
+?>
+<div class="clear10"></div>
+<?php
+            //print_r($this->paginator);
+            echo $this->paginationControl($this->paginator,
+
+                                    'Sliding',
+
+                                    'alerts/pagination.phtml',array('requestUrl' => $this->requestUrl));
+         } ?>
+
+
+<?php if(isset($postedVars['show_summarize'])) {
+    echo $this->partial('alerts/result_set_summarize.phtml',array('summarizedData' => $this->summarizedData));
+    } ?>
+
+  </div>
+
+  <script type="text/javascript">
+	function exportToExcelAlerts() {
+
+		document.getElementById('is_export_request').value = 'yes';
+		jQuery('#alerts_form').attr('action',BASE_URL+'/alerts/index');
+		document.getElementById('alerts_form').submit();
+		document.getElementById('is_export_request').value = 'no';
+	}
+</script>

@@ -1,0 +1,23 @@
+<?php if(isset($this->cashinData)) { ?>
+<div class="dataGrid_01 report">
+      <div class="gridRow rowHead">
+        <div class="c1">Accruals</div>
+        <div class="c2">Cashin</div>
+      </div>
+
+    <div class="gridRow rowEven">
+        <div class="c1"><?php echo $this->cashinData['accruals']?></div>
+        <div class="c2"><?php echo $this->cashinData['adCashin'] + $this->cashinData['vdCashin'];?></div>
+      </div>
+
+    </div>
+    <div class="clear10"></div>
+    <div class="btn01 fleft">
+      <input type="button" value="Export to Excel file" onclick="javascript:exportToExcelpremiumpacks()"/>
+
+    </div>
+    <?php } else { ?>
+
+<div class="userError"><?php echo USER_NO_RECORD_FOUND;?></div>
+<?php
+}

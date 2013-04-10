@@ -1,0 +1,784 @@
+<?php
+   $fhandle = Zend_Controller_Front::getInstance();
+   $postedVars = $fhandle->getRequest()->getPost();
+   if(isset($postedVars['section']) && $postedVars['section']== 'ads') $isPost = true;
+   else $isPost = false;
+
+?>
+   <div class="inner_wrapper">
+    <form
+        action=""
+        name="ads_form"
+        id="ads_form"
+        method="POST">
+        <input type="hidden" id="section" name="section" value="ads" />
+	<input type="hidden" id="ads_subcat_name" name="ads_subcat_name" value="" />
+        <input type="hidden" name="start_rows" id="start_rows" value="1" />
+	 <input type="hidden" name="pagination_submit" id="pagination_submit" value="no" />
+        <input type="hidden" name="is_export_request" id="is_export_request" value="no" />
+    <div class="title">Select columns to show in report
+     <a style="text-decoration: none;" id="visibility_for_columns" name="visibility_for_columns" href="javascript:void(0)"
+           onclick="javscript:toggleVisibility('visibility_for_columns','select_cols','collapse')">-</a>
+    </div>
+    
+    <div class="clear10"></div>
+     <div class="select_cols" id="select_cols" style="display: <?php //echo ($isPost) ? 'none' : ''; ?>">
+      <div class="col1">
+        <ul>
+          <li class="even">
+           <?php echo $this->columns('ads_columns[]','id', isset($postedVars['ads_columns'])?$postedVars['ads_columns']:'');?>
+            Ad Id</li>
+          <li class="odd">
+           <?php echo $this->columns('ads_columns[]','ad_title', isset($postedVars['ads_columns'])?$postedVars['ads_columns']:'');?>
+            Ad Title</li>
+          <li class="even">
+            <?php echo $this->columns('ads_columns[]','ad_description', isset($postedVars['ads_columns'])?$postedVars['ads_columns']:'');?>
+            Ad Description</li>
+          <li class="odd">
+            <?php echo $this->columns('ads_columns[]','poster_email', isset($postedVars['ads_columns'])?$postedVars['ads_columns']:'');?>
+            Poster E-mail</li>
+          <li class="even">
+            <?php echo $this->columns('ads_columns[]','ad_created_date', isset($postedVars['ads_columns'])?$postedVars['ads_columns']:'');?>
+            Ad Create Date</li>
+          <li class="odd">
+            <?php echo $this->columns('ads_columns[]','ad_modified_date', isset($postedVars['ads_columns'])?$postedVars['ads_columns']:'');?>
+            Ad Last Update Date</li>
+          <li class="even">
+            <?php echo $this->columns('ads_columns[]','city_name', isset($postedVars['ads_columns'])?$postedVars['ads_columns']:'');?>
+            City</li>
+          <li class="odd">
+            <?php echo $this->columns('ads_columns[]','Ad_locality', isset($postedVars['ads_columns'])?$postedVars['ads_columns']:'');?>
+            Locality</li>
+          <li class="even">
+            <?php echo $this->columns('ads_columns[]','expired_time', isset($postedVars['ads_columns'])?$postedVars['ads_columns']:'');?>
+            Expired time</li>
+          <li class="odd">
+            <?php echo $this->columns('ads_columns[]','user_agent', isset($postedVars['ads_columns'])?$postedVars['ads_columns']:'');?>
+            User Agent (Web/Mobile)</li>
+        </ul>
+      </div>
+      <div class="col2">
+        <ul>
+          <li class="even">
+            <?php echo $this->columns('ads_columns[]','metacategory_name', isset($postedVars['ads_columns'])?$postedVars['ads_columns']:'');?>
+            Category</li>
+          <li class="odd">
+            <?php echo $this->columns('ads_columns[]','subcategory_name', isset($postedVars['ads_columns'])?$postedVars['ads_columns']:'');?>
+            Sub-Category</li>
+          <li class="even">
+            <?php echo $this->columns('ads_columns[]','free_premium_type', isset($postedVars['ads_columns'])?$postedVars['ads_columns']:'');?>
+            Free/Premium</li>
+          <li class="odd">
+            <?php echo $this->columns('ads_columns[]','ad_type', isset($postedVars['ads_columns'])?$postedVars['ads_columns']:'');?>
+            Ad Type(Offering/Want)</li>
+          <li class="even">
+            <?php echo $this->columns('ads_columns[]','ad_status', isset($postedVars['ads_columns'])?$postedVars['ads_columns']:'');?>
+            Status</li>
+          <li class="odd">
+            <?php echo $this->columns('ads_columns[]','regular_noclick', isset($postedVars['ads_columns'])?$postedVars['ads_columns']:'');?>
+            Regular/No-click</li>
+          <li class="even">
+            <?php echo $this->columns('ads_columns[]','no_of_images', isset($postedVars['ads_columns'])?$postedVars['ads_columns']:'');?>
+            Number of images</li>
+          <li class="odd">
+            <?php echo $this->columns('ads_columns[]','no_of_visitors', isset($postedVars['ads_columns'])?$postedVars['ads_columns']:'');?>
+            Number of visitors</li>
+		  <li class="even">
+            <?php echo $this->columns('ads_columns[]','poster_mobile', isset($postedVars['ads_columns'])?$postedVars['ads_columns']:'');?>
+            Poster Mobile</li>
+            <li class="odd">
+            <?php echo $this->columns('ads_columns[]','no_of_replies', isset($postedVars['ads_columns'])?$postedVars['ads_columns']:'');?>
+            Number of Replies</li>		  
+        </ul>
+      </div>
+      <div class="col3">
+        <ul>
+          <li class="odd">
+            <?php echo $this->columns('ads_columns[]','price_type', isset($postedVars['ads_columns'])?$postedVars['ads_columns']:'');?>
+            Price Type</li>
+          <li class="even">
+            <?php echo $this->columns('ads_columns[]','price_value', isset($postedVars['ads_columns'])?$postedVars['ads_columns']:'');?>
+            Price</li>
+          <li class="odd">
+            <?php echo $this->columns('ads_columns[]','premium_ad_type', isset($postedVars['ads_columns'])?$postedVars['ads_columns']:'');?>
+            Premium Ad Type</li>
+          <!--<li class="even">
+            <?php //echo $this->columns('ads_columns[]','payment_type', $postedVars['ads_columns']);?>
+            Payment Type</li> -->
+          <!-- <li class="odd">
+            <?php //echo $this->columns('ads_columns[]','payment_pending', $postedVars['ads_columns']);?>
+            Payment Pending</li> -->
+          <li class="even">
+            <?php echo $this->columns('ads_columns[]','ad_delete_date', isset($postedVars['ads_columns'])?$postedVars['ads_columns']:'');?>
+            Ad Delete date</li>
+          <li class="odd">
+            <?php echo $this->columns('ads_columns[]','ad_delete_reason', isset($postedVars['ads_columns'])?$postedVars['ads_columns']:'');?>
+            Ad delete reason</li>
+          <li class="even">
+            <?php echo $this->columns('ads_columns[]','repost_time', isset($postedVars['ads_columns'])?$postedVars['ads_columns']:'');?>
+            Repost Time</li>
+          <li class="odd">
+            <?php echo $this->columns('ads_columns[]','reposted', isset($postedVars['ads_columns'])?$postedVars['ads_columns']:'');?>
+            Reposted (Yes/No)</li>
+	  <li class="even">
+            <?php echo $this->columns('ads_columns[]','Condition', isset($postedVars['ads_columns'])?$postedVars['ads_columns']:'');?>
+            Condition(New/Used)</li>
+          <li class="odd">
+            <?php echo $this->columns('ads_columns[]','individual_dealer', isset($postedVars['ads_columns'])?$postedVars['ads_columns']:'');?>
+            Individual/Dealer</li>
+          <li class="even">
+            <?php echo $this->columns('ads_columns[]','brand_name', isset($postedVars['ads_columns'])?$postedVars['ads_columns']:'');?>
+            Brand Name</li>
+        </ul>
+      </div>
+      <div class="col4">
+        <ul>
+          <li class="odd">
+            <?php echo $this->columns('ads_columns[]','no_of_bedrooms', isset($postedVars['ads_columns'])?$postedVars['ads_columns']:'');?>
+            No. Of bedrooms</li>
+          <li class="even">
+            <?php echo $this->columns('ads_columns[]','type_of_land', isset($postedVars['ads_columns'])?$postedVars['ads_columns']:'');?>
+            Type of land</li>
+          <li class="odd">
+            <?php echo $this->columns('ads_columns[]','Ad_year_of_make', isset($postedVars['ads_columns'])?$postedVars['ads_columns']:'');?>
+            Year of make</li>
+          <li class="even">
+            <?php echo $this->columns('ads_columns[]','type_of_job', isset($postedVars['ads_columns'])?$postedVars['ads_columns']:'');?>
+            Type of job</li>
+          <li class="odd">
+            <?php echo $this->columns('ads_columns[]','flag_reason', isset($postedVars['ads_columns'])?$postedVars['ads_columns']:'');?>
+            Flag Reason</li>
+          
+          <li class="even">
+            <?php echo $this->columns('ads_columns[]','attributes', isset($postedVars['ads_columns'])?$postedVars['ads_columns']:'');?>
+            Attributes</li>
+          <li class="odd">
+            <?php echo $this->columns('ads_columns[]','ad_remapped_date', isset($postedVars['ads_columns'])?$postedVars['ads_columns']:'');?>
+            Ad Remapped Date</li>
+          
+          <li class="even">
+            <?php echo $this->columns('ads_columns[]','ad_first_created_date', isset($postedVars['ads_columns'])?$postedVars['ads_columns']:'');?>
+            Ad First Created Date</li>
+          
+          <li class="odd">
+            <?php echo $this->columns('ads_columns[]','poster_id', isset($postedVars['ads_columns'])?$postedVars['ads_columns']:'');?>
+            Poster Id</li>
+          <?php if($_GET["show_matching"] == "1") {?>
+           <li class="even">
+            <?php echo $this->columns('ads_columns[]','score', isset($postedVars['ads_columns'])?$postedVars['ads_columns']:'');?>
+            Score</li>
+           <?php } ?>
+           <!-- only javascript -->
+          <li class="odd">
+            <input type="button" value="Select All" id="check_uncheck" class="chk_box"  onclick="javascript:checkUncheckAllColumns(this.value)" />
+            </li>
+          
+        </ul>
+      </div>
+    </div>
+    <div class="clear10"></div>
+    <div class="clear10"></div>
+    <div class="title">Select Filters
+    <a style="text-decoration: none;" id="visibility_for_filters" name="visibility_for_filters" href="javascript:void(0)"
+           onclick="javscript:toggleVisibility('visibility_for_filters','select_filters','collapse')">-</a>
+    </div>
+    <div class="clear10"></div>
+    <div class="select_filters" id="select_filters">
+      <div class="col1">
+        <ul>
+          <li class="even">
+            <label>AD ID</label>
+            <div class="field">
+             <?php echo $this->textBox('ads_filter_ad_id',$postedVars['ads_filter_ad_id']); ?>
+            </div>
+          </li>
+          <div class="clear"></div>
+          <li class="odd">
+            <label>Ad Title</label>
+            <div class="field">
+	       <?php echo $this->equalsContainsExcludes('ads_filter_ad_title_select_ece',
+                      $postedVars['ads_filter_ad_title_select_ece']); ?>
+                <?php echo $this->textBox('ads_filter_ad_title_text',
+                        $postedVars['ads_filter_ad_title_text']); ?>
+            </div>
+          </li>
+          <div class="clear"></div>
+          <li class="even">
+            <label>Ad Description</label>
+            <div class="field">
+	       <?php echo $this->equalsContainsExcludes('ads_filter_ad_description_select_ece',
+                      $postedVars['ads_filter_ad_description_select_ece']); ?>
+                <?php echo $this->textBox('ads_filter_ad_description_text',
+                        $postedVars['ads_filter_ad_description_text']); ?>
+            </div>
+          </li>
+          <div class="clear"></div>
+          <li class="odd">
+            <label>Poster E-mail</label>
+            <div class="field">
+	       <?php echo $this->equalsContainsExcludes('reply_filter_poster_email_select_ece',
+                      $postedVars['reply_filter_poster_email_select_ece']); ?>
+                <?php echo $this->textBox('reply_filter_poster_email_text',
+                        $postedVars['reply_filter_poster_email_text']); ?>
+            </div>
+          </li>
+          <div class="clear"></div>
+          <li class="even">
+            <label>Ad Delete Reason</label>
+            <div class="field">
+	       <?php echo $this->equalsContainsExcludes('ads_filter_delete_reason_select_ece',
+                      $postedVars['ads_filter_delete_reason_select_ece']); ?>
+                <?php echo $this->textBox('ads_filter_delete_reason_text',
+                        $postedVars['ads_filter_delete_reason_text']); ?>
+            </div>
+          </li>
+          <div class="clear"></div>
+          <li class="odd">
+            <label>Ad Create Date</label>
+            <div class="field">
+	       <?php
+	       if($isPost) {
+                        if(!empty($postedVars['ads_filter_createdate_from'])) {
+                            $ads_filter_createdate_from = $postedVars['ads_filter_createdate_from'];
+                        } else {
+                            $ads_filter_createdate_from = 'null';
+                        }
+
+                        if(!empty($postedVars['ads_filter_createdate_to'])) {
+                            $ads_filter_createdate_to = $postedVars['ads_filter_createdate_to'];
+                        } else {
+                            $ads_filter_createdate_to= 'null';
+                        }
+
+                    }else {
+                        //return blank..initial state
+                        $ads_filter_createdate_from = '';
+                        $ads_filter_createdate_to = '';
+                    }
+		    ?>
+	        <?php echo $this->dateFrom('ads_filter_createdate_from',
+                        $ads_filter_createdate_from);?>
+                <?php echo $this->dateTo('ads_filter_createdate_to',
+                        $ads_filter_createdate_to);?>
+            </div>
+          </li>
+          <div class="clear"></div>
+          <li class="even">
+            <label>Ad Last Update</label>
+            <div class="field">
+	         <?php
+                    if($isPost) {
+                        if(!empty($postedVars['ads_filter_adlastupdate_from'])) {
+                            $ads_filter_adlastupdate_from = $postedVars['ads_filter_adlastupdate_from'];
+                        } else {
+                            $ads_filter_adlastupdate_from = 'null';
+                        }
+
+                        if(!empty($postedVars['ads_filter_adlastupdate_to'])) {
+                            $ads_filter_adlastupdate_to = $postedVars['ads_filter_adlastupdate_to'];
+                        } else {
+                            $ads_filter_adlastupdate_to= 'null';
+                        }
+
+                    }else {
+                        //return blank..initial state
+                        $ads_filter_adlastupdate_from = '';
+                        $ads_filter_adlastupdate_to = '';
+                    }
+
+
+                ?>
+	        <?php echo $this->dateFrom('ads_filter_adlastupdate_from',
+                        $ads_filter_adlastupdate_from);?>
+                <?php echo $this->dateTo('ads_filter_adlastupdate_to',
+                        $ads_filter_adlastupdate_to);?>
+            </div>
+          </li>
+          <div class="clear"></div>
+          <li class="odd">
+            <label>Ad Delete Date</label>
+            <div class="field">
+	       <?php
+                    if($isPost) {
+                        if(!empty($postedVars['ads_filter_addeletedate_from'])) {
+                            $ads_filter_addeletedate_from = $postedVars['ads_filter_addeletedate_from'];
+                        } else {
+                            $ads_filter_addeletedate_from = 'null';
+                        }
+
+                        if(!empty($postedVars['ads_filter_addeletedate_to'])) {
+                            $ads_filter_addeletedate_to = $postedVars['ads_filter_addeletedate_to'];
+                        } else {
+                            $ads_filter_addeletedate_to= 'null';
+                        }
+
+                    }else {
+                        //return blank..initial state
+                        $ads_filter_addeletedate_from = '';
+                        $ads_filter_addeletedate_to = '';
+                    }
+
+
+                ?>
+	        <?php echo $this->dateFrom('ads_filter_addeletedate_from',
+                        $ads_filter_addeletedate_from);?>
+                <?php echo $this->dateTo('ads_filter_addeletedate_to',
+                        $ads_filter_addeletedate_to);?> 
+            </div>
+          </li>
+          <div class="clear"></div>
+          <li class="even">
+            <label>Expired time</label>
+            <div class="field">
+	       <?php
+                    if($isPost) {
+                        if(!empty($postedVars['ads_filter_expiretime_from'])) {
+                            $ads_filter_expiretime_from = $postedVars['ads_filter_expiretime_from'];
+                        } else {
+                            $ads_filter_expiretime_from = 'null';
+                        }
+
+                        if(!empty($postedVars['ads_filter_expiretime_to'])) {
+                            $ads_filter_expiretime_to = $postedVars['ads_filter_expiretime_to'];
+                        } else {
+                            $ads_filter_expiretime_to= 'null';
+                        }
+
+                    }else {
+                        //return blank..initial state
+                        $ads_filter_expiretime_from = '';
+                        $ads_filter_expiretime_to = '';
+                    }
+
+
+                ?>
+	        <?php echo $this->dateFrom('ads_filter_expiretime_from',
+                        $ads_filter_expiretime_from);?>
+                <?php echo $this->dateTo('ads_filter_expiretime_to',
+                        $ads_filter_expiretime_to);?> 
+            </div>
+          </li>
+          <div class="clear"></div>
+          <li class="odd">
+            <label>Repost Time</label>
+            <div class="field">
+	       <?php
+                    if($isPost) {
+                        if(!empty($postedVars['ads_filter_reposttime_from'])) {
+                            $ads_filter_reposttime_from = $postedVars['ads_filter_reposttime_from'];
+                        } else {
+                            $ads_filter_reposttime_from = 'null';
+                        }
+
+                        if(!empty($postedVars['ads_filter_reposttime_to'])) {
+                            $ads_filter_reposttime_to = $postedVars['ads_filter_reposttime_to'];
+                        } else {
+                            $ads_filter_reposttime_to= 'null';
+                        }
+
+                    }else {
+                        //return blank..initial state
+                        $ads_filter_reposttime_from = '';
+                        $ads_filter_reposttime_to = '';
+                    }
+
+
+                ?>
+	        <?php echo $this->dateFrom('ads_filter_reposttime_from',
+                        $ads_filter_reposttime_from);?>
+                <?php echo $this->dateTo('ads_filter_reposttime_to',
+                        $ads_filter_reposttime_to);?> 
+            </div>
+          </li>
+          <div class="clear"></div>
+          
+          
+          <li class="odd">
+            <label>Ad First Created Date</label>
+            <div class="field">
+	       <?php
+                    if($isPost) {
+                        if(!empty($postedVars['ads_filter_first_created_from'])) {
+                            $ads_filter_first_created_from = $postedVars['ads_filter_first_created_from'];
+                        } else {
+                            $ads_filter_first_created_from = 'null';
+                        }
+
+                        if(!empty($postedVars['ads_filter_first_created_to'])) {
+                            $ads_filter_first_created_to = $postedVars['ads_filter_first_created_to'];
+                        } else {
+                            $ads_filter_first_created_to= 'null';
+                        }
+
+                    }else {
+                        //return blank..initial state
+                        $ads_filter_first_created_from = '';
+                        $ads_filter_first_created_to = '';
+                    }
+
+
+                ?>
+	        <?php echo $this->dateFrom('ads_filter_first_created_from',
+                        $ads_filter_first_created_from);?>
+                <?php echo $this->dateTo('ads_filter_first_created_to',
+                        $ads_filter_first_created_to);?> 
+            </div>
+          </li>
+          <div class="clear"></div>
+          
+          
+          
+          
+          <li class="even">
+            <label>Reposted</label>
+            <div class="field">
+	      <?php echo $this->YesNo('ads_filter_reposted',$postedVars['ads_filter_reposted']); ?>    
+	    </div>
+          </li>
+          <div class="clear"></div>
+          
+        </ul>
+      </div>
+      <div class="col2">
+        <ul>
+          <li class="even">
+            <label>Poster Mobile</label>
+            <div class="field">
+            <?php echo $this->presentNotpresentradio('ads_filter_postermobile',(isset($postedVars['ads_filter_postermobile']) ? $postedVars['ads_filter_postermobile'] : null)); ?>
+	    <?php //echo $this->presentNotpresent('ads_filter_postermobile',$postedVars['ads_filter_postermobile']);?>
+	    </div>
+          </li>
+          <div class="clear"></div>
+          <li class="odd">
+            <label>Free/Premium</label>
+            <div class="field">
+	    <?php echo $this->customPresentNotPresent('ads_filter_free_premium',
+                        $postedVars['ads_filter_free_premium'],array('Free','Premium'));?>     
+	    </div>
+          </li>
+          <div class="clear"></div>
+          <li class="even">
+            <label>Premium Ad type</label>
+            <div class="field">
+	    <?php echo $this->customPresentNotPresent('ads_filter_premium_ad_type',
+                        $postedVars['ads_filter_premium_ad_type'],array('Top of Page','Urgent'));?>
+	    </div>
+          </li>
+          <div class="clear"></div>
+          <!--<li class="odd">
+            <label>Payment Type</label>
+            <div class="field">
+              <select class="select02">
+              	<option>Credit Card</option>
+                <option>Cheque</option>
+              </select>
+            </div>
+          </li>
+          <div class="clear"></div>
+          <li class="even">
+            <label>Payment Pending</label>
+            <div class="field">
+	    <?php //echo $this->YesNo('ads_payment_pending',$postedVars['ads_payment_pending']); ?>
+	    </div>
+          </li> -->
+          <div class="clear"></div>
+          <li class="odd">
+            <label>User agent</label>
+            <div class="field">
+	    <?php echo $this->customPresentNotPresent('ads_filter_useragent',
+                        $postedVars['ads_filter_useragent'],array('Web','Mobile'));?>
+	    </div>
+          </li>
+          <div class="clear"></div>
+          <!--<li class="even">
+            <label>Individual/Dealer</label>
+            <div class="field">
+	    <?php /*echo $this->customPresentNotPresent('ads_filter_individual_dealer',
+                        $postedVars['ads_filter_individual_dealer'],array('Individual','Dealer')); */?>   
+	    </div>
+          </li> -->
+          <div class="clear"></div>
+          <li class="even">
+            <label>Ad Type</label>
+            <div class="field">
+              <?php echo $this->multiselect('ads_filter_ad_type',$postedVars['ads_filter_ad_type'],array('Offering','Want'),'',''); ?>
+            </div>
+          </li>
+          <div class="clear"></div>
+          <li class="odd">
+            <label>Status</label>
+            <div class="field">
+	      <?php echo $this->multiselect('ads_filter_status',$postedVars['ads_filter_status'],array('Active','Expire','Flag and Delay','User Deleted','Admin Delete'),'',''); ?>
+            </div>
+          </li>
+          <div class="clear"></div>
+	  <li class="even">
+            <label>Flag Reason</label>
+            <div class="field">
+	       <?php echo $this->multiselect('ads_filter_flag_reason',$postedVars['ads_filter_flag_reason'],array('Banned word','Paid ad','Payment pending','Duplicated'),'disable',$postedVars['ads_filter_status']); ?>
+            </div>
+          </li>
+          <div class="clear"></div>
+          <li class="odd">
+            <label>Regular/No click</label>
+            <div class="field">
+	      <?php echo $this->multiselect('ads_filter_regular',$postedVars['ads_filter_regular'],array('Regular','No-click'),'',''); ?>
+            </div>
+          </li>
+          <div class="clear"></div>
+          <?php if($_GET["show_matching"] == 1) { ?>
+          <li class="even">
+            <label>Score Range greater than</label>
+            <div class="field"> 
+               <?php echo $this->textBox('ads_filter_score_text',
+                        $postedVars['ads_filter_score_text']);?>
+            </div>
+          </li>
+          <div class="clear"></div>
+          <?php } ?>
+          
+        </ul>
+      </div>
+      <div class="col3">
+        <ul>
+          <div class="clear"></div>
+          <li class="odd">
+            <label>No of images</label>
+            <div class="field">
+              <?php echo $this->quantityRange('ads_filter_no_of_images_range',
+                                              $postedVars['ads_filter_no_of_images_range']); ?>
+               <?php echo $this->textBox('ads_filter_no_of_images_text',
+                        $postedVars['ads_filter_no_of_images_text']);?>
+            </div>
+          </li>
+          <div class="clear"></div>
+          <li class="even">
+            <label>No of visitor</label>
+            <div class="field">
+              <?php echo $this->quantityRange('ads_filter_no_of_visitors_range',
+                                              $postedVars['ads_filter_no_of_visitors_range']); ?>
+               <?php echo $this->textBox('ads_filter_no_of_visitors_text',
+                        $postedVars['ads_filter_no_of_visitors_text']);?>
+            </div>
+          </li>
+          <div class="clear"></div>
+          <li class="odd">
+            <label>No of replies</label>
+            <div class="field">
+	      <?php echo $this->quantityRange('ads_filter_no_of_replies_range',
+                                              $postedVars['ads_filter_no_of_replies_range']); ?>
+               <?php echo $this->textBox('ads_filter_no_of_replies_text',
+                        $postedVars['ads_filter_no_of_replies_text']);?>
+            </div>
+          </li>
+          <li class="even">
+            <label>Price</label>
+            <div class="field">
+	       <?php echo $this->quantityRange('ads_filter_price_range',
+                                              $postedVars['ads_filter_price_range']); ?>
+               <?php echo $this->textBox('ads_filter_price_text',
+                        $postedVars['ads_filter_price_text']);?>
+            </div>
+          </li>
+          <div class="clear"></div>
+          <li class="odd">
+            <label>City</label>
+            <div class="field">
+              <?php echo $this->cityList('ads_filter_city',$postedVars['ads_filter_city'])?>
+            </div>
+          </li>
+          <div class="clear"></div>
+          <li class="even">
+            <label>Locality</label>
+           <div class="field">
+             <?php echo $this->localityList('ads_filter_localities',$postedVars['ads_filter_localities'],$postedVars['ads_filter_city'])?>
+            </div>
+          </li>
+          <div class="clear"></div>
+          <li class="odd">
+            <label>Category</label>
+            <div class="field">
+              <?php echo $this->metacategoryList('ads_filter_metacat',$postedVars['ads_filter_metacat'],$postedVars['ads_filter_city'])?>
+            </div>
+          </li>
+          <div class="clear"></div>
+          <li class="even">
+            <label>Sub-category</label>
+            <div class="field">
+              <?php echo $this->subcategoryList('ads_filter_subcat',$postedVars['ads_filter_subcat'],$postedVars['ads_filter_metacat'],$postedVars['ads_filter_city'])?>
+            </div>
+          </li>
+
+         <!--copy from here for displaying attributes, just  change the $class value -->
+            <div id="ads_filter_attributes" name="ads_filter_attributes">
+                <?php
+
+    if(!empty($postedVars['ads_filter_subcat'])) { 
+        $cityId = $postedVars['ads_filter_city'];
+        $subcatId = $postedVars['ads_filter_subcat'];
+    	
+    	if($cityId == 'all') {
+          $sql = 'SELECT text0 FROM babel_meta WHERE globalcatid = "'.$subcatId.'"';
+        } else {
+          $sql = 'SELECT text0 FROM babel_meta WHERE globalcatid = (SELECT a.nod_globalId FROM babel_node as a WHERE a.node_id = "'.$subcatId.'")'; 
+        }
+
+        $objStmt = new Zend_Db_Statement_Pdo(Zend_Registry::get('dbconnection'), $sql);
+        $objStmt->execute();
+        $attrString = $objStmt->fetch();
+        $xmlArr = simplexml_load_string($attrString['text0']);
+        $allowedAttributes = Zend_Registry::get('ALLOWED_ATTRIBUTES');
+        //print_r($xmlArr);
+        
+        $class = 1;
+        foreach($xmlArr as $key => $val) {
+            if(in_array($val->name, $allowedAttributes)) {
+                $attributesArr[] = $val;
+                $caption = (string)$val->name;
+                
+                echo $this->attributes($val->name,$postedVars[$caption], $val->values, $class);
+                $class++;
+            }
+            
+        }
+    }
+
+?>
+            </div>
+            <!--copy ends -->
+            
+   
+          <div class="clear"></div>
+          
+          <div class="clear"></div>
+        </ul>
+      </div>
+      <div class="clear10"></div>
+      <div class="clear10"></div>
+    </div>
+    <div class="clear10"></div>
+    <div class="clear10"></div>
+    <div class="title">&nbsp;&nbsp;<input type="checkbox" <?php if($_POST['show_summarize'] == 'on'){ print 'checked'; } ?> id="show_summarize" name="show_summarize" onchange="javascript:resetSummarize();" value="on" /> Summarize</div>
+    <div class="clear10"></div>
+     <div class="summarize" id="summarize" style="<?php if($_POST['show_summarize'] != 'on') echo 'display:none'; ?>">
+    	<div class="summarize_inside">
+        	<div class="row">
+                <label>By count of :</label>
+                <div class="field">
+                    <div class="col">
+                        <?php echo $this->summarize('ads_summarize_by_count_of','ads_count',$postedVars['ads_summarize_by_count_of'])?>
+                        <span>Ad Count</span>
+					</div>
+                    <div class="col">
+                        <?php echo $this->summarize('ads_summarize_by_count_of','poster_count',$postedVars['ads_summarize_by_count_of'])?>
+                        <span>Ad Poster Count</span>
+					</div>
+                </div>
+            </div>
+            <div class="clear10"></div>
+            <div class="clear10"></div>
+	    <div class="row">
+                <label>For Date :</label>
+                <div class="field">
+                    <div class="col">
+                        <?php echo $this->summarize('ads_summarize_for_ad_date','ad_create_date',$postedVars['ads_summarize_for_ad_date'])?>
+                        <span>Ad Create Date</span>
+					</div>
+                    <div class="col">
+                        <?php echo $this->summarize('ads_summarize_for_ad_date','ad_last_update_date',$postedVars['ads_summarize_for_ad_date'])?>
+                        <span>Ad Last Update</span>
+					</div>
+                    <div class="col">
+                        <?php echo $this->summarize('ads_summarize_for_ad_date','ad_delete_date',$postedVars['ads_summarize_for_ad_date'])?>
+                        <span>Ad Delete Date</span>
+					</div>
+                    <div class="col">
+                        <?php echo $this->summarize('ads_summarize_for_ad_date','ad_expire_time',$postedVars['ads_summarize_for_ad_date'])?>
+                        <span>Expired time</span>
+					</div>
+                    <div class="col">
+                        <?php echo $this->summarize('ads_summarize_for_ad_date','ad_repost_time',$postedVars['ads_summarize_for_ad_date'])?>
+                        <span>Repost Time</span>
+					</div>
+                    
+                    <div class="col">
+                        <?php echo $this->summarize('ads_summarize_for_ad_date','ad_first_created_date',$postedVars['ads_summarize_for_ad_date'])?>
+                        <span>Ad First Created Date</span>
+					</div>
+                    
+                </div>
+		<div class="clear10"></div>
+                <div class="clear10"></div>
+        	<div class="row">
+                <label>In intervals of :</label>
+                <div class="field">
+                    <div class="col">
+                        <?php echo $this->summarize('ads_summarize_interval_of','daily',$postedVars['ads_summarize_interval_of'])?>
+                        <span>Daily</span>
+					</div>
+                    <div class="col">
+                        <?php echo $this->summarize('ads_summarize_interval_of','weekly',$postedVars['ads_summarize_interval_of'])?>
+                        <span>Weekly</span>
+					</div>
+                    <div class="col">
+                        <?php echo $this->summarize('ads_summarize_interval_of','monthly',$postedVars['ads_summarize_interval_of'])?>
+                        <span>Monthly</span>
+					</div>
+                    <div class="col">
+                        <?php echo $this->summarize('ads_summarize_interval_of','yearly',$postedVars['ads_summarize_interval_of'])?>
+                        <span>Yearly</span>
+					</div>
+                </div>
+            </div>
+            <div class="clear10"></div>
+            <div class="clear10"></div>
+            
+            </div>
+        </div>
+    </div>
+    <div class="clear10"></div>
+    <div class="clear10"></div>
+      <div class="btn01 fright">
+	   <input type="button" value="reset" onclick="javascript:return resetForm('ads_form','ads')"  />
+	  <input id="ads_form_submit" name="ads_form_submit" type="submit" onclick="javascript: return isColumnSelected()" value="search" />
+      </div>
+    </form>
+       <div class="clear10"></div>
+      <div class="clear10"></div>
+
+
+
+      
+      <?php if(isset($this->summarizeError)) { ?>
+<div class="userError"><?php echo $this->summarizeError;?></div>
+<?php } ?>
+
+      <?php if(isset ($this->columnsToShow)) {
+            echo $this->partial('ads/result_set.phtml',array('columns' => $this->columnsToShow));
+?>
+<div class="clear10"></div>
+         <?php
+
+              echo $this->paginationControl($this->paginator,
+                                    'Sliding',
+                                    'ads/pagination.phtml',array('requestUrl' => $this->requestUrl));
+            }
+      ?>                                                        
+                                                               
+       <?php if(isset($postedVars['show_summarize'])) { 
+               echo $this->partial('ads/result_set_summarize.phtml',array('summarizedData' => $this->summarizedData));
+      } // EOF ELSE     
+    ?>
+    <script type="text/javascript">
+	function exportToExcelAds() {
+
+		document.getElementById('is_export_request').value = 'yes';
+                <?php if($_GET["show_matching"] == 1) {?>
+                        jQuery('#ads_form').attr('action',BASE_URL+'/ads/index?show_matching=1');
+                <?php } else { ?>
+		jQuery('#ads_form').attr('action',BASE_URL+'/ads/index');
+                <?php } ?>
+		document.getElementById('ads_form').submit();
+		document.getElementById('is_export_request').value = 'no';
+	}
+</script>

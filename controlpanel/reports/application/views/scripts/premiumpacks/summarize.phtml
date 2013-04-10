@@ -1,0 +1,89 @@
+
+       <div class="clear10"></div>
+    <div class="clear10"></div>
+    <div class="title">&nbsp;&nbsp;<input type="checkbox" <?php if($_POST['show_summarize'] == 'on'){ print 'checked'; } ?> id="show_summarize" name="show_summarize" onchange="javascript:resetSummarize();" value="on" /> Summarize</div>
+    <div class="clear10"></div>
+     <div class="summarize" id="summarize" style="<?php if($_POST['show_summarize'] != 'on') echo 'display:none'; ?>">
+    	<div class="summarize_inside">
+        	<div class="row">
+                <label>By count of :</label>
+                <div class="field">
+                    <div class="col">
+                        <?php echo $this->summarize('pack_summarize_by_count_of','pack_count',$this->postedVars['pack_summarize_by_count_of'])?>
+                        <span>Count of Packs</span>
+					</div>
+                    <div class="col">
+                        <?php echo $this->summarize('pack_summarize_by_count_of','unique_pack_users',$this->postedVars['pack_summarize_by_count_of'])?>
+                        <span>Count of Unique Pack Users</span>
+					</div>
+                </div>
+            </div>
+            <div class="clear10"></div>
+            <div class="clear10"></div>
+	    <div class="row">
+                <label>For Date :</label>
+                <div class="field">
+                    <div class="col">
+                        <?php echo $this->summarize('pack_summarize_for_date','premiumpacks_filter_admin_deleted_date',$this->postedVars['pack_summarize_for_date'])?>
+                        <span>Admin deleted date</span>
+					</div>
+                    <div class="col">
+                        <?php echo $this->summarize('pack_summarize_for_date','premiumpacks_filter_created_date',$this->postedVars['pack_summarize_for_date'])?>
+                        <span>Pack Create Date</span>
+					</div>
+                    <div class="col">
+                        <?php echo $this->summarize('pack_summarize_for_date','premiumpacks_filter_activated_date',$this->postedVars['pack_summarize_for_date'])?>
+                        <span>Pack Activated Date</span>
+					</div>
+                    <div class="col">
+                        <?php echo $this->summarize('pack_summarize_for_date','premiumpacks_filter_expiry_date',$this->postedVars['pack_summarize_for_date'])?>
+                        <span>Pack Expired Date</span>
+					</div>
+                    <div class="col">
+                        <?php echo $this->summarize('pack_summarize_for_date','premiumpacks_filter_usage_date',$this->postedVars['pack_summarize_for_date'])?>
+                        <span>Pack Usage Date</span>
+					</div>
+                </div>
+		<div class="clear10"></div>
+                <div class="clear10"></div>
+        	<div class="row">
+                <label>In intervals of :</label>
+                <div class="field">
+                    <div class="col">
+                        <?php echo $this->summarize('pack_summarize_interval_of','daily',$this->postedVars['pack_summarize_interval_of'])?>
+                        <span>Daily</span>
+					</div>
+                    <div class="col">
+                        <?php echo $this->summarize('pack_summarize_interval_of','weekly',$this->postedVars['pack_summarize_interval_of'])?>
+                        <span>Weekly</span>
+					</div>
+                    <div class="col">
+                        <?php echo $this->summarize('pack_summarize_interval_of','monthly',$this->postedVars['pack_summarize_interval_of'])?>
+                        <span>Monthly</span>
+					</div>
+                    <div class="col">
+                        <?php echo $this->summarize('pack_summarize_interval_of','yearly',$this->postedVars['pack_summarize_interval_of'])?>
+                        <span>Yearly</span>
+					</div>
+					
+				    <div class="col">
+                        <?php echo $this->summarize('pack_summarize_interval_of','mtd',$this->postedVars['pack_summarize_interval_of'])?>
+                        <span>MTD</span>
+					</div>
+                </div>
+            </div>
+            <div class="clear10"></div>
+            <div class="clear10"></div>
+            
+            </div>
+        </div>
+    </div>
+    <div class="clear10"></div>
+    <div class="clear10"></div>
+    
+
+      
+      
+      
+      
+      

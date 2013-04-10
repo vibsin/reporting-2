@@ -1,0 +1,80 @@
+<div class="clear10"></div>
+    <div class="clear10"></div>
+    <div class="title">&nbsp;&nbsp;<input type="checkbox" <?php if($_POST['show_summarize'] == 'on'){ print 'checked'; } ?> id="show_summarize" name="show_summarize" onchange="javascript:resetSummarize();" value="on" /> Summarize</div>
+    <div class="clear10"></div>
+     <div class="summarize" id="summarize" style="<?php if($_POST['show_summarize'] != 'on') echo 'display:none'; ?>">
+    	<div class="summarize_inside">
+        	<div class="row">
+                <label>By count of :</label>
+                <div class="field">
+                    <div class="col">
+                        <?php echo $this->summarize('premiumads_summarize_by_count_of','premiumads_count',$this->postedVars['premiumads_summarize_by_count_of'])?>
+                        <span>Count of Premium Ads</span>
+					</div>
+                    <div class="col">
+                        <?php echo $this->summarize('premiumads_summarize_by_count_of','unique_premiumads_users',$this->postedVars['premiumads_summarize_by_count_of'])?>
+                        <span>Count of Premium Ad Users</span>
+					</div>
+                </div>
+            </div>
+            <div class="clear10"></div>
+            <div class="clear10"></div>
+	    <div class="row">
+                <label>For Date :</label>
+                <div class="field">
+                    <div class="col">
+                        <?php echo $this->summarize('premiumads_summarize_for_date','premiumads_filter_ad_order_created_date',$this->postedVars['premiumads_summarize_for_date'])?>
+                        <span>Create Date</span>
+					</div>
+                    <div class="col">
+                        <?php echo $this->summarize('premiumads_summarize_for_date','premiumads_filter_ad_order_activated_date',$this->postedVars['premiumads_summarize_for_date'])?>
+                        <span>Activated date</span>
+					</div>
+                    <div class="col">
+                        <?php echo $this->summarize('premiumads_summarize_for_date','premiumads_filter_ad_order_expiry_date',$this->postedVars['premiumads_summarize_for_date'])?>
+                        <span>Expired Date</span>
+					</div>
+                    <div class="col">
+                        <?php echo $this->summarize('premiumads_summarize_for_date','premiumads_filter_admin_order_date',$this->postedVars['premiumads_summarize_for_date'])?>
+                        <span>Admin Deleted Date</span>
+					</div>
+                    <div class="col">
+                        <?php echo $this->summarize('premiumads_summarize_for_date','premiumads_filter_user_order_date',$this->postedVars['premiumads_summarize_for_date'])?>
+                        <span>User Deleted Date</span>
+					</div>
+                </div>
+		<div class="clear10"></div>
+                <div class="clear10"></div>
+        	<div class="row">
+                <label>In intervals of :</label>
+                <div class="field">
+                    <div class="col">
+                        <?php echo $this->summarize('premiumads_summarize_interval_of','daily',$this->postedVars['premiumads_summarize_interval_of'])?>
+                        <span>Daily</span>
+					</div>
+                    <div class="col">
+                        <?php echo $this->summarize('premiumads_summarize_interval_of','weekly',$this->postedVars['premiumads_summarize_interval_of'])?>
+                        <span>Weekly</span>
+					</div>
+                    <div class="col">
+                        <?php echo $this->summarize('premiumads_summarize_interval_of','monthly',$this->postedVars['premiumads_summarize_interval_of'])?>
+                        <span>Monthly</span>
+					</div>
+                    <div class="col">
+                        <?php echo $this->summarize('premiumads_summarize_interval_of','yearly',$this->postedVars['premiumads_summarize_interval_of'])?>
+                        <span>Yearly</span>
+					</div>
+					 <div class="col">
+                        <?php echo $this->summarize('premiumads_summarize_interval_of','mtd',$this->postedVars['premiumads_summarize_interval_of'])?>
+                        <span>MTD</span>
+					</div>
+                </div>
+            </div>
+            <div class="clear10"></div>
+            <div class="clear10"></div>
+            
+            </div>
+        </div>
+    </div>
+    <div class="clear10"></div>
+    <div class="clear10"></div>

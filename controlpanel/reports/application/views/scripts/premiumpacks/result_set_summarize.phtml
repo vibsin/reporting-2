@@ -1,0 +1,41 @@
+<?php if(isset($this->summarizedData)) { ?>
+<div class="dataGrid_01 report" style="width:820px">
+      <div class="gridRow rowHead">
+        <div class="c1">Count</div>
+        <?php 
+        if($this->mtd){
+        	 echo '<div class="c2">Amout</div>';
+        }
+        ?>
+        <div class="c2">Period</div>
+      </div>
+
+    <?php
+
+            $classCounter = 1;
+            foreach ($this->summarizedData as $key => $val) {
+                if(($classCounter%2) == 0) $css = 'rowEven';
+                else $css = 'rowOdd'; ?>
+    <div class="gridRow <?php echo $css?>">
+        <div class="c1"><?php echo $val['count']?></div>
+       <?php 
+        if($this->mtd){
+        	 echo '<div class="c2">'.$val['amount'].'</div>';
+        }
+        ?>
+        <div class="c2"><?php echo $val['date'];?></div>
+      </div>
+<?php
+            }
+    ?>
+    </div>
+    <div class="clear10"></div>
+    <div class="btn01 fleft">
+      <input type="button" value="Export to Excel file" onclick="javascript:exportToExcelpremiumpacks()"/>
+
+    </div>
+    <?php } else { ?>
+
+<div class="userError"><?php echo USER_NO_RECORD_FOUND;?></div>
+<?php
+}

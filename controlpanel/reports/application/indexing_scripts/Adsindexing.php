@@ -1,0 +1,601 @@
+<?php
+include('IndexingAbstract.php');
+
+class Adsindexing extends IndexingAbstract {
+
+
+    protected $dbTableName = 'babel_topic';
+    protected $section = 'ads'; //used in the parent class
+    protected $indexingUrl = SOLR_ADS_INDEXING_URL;
+
+    public $allowed_attributes = null;
+    protected $isIncrementalIndexing = false;
+    protected $isCalledFromOtherScript = false;
+
+    protected static $ausersToUpdate = array();
+    protected static $areplyWithAdsToUpdate = array();
+    protected $thresholdForIncremental;
+    protected $isRunTimeIndexing = false;
+    
+    public function  __destruct() {
+        parent::__destruct();
+    }
+    
+        
+        
+	    
+    public function init($args) {
+            $this->allowed_attributes = Zend_Registry::get('ALLOWED_ATTRIBUTES');
+            
+            if(!empty($args)) {
+                $this->commandArgs = $args;
+                $runIndexingFor=$args[1];
+                if(isset($args[2])) {
+                    $runInterval = $args[2];
+                    $this->isIncrementalIndexing = true;
+                }
+               
+                switch($runIndexingFor) {
+                    case 'ALL':
+                        $this->sql = 'SELECT * FROM '.$this->dbTableName;
+                        $this->countSql = 'SELECT count(tpc_id) as "count" FROM '.$this->dbTableName;
+                    break;
+                    case 'NEWEST':
+                        $past = strtotime(date('d-m-Y H:i:s',mktime(0,0,0,date("n"),date("j")-$runInterval,date("Y"))));
+                        $now = strtotime(date('d-m-Y H:i:s',mktime(0,0,0,date("n"),date("j"),date("Y"))));
+
+                        $this->sql = 'SELECT * FROM '.$this->dbTableName.' WHERE remapped BETWEEN '.$past.' AND '.$now;
+                        $this->countSql = 'SELECT count(tpc_id) as "count" FROM '.$this->dbTableName.' WHERE remapped BETWEEN '.$past.' AND '.$now;
+                        $this->isMasterIndexingScript = true;
+                    break;
+
+                     case 'ADID':
+                        $adId = $args[2];
+                        $this->isCalledFromOtherScript = true;
+                        $this->sql = 'SELECT * FROM '.$this->dbTableName.' WHERE tpc_id IN ('.$adId.')';
+                        $this->countSql = '';
+                        $this->thresholdForIncremental = $args[3];
+
+                    break;
+                
+                /** This will index data given in the below range. Please dont give very large gap between dates
+                 * usage:
+                 * /usr/local/php/bin/php Adsindexing.php DATE_RANGE FROM_DATE TO_DATE
+                 * 
+                 * FROM_DATE and TO_DATE should be of the format dd-mm-yyyy
+                 * 
+                 */
+                case 'DATE_RANGE':
+                    $this->isIncrementalIndexing = false;
+                    $past = strtotime($args[2]);
+                    $now = strtotime($args[3]);
+
+                    $this->sql = 'SELECT * FROM '.$this->dbTableName.' WHERE remapped BETWEEN '.$past.' AND '.$now;
+                    $this->countSql = 'SELECT count(tpc_id) as "count" FROM '.$this->dbTableName.' WHERE remapped BETWEEN '.$past.' AND '.$now;
+
+                break;
+            
+            
+                case 'ADID_CUSTOM':
+                    $adId = $args[2];
+                    $this->isCalledFromOtherScript = true;
+		    $this->isRunTimeIndexing = true;
+                    $this->isIncrementalIndexing = false;
+                    $this->sql = 'SELECT * FROM '.$this->dbTableName.' WHERE tpc_id IN ('.$adId.')';
+                    $this->thresholdForIncremental = $args[3];
+                    $this->countSql = '';
+                    
+                    
+                break;
+                
+            //just provide one paramter for date
+                case 'ACTIVE_BEFORE_DATE':
+                    $this->isIncrementalIndexing = false;
+                    $now = strtotime($args[2]);
+
+                    $this->sql = 'SELECT * FROM '.$this->dbTableName.' WHERE tpc_status = 0 and tpc_firstcreated <= '.$now;
+                    $this->countSql = 'SELECT count(tpc_id) as "count" FROM '.$this->dbTableName.' WHERE tpc_firstcreated = 0 and remapped <= '.$now;
+
+                break;
+            
+                 case 'RUNTIME':
+                    $adId = $args[2];
+                    $this->dbConnection = Zend_Registry::get("writedb");
+                    $this->isIncrementalIndexing = false;
+                    $this->isCalledFromOtherScript = true;
+                    $this->sql = 'SELECT * FROM '.$this->dbTableName.' WHERE tpc_id IN ('.$adId.')';
+                    $this->countSql = '';
+                    $this->thresholdForIncremental = $args[3];
+                    $this->isRunTimeIndexing = true;
+                    //unlink(INDEXING_LOG."/".$this->logFileName);
+                    //$this->setRuntimeLog();
+                    
+                    //$this->logFileName = $this->section."_".date("d-M-Y_H:i:s").".log";
+                break;
+            
+                case 'DROP':
+                    $this->dropsearchindexesAction();
+                break;
+            
+                default:                    
+                    echo "NOTHING TO DO!";
+                break;
+                }
+            //set the threshhold
+            if($this->isCalledFromOtherScript) self::$threshold = $this->thresholdForIncremental;
+            else self::$threshold = $this->getMaxRecordsFromDB();
+            
+            $this->indexAction();
+        } else {
+            echo 'Please enter valid arguments'; die();
+        }
+    }
+
+    protected function setRuntimeLog() {
+        
+        $this->logFileName = $this->section."_RUNTIME_".date("d-M-Y_H").".log";
+        $fileName = INDEXING_LOG."/".$this->logFileName;
+        $this->writer = new Zend_Log_Writer_Stream($fileName);
+        
+        $format = "%timestamp% %priorityName% (%priority%):%message%". PHP_EOL;
+        $formatter = new Zend_Log_Formatter_Simple($format);
+        $this->writer->setFormatter($formatter);
+        
+        
+        $this->logger = new Zend_Log($this->writer);
+        
+    }
+    
+    protected function getPosterDetails($userId) {
+        $key = new Rediska_Key('USER_ID|'.$userId);
+        $key->setExpire(86400); // 1 day
+        $value = $key->getValue();
+        if($value == null) {
+            $sql = 'SELECT usr_email,usr_mobile FROM babel_user WHERE usr_id = '.$userId;
+            $objStmt = new Zend_Db_Statement_Pdo(Zend_Registry::get('writedb'), $sql);
+            $objStmt->execute();
+            $items = $objStmt->fetchAll();
+            $key->setValue($items[0]);
+            return $items[0];
+        } else {
+            return $value;
+        }
+    }
+
+    protected function initBuildingData() {
+	//echo "\n".time()."\n";
+        foreach(self::$data as $key => $val) {
+            self::$dataToIndex[self::$counter]['id'] = $val['tpc_id']; //done
+            self::$dataToIndex[self::$counter]['ad_title'] = $val['tpc_title']; //done
+            self::$dataToIndex[self::$counter]['ad_description'] = $val['tpc_content']; //done
+            self::$dataToIndex[self::$counter]['poster_id'] = $val['tpc_uid']; //done
+            $poster = $this->getPosterDetails($val['tpc_uid']);
+            self::$dataToIndex[self::$counter]['poster_email'] = $poster['usr_email']; //done
+            self::$dataToIndex[self::$counter]['poster_mobile'] = $poster['usr_mobile']; //done
+            self::$dataToIndex[self::$counter]['ad_created_date'] = $val['tpc_created']; //done
+            self::$dataToIndex[self::$counter]['ad_modified_date'] = $val['tpc_lastupdated']; //done
+            self::$dataToIndex[self::$counter]['city_id'] = $val['tpc_pppid']; //done
+            self::$dataToIndex[self::$counter]['city_name'] = $this->getCityName($val['tpc_pppid']); //done
+            self::$dataToIndex[self::$counter]['localities'] = $this->parseLocations($val['tpc_location']); //done
+            self::$dataToIndex[self::$counter]['metacategory_id'] = $val['tpc_ppid']; //done
+            self::$dataToIndex[self::$counter]['metacategory_name'] = $this->getMetacatName($val['tpc_ppid']); //done
+            self::$dataToIndex[self::$counter]['subcategory_id'] = $val['tpc_pid']; //done
+            self::$dataToIndex[self::$counter]['subcategory_name'] = $val['tpc_pname']; //done
+            self::$dataToIndex[self::$counter]['global_metacategory_id'] = $val['tpc_globalppid']; //done
+            self::$dataToIndex[self::$counter]['global_subcategory_id'] = $val['tpc_globalId']; //done
+            self::$dataToIndex[self::$counter]['free_premium_type'] = $this->parseFreePremium($val['tpc_adStyle']); //done
+            self::$dataToIndex[self::$counter]['premium_ad_type'] = $this->parsePremiumAdType($val['tpc_adStyle']); //done
+            self::$dataToIndex[self::$counter]['payment_type'] = ''; //done - will change in next release//$this->parsePaymentType($val['tpc_id']); //not done
+            self::$dataToIndex[self::$counter]['payment_pending'] = ''; //done - will change in next release
+            self::$dataToIndex[self::$counter]['regular_noclick'] = $this->parseRegularNoclick($val['tpc_nca']); //done
+            self::$dataToIndex[self::$counter]['no_of_images'] = $this->parseNoOfImages($val); //done
+
+/********THIS IS CAUSING DELAY************/
+//self::$dataToIndex[self::$counter]['no_of_visitors'] = $this->getNoOfVisitors($val['tpc_id']); //done
+
+
+            self::$dataToIndex[self::$counter]['price_value'] = $this->parsePrice($val['tpc_bak2']); //done
+
+            //from price value we will decide what will be price type
+            if(self::$dataToIndex[self::$counter]['price_value'] >= 0 && self::$dataToIndex[self::$counter]['price_value'] != '') {
+            self::$dataToIndex[self::$counter]['price_type'] = 'Numeric'; //done
+            } else {
+            self::$dataToIndex[self::$counter]['price_type'] = $val['tpc_bak3']; //done
+            }
+
+            self::$dataToIndex[self::$counter]['ad_type'] = $this->parseAdType($val['tpc_bak2']);//done
+            self::$dataToIndex[self::$counter]['ad_status'] = $this->parseAdStatus($val['tpc_status']); // check with shrutika
+
+            //only if status of ad is '3' or '4', ad_delete_date will get populated
+            if($val['tpc_status'] == '3' || $val['tpc_status'] == '4') {
+            self::$dataToIndex[self::$counter]['ad_delete_date'] = $val['tpc_lastupdated']; //done
+            } else {
+            self::$dataToIndex[self::$counter]['ad_delete_date'] = '0';
+            }
+            self::$dataToIndex[self::$counter]['ad_delete_reason'] = $val['tpc_deletereason']; //done
+            self::$dataToIndex[self::$counter]['expired_time'] = $val['tpc_expired_time']; //done
+            self::$dataToIndex[self::$counter]['reposted'] = $val['tpc_repost_type']; // done
+            self::$dataToIndex[self::$counter]['repost_time'] = $val['tpc_repost_time']; //done
+            self::$dataToIndex[self::$counter]['flag_reason'] = $this->parseFlagReason($val['tpc_flagreason']); //not done
+            self::$dataToIndex[self::$counter]['user_agent'] = $this->parseUserAgent($val['tpc_user_agent']); //blank
+            self::$dataToIndex[self::$counter]['attributes'] = $this->parseAttributes($val['tpc_description']); //done
+
+            //will fetch count from reply solr
+            self::$dataToIndex[self::$counter]['no_of_replies'] = $this->getReplyCountForAd($val['tpc_id']); //done
+            
+            
+            /**new fields added since Nov 30, 2011**/
+            self::$dataToIndex[self::$counter]['ad_edited_time'] = $val['tpc_edited_time']; //done
+            self::$dataToIndex[self::$counter]['ad_expire_time'] = $val['tpc_ad_expire_time']; //done
+            self::$dataToIndex[self::$counter]['ad_action'] = $val['tpc_action']; //done
+            self::$dataToIndex[self::$counter]['action_time'] = $val['tpc_action_time']; //done
+            self::$dataToIndex[self::$counter]['college_id'] = $val['college_id']; //done
+            self::$dataToIndex[self::$counter]['ad_nca'] = $val['tpc_nca']; //done
+            self::$dataToIndex[self::$counter]['ad_deal'] = $val['tpc_deal']; //done
+            if(isset($val['tpc_verifiedleadstatus'])) {
+                self::$dataToIndex[self::$counter]['ad_verifiedleadstatus'] = $val['tpc_verifiedleadstatus']; //done
+            }
+            
+            self::$dataToIndex[self::$counter]['remapped'] = $val['remapped']; //done
+            self::$dataToIndex[self::$counter]['tpc_firstcreated'] = $val['tpc_firstcreated']; //done
+            
+            //when this got indexed
+            self::$dataToIndex[self::$counter]['data_indexed_time'] = $this->convertToUTC(time()); //done
+            
+            
+            /*** using dynamic field in Solr for attributes,
+            *
+            */
+            $attr = explode("|",self::$dataToIndex[self::$counter]['attributes']);
+
+
+
+            if(is_array($attr) && count($attr) > 0) {
+                foreach($attr as $key=>$val2) {
+                    $chunk = explode(":",$val2);
+                    self::$dataToIndex[self::$counter]['attr_'.strtolower($chunk[0])] = $this->cleanHtml2($chunk[1]); //done
+                }
+            }
+            
+            /** attr ends **/
+            
+            //new for identifying which DB
+            self::$dataToIndex[self::$counter]["db_table_txt"] = $this->dbTableName;
+
+            if($this->isIncrementalIndexing == true) {
+
+                 self::$ausersToUpdate[] = $val['tpc_uid'];
+//
+//                //update the reply core with updated ads
+                  self::$areplyWithAdsToUpdate[] = $val['tpc_id'];
+            }
+
+            self::$counter++;
+
+        }
+
+    }
+
+
+    protected function initiateUpdatingOfDepenedantCores() {
+        if(!empty(self::$ausersToUpdate)) {
+            $uniqueU = array_unique(self::$ausersToUpdate);
+            $counter = 0;
+            $str = '';
+            $chunk = array();
+            foreach($uniqueU as $key => $val) {
+                if(!empty($val) && !is_null($val)) {
+                    $str .= $val.',';
+                    $counter++;
+                    //$this->updateCountOfAdsForUser($val);
+                }
+
+                if(($counter % self::$limit) == 0) {
+                    $fstr = trim($str, ',');
+                    $chunk = explode(',', $fstr);
+                    $this->updateCountOfAdsForUser($fstr, count($chunk));
+                    $str = '';
+                    $chunk = array();
+                }
+            }
+
+            $fstr = trim($str, ',');
+            $chunk = explode(',', $fstr);
+            $this->updateCountOfAdsForUser($fstr, count($chunk));
+        }
+
+        if(!empty(self::$areplyWithAdsToUpdate)) {
+            $uniqueR = array_unique(self::$areplyWithAdsToUpdate);
+            $counter = 0;
+            $str = '';
+            $chunk = array();
+            //print_r($uniqueR); exit;
+            foreach($uniqueR as $key => $val) {
+                if(!empty($val) && !is_null($val)) {
+                    $str .= $val.',';
+                    $counter++;
+                    //$this->updateReplyWithAdsCore($val);
+                }
+
+                if(($counter % self::$limit) == 0) {
+                    $fstr = trim($str, ',');
+                    $chunk = explode(',', $fstr);
+                    $this->updateReplyWithAdsCore($fstr, count($chunk));
+                    $str = '';
+                    $chunk = array();
+                }
+            }
+
+            $fstr = trim($str, ',');
+            $chunk = explode(',', $fstr);
+            $this->updateReplyWithAdsCore($fstr,count($chunk));
+        }
+    }
+
+    //for every updated/new ad update the ads data in reply section
+    protected function updateReplyWithAdsCore($adId,$count) {
+        //echo PHP_EXECUTABLE_PATH.' '.APPLICATION_PATH.'/indexing_scripts/ReplyWithAdsindexing.php ADID '.$adId.' '.$count; exit;
+        shell_exec(PHP_EXECUTABLE_PATH.' '.APPLICATION_PATH.'/indexing_scripts/ReplyWithAdsindexing.php ADID '.$adId.' '.$count);
+    }
+
+
+    //just index the user data using the user id
+    protected function updateCountOfAdsForUser($userId,$count) {
+        //echo PHP_EXECUTABLE_PATH.' '.APPLICATION_PATH.'/indexing_scripts/Userindexing.php USERID '.$userId.' '.$count; exit;
+         shell_exec(PHP_EXECUTABLE_PATH.' '.APPLICATION_PATH.'/indexing_scripts/Userindexing.php USERID '.$userId.' '.$count);
+
+     }
+	    
+
+    protected function getReplyCountForAd($adId) { 
+        if($adId != '' || !empty($adId)) {
+            $obj = new Model_ReplySolr(array());
+            $obj->solrUrl = SOLR_META_QUERY_REPLIES;
+            $count = $obj->getReplyCountForAd($adId);
+            if($count != "" && !is_null($count)) return (int) $count; else return "0";
+        } else return "0";
+    }
+
+
+    protected function parseAdStatus($val) {
+        //        Active = 0;
+        //        EXPIRED_BY_SELF AD = 1;
+        //        EXPIRED_BY_MASTER AD= 2;
+        //        User deleted = 3;
+        //        Admin deleted = 4;
+        //        Flag and Delay = 11;
+        //        PENDING AD = 20;
+        if($val == '0') {
+            return 'Active';
+        } else if($val == '1' || $val == '2') {
+            return 'Expired';
+        } else if($val == '3') {
+            return 'User deleted';
+        } else if($val == '4') {
+            return 'Admin deleted';
+        } else if($val == '20') {
+            return 'Flag and Delay';
+        } else if($val == '11') {
+            return 'Pending';
+        }
+    }
+
+//    protected function parseUseragent($val) {
+//    	
+//    	if(empty($val) || is_null($val)) return 'Web';
+//    	
+//    	$obj = new Quikr_WAPDeviceDetect($val);
+//        $status = $obj->mobile_device_detect();
+//    	
+//        if($status) return 'Mobile';
+//        else return 'Web';
+//    }
+
+    protected function parsePrice($val) {
+        preg_match('/Price\:(.*?)[\r\n]/',trim($val),$match1);
+        if(@$match1[1]!='')
+        {
+           $pattern[0] = "/,/";    // comma coming in price like 30,000
+           $pattern[1] = "/\/-/";  //  /- coming in price 30000/-
+           $replacement = '';
+           $match = preg_replace($pattern,$replacement,$match1[1]);
+        }  
+        if(!empty($match) && $match > 0) {  
+            return trim($match);
+        }
+        else
+        {
+            return '0';
+        }
+    }
+    
+    protected function parseLocations($val) {
+        $locs = explode('|',$val);
+        return trim(implode(', ',$locs));
+
+    }
+    
+    protected function parseAttributes($val) {
+//        $sql = 'SELECT tpc_description FROM babel_topic WHERE tpc_id  = 67709765';
+//        $objStmt = new Zend_Db_Statement_Pdo(Zend_Registry::get('dbconnection'), $sql);
+//        $objStmt->execute();
+//        $items = $objStmt->fetchAll();
+//        $val = $items[0]['tpc_description'];
+
+                
+        preg_match_all('/(.*?)\:(.*?)([\r\n]+|$)/',$val,$attributes);
+        $attrString = '';
+        $allowedAttr = $this->allowed_attributes;
+        //print_r($allowedAttr); exit;
+        for($i=0; $i < count($attributes[0]); $i++) {
+
+            //if(in_array($attributes[1][$i], $allowedAttr)) {
+                $attrString .= $attributes[0][$i].'|';
+            //}
+        }
+
+        //echo rtrim($attrString, '|'); exit;
+
+        return rtrim($attrString, '|');
+
+    }
+
+
+    protected function parseAdType($val) {
+
+        preg_match('/Ad_Type:offer/',$val,$match1);
+        if(!empty($match1[0])) {
+            return 'Offer';
+        }
+
+        preg_match('/Ad_Type:want/',$val,$match2);
+        if(!empty($match2[0])) {
+            return 'Want';
+        }
+    }
+
+    protected function parseFlagReason($flag) {
+        //Flag reason will contain value if the ad is in Flag and delay i.e tpc_status =20
+
+//        BANNEDWORD = 1;
+//         PAIDAD = 2;
+//         PAYMENTPENDING = 4;
+//         DUPLICATEAD = 8;
+
+        if($flag == '1') {
+            return 'Banned word';
+        } else if($flag == '2') {
+            return 'Paid Ad';
+        } else if($flag == '4' || $flag == '6') {
+            return 'Payment pending';
+        } else if($flag == '8') {
+            return 'Duplicate Ad';
+        }
+
+    }
+    
+    protected function getPosterEmail($userId) {
+        $sql = 'SELECT usr_email FROM babel_user WHERE usr_id = '.$userId;
+        $objStmt = new Zend_Db_Statement_Pdo(Zend_Registry::get('dbconnection'), $sql);
+        $objStmt->execute();
+        $items = $objStmt->fetchAll();
+        return strip_tags($items[0]['usr_email']);
+    }
+
+    protected function getPosterMobile($userId) {
+        $sql = 'SELECT usr_mobile FROM babel_user WHERE usr_id = '.$userId;
+        $objStmt = new Zend_Db_Statement_Pdo(Zend_Registry::get('dbconnection'), $sql);
+        $objStmt->execute();
+        $items = $objStmt->fetchAll();
+        return strip_tags($items[0]['usr_mobile']);
+    }
+
+
+
+
+    protected function parseFreePremium($type) {
+        if($type == 'B') {
+            return 'Free';
+        } else if($type == 'T' || $type == 'H' || $type == 'HT') {
+            return 'Premium';
+        }
+    }
+
+    protected function parsePremiumAdType($type) {
+//        B -basic ad/ free ad
+//        T - Top ad
+//        H - Urgent ad
+//        HT - TOp and urgent ad
+        if($type == 'T') {
+            return 'TOP';
+        } else if($type == 'H') {
+            return 'URGENT';
+        } else if($type == 'HT') {
+            return 'ALL';
+        }
+
+    }
+
+
+
+    protected function parseRegularNoclick($val) {
+        if($val == '0') return 'Regular';
+        else if($val == '1') return 'No-Click';
+    }
+
+    protected function parseNoOfImages($data) {
+        $totalImages = 0;
+        for($i=1; $i<=4; $i++) {
+            if(!empty($data['tpc_img'.$i])) {
+                $totalImages++;
+            }
+        }
+        
+        /**
+         * new fields for addtional 4 images implemented in W36
+         *  START_DATE
+            SCHEDULED_END_DATE
+            ACTUAL_END_DATE
+            GUID
+         * 
+         * applying the same logic as above
+         * 
+         */
+        
+        if(!empty($data['START_DATE'])) $totalImages++;
+        if(!empty($data['SCHEDULED_END_DATE'])) $totalImages++;
+        if(!empty($data['ACTUAL_END_DATE'])) $totalImages++;
+        if(!empty($data['GUID'])) $totalImages++;
+        
+
+        return doubleval($totalImages);
+    }
+
+    protected function parseNoOfReplies($adId) {
+        $sql = 'SELECT count(rpl_id) as "count" FROM babel_reply WHERE rpl_tpc_id = '.$adId;
+        $objStmt = new Zend_Db_Statement_Pdo(Zend_Registry::get('dbconnection'), $sql);
+        $objStmt->execute();
+        $items = $objStmt->fetchAll();
+
+        return $items[0]['count'];
+    }
+
+    protected function parsePaymentType($adId) {
+
+        //this has multiple records for single ad, confirm with shrutika
+        //take this ad id and fetch result from babel_product_order
+        $sql = 'SELECT paymenttype FROM babel_product_order WHERE productid = '.$adId;
+        $objStmt = new Zend_Db_Statement_Pdo(Zend_Registry::get('dbconnection'), $sql);
+        $objStmt->execute();
+        $items = $objStmt->fetchAll();
+
+    }
+  	
+    
+    protected function getMetacatName($metaId) {
+        $key = new Rediska_Key('METACAT_ID|'.$metaId);
+        $value = $key->getValue();
+        if($value == null) {
+            $sql = 'SELECT nod_name FROM babel_node WHERE node_id = '.$metaId.' AND nod_title != ""';
+            $objStmt = new Zend_Db_Statement_Pdo(Zend_Registry::get('writedb'), $sql);
+            $objStmt->execute();
+            $items = $objStmt->fetchAll();
+            $key->setValue($items[0]['nod_name']);
+            return strip_tags($items[0]['nod_name']);
+        } else {
+            return $value;
+        }
+    }
+
+
+    
+}
+	
+	
+	
+	//get command line arguments
+	$args = $argv;
+	
+	//start indexing from here:
+	$objIndexing = new Adsindexing();
+	$objIndexing->init($args);

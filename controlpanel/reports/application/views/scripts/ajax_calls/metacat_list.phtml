@@ -1,0 +1,27 @@
+<?php
+
+$metacats = $this->metacats;
+$sectionName = $this->sectionName;
+$isAgnostic = $this->isAgnostic;
+    //$str = '<select class="select01" id="'.$sectionName.'_filter_metacat" name="'.$sectionName.'_filter_metacat" onchange="javascript:getSubcategories(this.value)>';
+
+     $str .= '<option value="">Select one</option>';
+
+    $str .= '<option value="all">All</option>';
+
+     foreach ($metacats as $key => $val) {
+     	$value = '';
+     	if($isAgnostic == true) { 
+     		$value = $val['nod_globalId'];
+     	} else {
+     		$value = $val['node_id'];
+     	}
+     	
+         $str .= '<option value="'.$value.'" '.$selected.'>'.$val['nod_name'].'</option>';
+
+     }
+
+     //$str .= '</select>';
+     echo trim($str); exit;
+
+?>

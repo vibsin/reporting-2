@@ -1,0 +1,21 @@
+<?php
+
+$localities = $this->localities;
+$sectionName = $this->sectionName;
+
+
+    //$str = '<select class="select01" id="'.$sectionName.'_filter_localities" name="'.$sectionName.'_filter_localities">';
+
+     $str .= '<option value="">Select one</option>';
+
+    $str .= '<option value="all">All</option>';
+
+     foreach ($localities as $key => $val) {
+         $str .= '<option value="'.$val['title'].'" '.$selected.'>'.$val['title'].'</option>';
+
+     }
+
+    // $str .= '</select>';
+     echo trim($str); exit;
+
+?>

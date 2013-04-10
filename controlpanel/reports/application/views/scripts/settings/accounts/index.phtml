@@ -1,0 +1,52 @@
+<div class="inner_wrapper1" style="">
+<div class="new_user_form">
+    <div class="errors"><?php echo $this->msgs;?></div>
+    <?php echo $this->createNewUserForm;?>
+</div>
+
+<?php
+
+if(isset($this->userList)) {
+    ?>
+    <div class="user_list"><span style="font-weight: bold;font-size: 15px;">Existing Users</span>
+<table border="1px solid black;" cellpadding="2px" cellspacing="0px" width="90%">
+    <tr>
+        <td class="required">Id</td>
+        <td class="required">Username</td>
+        <td class="required">Created date</td>
+        <td class="required">User type</td>
+        <td class="required">Permissions</td>
+        <td class="required">Action</td>
+    </tr>
+    <?php
+    
+    foreach($this->userList as $k => $v) {
+        echo "<tr >";
+        echo "<td>".$v->id."</td><td>".$v->username."</td><td>".$v->created_time."</td><td>".ucfirst($v->user_type)."</td>";
+        $permissions = explode(",",$v->allowed_section_ids);
+        
+        $str = "";
+        foreach($this->sectionList as $a => $b) {
+            foreach($permissions as $d => $e) {
+                if($e == $a) $str .= $b.", ";
+            }
+        }
+        echo "<td>".trim($str, ", ")."</td>";
+        //we dont want to delete super admin
+        if($v->user_type == "user") { 
+            echo "<td><a href=\"".BASE_URL."/settings/index/do/delete/id/$v->id\">Delete</a></td>";
+        } else {
+            echo "<td>Not Allowed</td>";
+        }
+        echo "</tr>";
+    }?>
+    
+        
+</table>
+    </div>
+<?php
+    
+}
+?>
+    
+</div>

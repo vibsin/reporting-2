@@ -1,0 +1,35 @@
+<?php
+    $attributes = $this->attributesArr;
+    $x = 1;
+?>
+<?php foreach ($attributes as $key => $val) { 
+         if(($x%2)==0)
+          {
+            $class = 'even';
+          }
+          else
+          {
+            $class = 'odd';
+          }
+          $x++;
+          if(trim($val->name) == '')
+            {
+               // $val->name = 'Type_of_job';
+            }
+?>          
+<li class="<?php print $class; ?>">
+<input type="hidden" name="attribute_subcat" id="attribute_subcat" value="set"/> 
+<label><?php echo str_replace('_',' ',$val->name); ?></label>
+<div class="field">
+    <select id="<?php echo $val->name;?>" name="<?php echo trim(str_replace(' ','_',$val->name));?>[]" multiple="multiple" class="select04">
+    <?php
+        $options = explode(',', $val->values);
+        foreach($options as $k => $v) {
+    ?>
+        <option value="<?php echo $v;?>"><?php echo $v;?></option>
+
+        <?php } ?>
+    </select>
+</div>
+</li>
+<?php } ?>
