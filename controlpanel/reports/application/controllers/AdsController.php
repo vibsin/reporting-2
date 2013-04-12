@@ -42,6 +42,7 @@ class AdsController extends Zend_Controller_Action {
                        
                         
                         $obj2 = new Model_AdsSolr($posts);
+                        $obj2->solrUrl = SOLR_META_QUERY_SLAVE_ADS;
                         $obj2->start = 0;
                         $obj2->rows = 0;
                         if($_GET["show_matching"] == 1) {
@@ -55,6 +56,7 @@ class AdsController extends Zend_Controller_Action {
 
                         for($i=0;$i<=$max;$i=$i+100000) {
                             $obj3 = new Model_AdsSolr($posts);
+                            $obj3->solrUrl = SOLR_META_QUERY_SLAVE_ADS;
                             $obj3->rows = $max;
                             $obj3->getResults(true);
                             unset($obj3);
@@ -64,6 +66,7 @@ class AdsController extends Zend_Controller_Action {
                         
                     } else {
                         $obj2 = new Model_AdsSolr($posts);
+                        $obj2->solrUrl = SOLR_META_QUERY_SLAVE_ADS;
                         $pageNumber = $this->getRequest()->getParam('start_rows');
                         $obj2->start = $pageNumber -1;
                         $obj2->getResults();
@@ -340,6 +343,7 @@ class AdsController extends Zend_Controller_Action {
                 while($current <= $toInMicro) {
                     //echo date('d-m-Y',$current);
                     $obj3 = new Model_AdsSolr($posts);
+                    $obj3->solrUrl = SOLR_META_QUERY_SLAVE_ADS;
                     $obj3->fl = $fieldToFetch;
                     $from = $current;
                     $to = strtotime(date('d-m-Y',$current).' +1 day');
@@ -363,6 +367,7 @@ class AdsController extends Zend_Controller_Action {
                 $i = 0;
                 while($current <= $toInMicro) {
                     $obj3 = new Model_AdsSolr($posts);
+                    $obj3->solrUrl = SOLR_META_QUERY_SLAVE_ADS;
                     $obj3->fl = $fieldToFetch;
 
                     $from = $current;
@@ -388,6 +393,7 @@ class AdsController extends Zend_Controller_Action {
                 $i = 0;
                 while($current <= $toInMicro) {
                     $obj3 = new Model_AdsSolr($posts);
+                    $obj3->solrUrl = SOLR_META_QUERY_SLAVE_ADS;
                     $obj3->fl = $fieldToFetch;
 
                     $from = $current;
@@ -413,6 +419,7 @@ class AdsController extends Zend_Controller_Action {
                 while($current <= $toInMicro) {
                     //echo $current;
                     $obj3 = new Model_AdsSolr($posts);
+                    $obj3->solrUrl = SOLR_META_QUERY_SLAVE_ADS;
                     $obj3->fl = $fieldToFetch;
 
                     $from = $current;

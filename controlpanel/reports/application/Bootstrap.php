@@ -148,6 +148,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
             define('SOLR_INDEX_ERROR_LOG',$this->config->solr->indexing_error_logfile_path);
 	    define('SOLR_META_QUERY_USERS', $this->config->solr->query_url->users);
 	    define('SOLR_META_QUERY_ADS', $this->config->solr->query_url->ads);
+            define('SOLR_META_QUERY_SLAVE_ADS', $this->config->solr->query_url->slave->ads);
 	    define('SOLR_META_QUERY_REPLIES', $this->config->solr->query_url->replies);
             define('SOLR_META_QUERY_REPLY_WITH_ADS', $this->config->solr->query_url->reply_with_ads);
 	    define('SOLR_META_QUERY_ALERTS', $this->config->solr->query_url->alerts);
